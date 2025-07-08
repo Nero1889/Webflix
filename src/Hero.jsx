@@ -17,7 +17,7 @@ function Hero() {
 
         {image: wallE,
         title: "WALL-E",
-        studio: "Pixar"},
+        studio: "Disney · Pixar"},
 
         {image: marioMovie,
         title: "The Super Mario Bros. Movie",
