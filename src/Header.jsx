@@ -1,25 +1,169 @@
-import React, {useState} from "react";
+import React, {useState, useEffect, useRef} from "react";
 import search from "./assets/search.png";
-import menu from "./assets/menu.png"; 
-import close from "./assets/close.png"; 
+import menu from "./assets/menu.png";
+import close from "./assets/close.png";
 import home from "./assets/home.png";
 import about from "./assets/about.png";
 import contact from "./assets/contact.png";
 import portfolio from "./assets/portfolio.png";
 import back from "./assets/back.png";
+import slateSearch from "./assets/searchBarMag.png";
+import starRating from "./assets/starRating.png"
+
+const TMDB_API_KEY = "a185d00309246af13fc09d5674ea20ee";
+const TMDB_BASE_URL = "https://api.themoviedb.org/3";
+const TMDB_IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w300";
+const TMDB_SMALL_IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w92";
 
 function Header() {
     const [IS_MENU_OPEN, setIsMenuOpen] = useState(false);
     const [IS_SEARCH_OPEN, setIsSearchOpen] = useState(false);
+    const [searchTerm, setSearchTerm] = useState("");
+    const [suggestions, setSuggestions] = useState([]);
+    const [loadingSuggestions, setLoadingSuggestions] = useState(false);
+    const [error, setError] = useState(null);
+    const [searchResults, setSearchResults] = useState([]);
+
+    const debounceTimeoutRef = useRef(null);
 
     const TOGGLE_MENU = () => setIsMenuOpen(!IS_MENU_OPEN);
     const MENU_ICON_SRC = IS_MENU_OPEN ? close : menu;
 
+    const fetchSuggestions = async (query) => {
+        if (!query.trim()) {
+            setSuggestions([]);
+            setSearchResults([]);
+            return;
+        }
+
+        setLoadingSuggestions(true);
+        setError(null);
+        setSearchResults([]);
+
+        try {
+            const movieResponse = await fetch(
+                `${TMDB_BASE_URL}/search/movie?api_key=${TMDB_API_KEY}&query=${encodeURIComponent(query)}&include_adult=false`
+            );
+            const tvResponse = await fetch(
+                `${TMDB_BASE_URL}/search/tv?api_key=${TMDB_API_KEY}&query=${encodeURIComponent(query)}&include_adult=false`
+            );
+
+            if (!movieResponse.ok || !tvResponse.ok) {
+                throw new Error("Failed to fetch data from TMDb!");
+            }
+
+            const movieData = await movieResponse.json();
+            const tvData = await tvResponse.json();
+
+            const combinedResults = [
+                ...movieData.results.map(item => ({...item, type: "movie"})),
+                ...tvData.results.map(item => ({...item, type: "tv"}))
+            ].sort((a, b) => {
+                return (b.popularity || 0) - (a.popularity || 0);
+            });
+            setSuggestions(combinedResults.slice(0, 10));
+
+        } catch (err) {
+            console.error(`Error fetching suggestions/results: ${err}`);
+            setError("Could not load results. Please try again.");
+            setSuggestions([]);
+            setSearchResults([]);
+        } finally {
+            setLoadingSuggestions(false);
+        }
+    };
+
+    const handleSearchChange = (e) => {
+        const query = e.target.value;
+        setSearchTerm(query);
+        setSearchResults([]);
+
+        if (debounceTimeoutRef.current) {
+            clearTimeout(debounceTimeoutRef.current);
+        }
+
+        debounceTimeoutRef.current = setTimeout(() => {
+            fetchSuggestions(query);
+        }, 300);
+    };
+
+    const handleKeyDown = (e) => {
+        if (e.key === "Enter") {
+            e.preventDefault(); 
+            if (searchTerm.trim()) {
+                triggerFullSearch(searchTerm);
+                setSuggestions([]);
+            }
+        }
+    };
+
+    const triggerFullSearch = async (query) => {
+        if (!query.trim()) {
+            setSearchResults([]);
+            return;
+        }
+
+        setLoadingSuggestions(true);
+        setError(null);
+        setSuggestions([]);
+
+        try {
+            const movieResponse = await fetch(
+                `${TMDB_BASE_URL}/search/movie?api_key=${TMDB_API_KEY}&query=${encodeURIComponent(query)}&include_adult=false`
+            );
+            const tvResponse = await fetch(
+                `${TMDB_BASE_URL}/search/tv?api_key=${TMDB_API_KEY}&query=${encodeURIComponent(query)}&include_adult=false`
+            );
+
+            if (!movieResponse.ok || !tvResponse.ok) {
+                throw new Error("Failed to fetch data from TMDb.");
+            }
+
+            const movieData = await movieResponse.json();
+            const tvData = await tvResponse.json();
+
+            const combinedFullResults = [
+                ...movieData.results.map(item => ({...item, type: "movie"})),
+                ...tvData.results.map(item => ({...item, type: "tv"}))
+            ].sort((a, b) => {
+                return (b.popularity || 0) - (a.popularity || 0);
+            });
+
+            setSearchResults(combinedFullResults);
+            setSuggestions([]);
+        } catch (err) {
+            console.error(`Error fetching full search results: ${err}`);
+            setError("Could not load full results. Please try again.");
+            setSearchResults([]);
+        } finally {
+            setLoadingSuggestions(false);
+        }
+    };
+
+    const handleSuggestionClick = (item) => {
+        setSearchTerm(item.title || item.name);
+        setSuggestions([]);
+        setSearchResults([item]);
+    };
+
+    useEffect(() => {
+        if (!IS_SEARCH_OPEN) {
+            setSearchTerm("");
+            setSuggestions([]);
+            setError(null);
+            setLoadingSuggestions(false);
+            setSearchResults([]);
+            if (debounceTimeoutRef.current) {
+                clearTimeout(debounceTimeoutRef.current);
+            }
+        }
+    }, [IS_SEARCH_OPEN]);
+
     return (
         <>
-            <header className="p-7 flex items-center justify-between sticky top-0 
+            <header className="p-7 flex items-center justify-between sticky top-0
             bg-slate-950 w-full z-10 text-white">
-                <h1 className="text-xl font-semibold">Webflix</h1>
+                <h1 className="text-xl font-[550]">Webflix</h1>
                 <div className="flex gap-5 items-center">
                     <button className="bg-slate-800 p-2 rounded-full flex items-center
                     justify-center" onClick={() => setIsSearchOpen(true)}>
@@ -27,35 +171,18 @@ function Header() {
                         draggable="false"/>
                     </button>
                     <button className="bg-[#b71234] p-2 rounded-full flex items-center
-                    justify-center md:hidden" onClick={TOGGLE_MENU}>
+                    justify-center" onClick={TOGGLE_MENU}>
                         <img className="w-7 h-7" src={MENU_ICON_SRC} alt={IS_MENU_OPEN ?
                         "Close menu" : "Open menu"} draggable="false"/>
                     </button>
-                    <nav className="hidden md:block">
-                        <ul className="flex gap-8 text-sm text-slate-400">
-                            <li>
-                                <a href="#home" className="hover:text-white
-                                transition-colors duration-[.25s]">Home</a>
-                            </li>
-                            <li>
-                                <a href="#about" className="hover:text-white
-                                transition-colors duration-[.25s]">About</a>
-                            </li>
-                            <li>
-                                <a href="#contact" className="hover:text-white
-                                transition-colors duration-[.25s]">Contact</a>
-                            </li>
-                            <li>
-                                <a href="#portfolio" className="hover:text-white
-                                transition-colors duration-[.25s]">Portfolio</a>
-                            </li>
-                        </ul>
-                    </nav>
                 </div>
             </header>
 
-            <div className={`fixed left-0 w-full bg-slate-950 z-90 flex flex-col
-            ${IS_MENU_OPEN ? "visible" : "invisible"}`}>
+            {/* Mobile Navigation */}
+            <div className={`fixed left-0 w-full bg-slate-950 z-90 flex flex-col 
+            mt-[-1.25rem] shadow-[0_4px_6px_-1px_rgba(0,0,0,0.5)]
+            ${IS_MENU_OPEN ? "visible" : "invisible"} 
+            ${IS_MENU_OPEN ? "opacity-100" : "opacity-0"}`}>
                 <nav className="w-full">
                     <ul className="list-none flex flex-col items-start gap-2 p-4 w-full">
                         {[
@@ -65,11 +192,11 @@ function Header() {
                             {icon: portfolio, label: "Portfolio", href: "#portfolio"}
                         ].map(({icon, label, href}, i) => (
                             <React.Fragment key={label}>
-                                <li onClick={TOGGLE_MENU} className="flex items-center 
+                                <li onClick={TOGGLE_MENU} className="flex items-center
                                 ml-5 w-[calc(100%-3.5rem)]">
                                     <img src={icon} alt={`${label} Icon`} className="w-7
-                                    h-7"/>
-                                    <a href={href} className="text-white text-xl py-2 
+                                    h-7" draggable="false"/>
+                                    <a href={href} className="text-white text-base py-2
                                     px-4 block">{label}</a>
                                 </li>
                                 {i < 3 && <div className="bg-slate-500 w-full h-[1px]
@@ -79,19 +206,113 @@ function Header() {
                     </ul>
                 </nav>
             </div>
-            
+
+            {/* Search Overlay */}
             {IS_SEARCH_OPEN && (
-                <div className="fixed inset-0 bg-slate-950 z-[100]">
-                    <div className="flex items-start  mt-2 p-5">
-                        <button onClick={() => setIsSearchOpen(false)} className="flex
-                        items-center">
-                            <img src={back} alt="Back" className="w-10 h-10 mr-5" 
+                <div className="fixed inset-0 bg-slate-950 z-[100] overflow-y-auto">
+                    <div className="flex items-start mt-2 p-5 sticky top-0 bg-slate-950">
+                        <button onClick={() => setIsSearchOpen(false)}
+                        className="flex items-center">
+                            <img src={back} alt="Back" className="w-10 h-10 mr-5"
                             draggable="false"/>
                         </button>
-                        <input type="text" placeholder="Search!" className="w-[75%]
-                        h-[2.7rem] bg-slate-800 text-white p-4 rounded-[7rem]
-                        focus:outline-none text-sm"
-                        autoFocus/>
+                        <div className="relative flex-grow flex">
+                            <span className="absolute inset-y-0 left-4 flex items-center
+                            pointer-events-none">
+                                <img src={slateSearch} alt="Search" className="w-5 h-5"/>
+                            </span>
+                            <input type="text" placeholder="Search!" className="w-full 
+                            h-[2.7rem] bg-slate-800 text-white pl-12 pr-4 rounded-[7rem]
+                            focus:outline-none text-sm" autoFocus value={searchTerm} 
+                            onChange={handleSearchChange} onKeyDown={handleKeyDown}/>
+                        </div>
+                    </div>
+
+                    <div className="p-5 pt-0">
+                        {loadingSuggestions && (
+                            <p className="text-slate-300 text-center mt-4 text-base
+                            font-[550]">Loading...</p>
+                        )}
+                        {error && (
+                            <p className="text-red-500 text-center mt-4">{error}</p>
+                        )}
+
+                        {searchTerm.length > 0 && !loadingSuggestions && !error &&
+                        suggestions.length > 0 && searchResults.length === 0 && (
+                            <ul className="text-white mt-4 space-y-3">
+                                {suggestions.map((item) => (
+                                    <li key={item.id} className="p-2 bg-slate-800 
+                                    rounded-lg cursor-pointer hover:bg-slate-700 
+                                    transition-colors duration-200"
+                                    onClick={() => handleSuggestionClick(item)}>
+                                        <p className="font-semibold text-base">
+                                            {item.title || item.name}
+                                        </p>
+                                        <p className="text-sm text-gray-400">
+                                            {item.release_date ? `Movie (${item.release_date.substring(0, 4)})` :
+                                            item.first_air_date ? `TV Show (${item.first_air_date.substring(0, 4)})` :
+                                            item.type === "movie" ? "Movie" : "TV Show"}
+                                        </p>
+                                    </li>
+                                ))}
+                            </ul>
+                        )}
+
+                        {searchTerm.length > 0 && !loadingSuggestions && !error &&
+                        suggestions.length === 0 && searchResults.length === 0 && (
+                            <p className="text-slate-300 text-center mt-4 text-base
+                            font-[550]">No results found.</p>
+                        )}
+
+                        {searchResults.length > 0 && (
+                            <div className="mt-4 space-y-6">
+                                {searchResults.map((item) => (
+                                    <div key={item.id} className="p-4 bg-slate-800 
+                                    rounded-lg flex flex-col md:flex-row items-center 
+                                    md:items-start gap-4">
+                                        {item.poster_path ? (
+                                            <img src={`${TMDB_IMAGE_BASE_URL}${item.poster_path}`} 
+                                            alt={item.title || item.name} className="w-48
+                                            h-auto object-cover rounded shadow-lg
+                                            flex-shrink-0"/>
+                                        ) : (
+                                            <div className="w-48 h-72 bg-slate-700 flex 
+                                            items-center justify-center text-sm 
+                                            text-center rounded flex-shrink-0">
+                                                No Image Available
+                                            </div>
+                                        )}
+                                        <div className="text-white text-center 
+                                        md:text-left flex-grow">
+                                            <h2 className="text-2xl font-bold mb-2">
+                                                {item.title || item.name}
+                                            </h2>
+                                            <p className="text-gray-300 text-lg mb-2">
+                                                {item.release_date ? `Movie (${item.release_date.substring(0, 4)})` :
+                                                 item.first_air_date ? `TV Show (${item.first_air_date.substring(0, 4)})` :
+                                                 item.type === "movie" ? "Movie" : "TV Show"}
+                                            </p>
+                                            <p className="text-gray-400 text-sm mb-4">
+                                                {item.overview || "No overview available."}
+                                            </p>
+                                            {item.vote_average > 0 && (
+                                                <div className="text-gray-300 text-sm 
+                                                flex items-center gap-2">
+                                                    <img src={starRating} alt="Star icon" 
+                                                    className="w-4 h-4" draggable="false"/>
+                                                    <span>
+                                                        <span className="font-[650]
+                                                        text-white">
+                                                            {item.vote_average.toFixed(1)}
+                                                        </span> / 10
+                                                    </span>
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
                     </div>
                 </div>
             )}
