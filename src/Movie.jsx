@@ -70,7 +70,7 @@ function Movie() {
                 setSimilar(similarMoviesData.results.slice(0, 10));
 
             } catch (err) {
-                console.error(`Error fetching movie data: ${err}`);
+                console.error("Error fetching movie data: ", err);
                 setError("Could not load movie details!");
             } finally {
                 setLoading(false);
@@ -88,13 +88,27 @@ function Movie() {
     };
 
     if (loading) {
-        return <p className="text-white text-center p-10">Loading movie details...</p>;
+        return <p className="text-base text-white text-center p-10 mt-[5rem]">Loading movie details...</p>;
     }
 
-    if (error) return <p className="text-red-500 text-center p-10">{error}</p>;
+    if (error) {
+        return (
+            <div className="flex flex-col items-center justify-center h-[100vh]">
+                <p className="text-base text-[#b71234] font-[650] text-center mb-6 w-[15ch]">
+                    {error}
+                </p>
+                <button onClick={() => navigate(-1)} className="p-2 rounded-full
+                bg-slate-800 hover:bg-slate-900 transition-colors duration-[.25s] flex
+                items-center justify-center">
+                    <img className="w-[1.5rem] h-[1.5rem]"src={back} alt="Back Icon"
+                    draggable="false"/>
+                </button>
+            </div>
+        );
+    }
     
     if (!movie) {
-        return <p className="text-white text-center p-10">
+        return <p className="text-base text-white text-center p-10 mt-[5rem]">
             No movie data found for this ID.
         </p>;
     }
@@ -181,18 +195,12 @@ function Movie() {
                     <h1 className="text-white text-lg font-[650] mb-4">Cast</h1>
                     <div className="flex gap-4 overflow-x-auto whitespace-nowrap scrollbar-hide">
                         {cast.map((actor) => (
-                            <div
-                                key={actor.id}
-                                className="flex-shrink-0 text-center w-24 cursor-pointer"
-                                onClick={() => navigate(`/actor/${actor.id}`)}
-                            >
+                            <div key={actor.id} className="flex-shrink-0 text-center w-24 
+                            cursor-pointer" onClick={() => navigate(`/actor/${actor.id}`)}>
                                 <div className="mb-2 w-[6rem] h-[8rem] bg-slate-700 rounded-lg overflow-hidden flex items-center justify-center">
                                     {actor.profile_path ? (
-                                        <img
-                                            src={`${TMDB_PROFILE_BASE_URL}${actor.profile_path}`}
-                                            alt={actor.name}
-                                            className="w-full h-full object-cover"
-                                        />
+                                        <img src={`${TMDB_PROFILE_BASE_URL}${actor.profile_path}`} 
+                                        alt={actor.name} className="w-full h-full object-cover"/>
                                     ) : (
                                         <span className="text-xs text-slate-400">No Image</span>
                                     )}
