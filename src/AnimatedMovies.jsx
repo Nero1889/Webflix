@@ -15,13 +15,10 @@ function AnimatedMovies() {
                 {/* Start of Movies: */}
 
                 <div className="mt-[1rem] flex-shrink-0"> 
-                    <div className="mb-[.5rem] w-[5rem] h-[7rem] bg-[#b71234]
-                    rounded-[1rem]">
-                        <img src="(movie poster here)" alt="" className="w-full h-full
-                        object-cover rounded-[1rem]"/>
+                    <div className="mb-[.5rem] w-[5rem] h-[7rem] bg-[#b71234] rounded-[1rem]">
+                        <img src="(movie poster here)" alt="" className="w-full h-full object-cover rounded-[1rem]"/>
                     </div>
-                    <h3 style={LINE_CLAMP2} className="text-xs text-slate-400 font-[600]
-                    mb-[.25rem] w-[5rem] overflow-hidden text-ellipsis line-clamp-2">
+                    <h3 style={LINE_CLAMP2} className="text-xs text-slate-400 font-[600]  mb-[.25rem] w-[5rem] overflow-hidden text-ellipsis line-clamp-2">
                         Movie Title
                     </h3>
                     <p className="text-xs text-slate-600 font-[600]">8.8</p>
