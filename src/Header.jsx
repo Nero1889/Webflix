@@ -1,3 +1,5 @@
+import HomePage from "./HomePage.jsx";
+import {Link, useNavigate} from "react-router-dom";
 import React, {useState, useEffect, useRef} from "react";
 import search from "./assets/search.png";
 import menu from "./assets/menu.png";
@@ -8,7 +10,8 @@ import contact from "./assets/contact.png";
 import portfolio from "./assets/portfolio.png";
 import back from "./assets/back.png";
 import slateSearch from "./assets/searchBarMag.png";
-import starRating from "./assets/starRating.png"
+import movie from "./assets/movie.png";
+import starRating from "./assets/starRating.png";
 
 const TMDB_API_KEY = "a185d00309246af13fc09d5674ea20ee";
 const TMDB_BASE_URL = "https://api.themoviedb.org/3";
@@ -65,7 +68,7 @@ function Header() {
 
         } catch (err) {
             console.error(`Error fetching suggestions/results: ${err}`);
-            setError("Could not load results. Please try again.");
+            setError("Could not load results!");
             setSuggestions([]);
             setSearchResults([]);
         } finally {
@@ -133,17 +136,21 @@ function Header() {
             setSuggestions([]);
         } catch (err) {
             console.error(`Error fetching full search results: ${err}`);
-            setError("Could not load full results. Please try again.");
+            setError("Could not load full results!");
             setSearchResults([]);
         } finally {
             setLoadingSuggestions(false);
         }
     };
 
+    const navigate = useNavigate();
+
     const handleSuggestionClick = (item) => {
         setSearchTerm(item.title || item.name);
         setSuggestions([]);
         setSearchResults([item]);
+
+        navigate(`/movie/${item.id}`, {state:{data: item}}); // Ship item data off to Movie.jsx!
     };
 
     useEffect(() => {
@@ -163,15 +170,15 @@ function Header() {
         <>
             <header className="p-7 flex items-center justify-between sticky top-0
             bg-slate-950 w-full z-10 text-white">
-                <h1 className="text-xl font-[550]">Webflix</h1>
+                <h1 className="text-xl font-[650]">Webflix</h1>
                 <div className="flex gap-5 items-center">
                     <button className="bg-slate-800 p-2 rounded-full flex items-center
-                    justify-center" onClick={() => setIsSearchOpen(true)}>
+                    justify-center hover:bg-slate-900 transition-colors duration-[.25s]" onClick={() => setIsSearchOpen(true)}>
                         <img className="w-7 h-7" src={search} alt="Search Icon"
                         draggable="false"/>
                     </button>
                     <button className="bg-[#b71234] p-2 rounded-full flex items-center
-                    justify-center" onClick={TOGGLE_MENU}>
+                    justify-center hover:bg-[#710033] transition-colors duration-[.25s]" onClick={TOGGLE_MENU}>
                         <img className="w-7 h-7" src={MENU_ICON_SRC} alt={IS_MENU_OPEN ?
                         "Close menu" : "Open menu"} draggable="false"/>
                     </button>
@@ -186,21 +193,30 @@ function Header() {
                 <nav className="w-full">
                     <ul className="list-none flex flex-col items-start gap-2 p-4 w-full">
                         {[
-                            {icon: home, label: "Home", href: "#home"},
+                            {icon: home, label: "Home", path: "/"},
                             {icon: about, label: "About", href: "#about"},
                             {icon: contact, label: "Contact", href: "#contact"},
-                            {icon: portfolio, label: "Portfolio", href: "#portfolio"}
-                        ].map(({icon, label, href}, i) => (
+                            {icon: portfolio, label: "Portfolio", href: "https://nero1889.github.io/Personal-Portfolio/"}
+                        ].map(({icon, label, href, path}, i) => (
                             <React.Fragment key={label}>
-                                <li onClick={TOGGLE_MENU} className="flex items-center
-                                ml-5 w-[calc(100%-3.5rem)]">
-                                    <img src={icon} alt={`${label} Icon`} className="w-7
-                                    h-7" draggable="false"/>
-                                    <a href={href} className="text-white text-base py-2
-                                    px-4 block">{label}</a>
+                                <li className="flex items-center ml-5 w-[calc(100%-3.5rem)]">
+                                    <img src={icon} alt={`${label} Icon`} className="w-7 h-7" draggable="false"/>
+                                    {path ? (
+                                        <Link to={path} onClick={TOGGLE_MENU}
+                                        className="text-white text-base font-[550] py-2 px-4 block">
+                                            {label}
+                                        </Link>
+                                    ) : (
+                                        <a href={href}
+                                        onClick={label === "Portfolio" ? TOGGLE_MENU : undefined}
+                                         target={label === "Portfolio" ? "_blank" : undefined}
+                                        rel={label === "Portfolio" ? "noopener noreferrer" : undefined}
+                                        className="text-white text-base font-[550] py-2 px-4 block">
+                                            {label}
+                                        </a>
+                                    )}
                                 </li>
-                                {i < 3 && <div className="bg-slate-500 w-full h-[1px]
-                                my-2"></div>}
+                                {i < 3 && <div className="bg-slate-500 w-full h-[1px] my-2"></div>}
                             </React.Fragment>
                         ))}
                     </ul>
@@ -213,13 +229,13 @@ function Header() {
                     <div className="flex items-start mt-2 p-5 sticky top-0 bg-slate-950">
                         <button onClick={() => setIsSearchOpen(false)}
                         className="flex items-center">
-                            <img src={back} alt="Back" className="w-10 h-10 mr-5"
+                            <img src={back} alt="Back Icon" className="w-10 h-10 mr-5"
                             draggable="false"/>
                         </button>
                         <div className="relative flex-grow flex">
                             <span className="absolute inset-y-0 left-4 flex items-center
                             pointer-events-none">
-                                <img src={slateSearch} alt="Search" className="w-5 h-5"/>
+                                <img src={slateSearch} alt="Slate Search Icon" className="w-5 h-5"/>
                             </span>
                             <input type="text" placeholder="Search!" className="w-full 
                             h-[2.7rem] bg-slate-800 text-white pl-12 pr-4 rounded-[7rem]
@@ -234,25 +250,26 @@ function Header() {
                             font-[550]">Loading...</p>
                         )}
                         {error && (
-                            <p className="text-red-500 text-center mt-4">{error}</p>
+                            <p className="text-[#b71234] text-center mt-4 border">{error}</p>
                         )}
 
                         {searchTerm.length > 0 && !loadingSuggestions && !error &&
                         suggestions.length > 0 && searchResults.length === 0 && (
                             <ul className="text-white mt-4 space-y-3">
                                 {suggestions.map((item) => (
-                                    <li key={item.id} className="p-2 bg-slate-800 
-                                    rounded-lg cursor-pointer hover:bg-slate-700 
-                                    transition-colors duration-200"
+                                    <li key={item.id} className="bg-slate-900 p-2 rounded-[.5rem] flex items-center gap-5 cursor-pointer"
                                     onClick={() => handleSuggestionClick(item)}>
-                                        <p className="font-semibold text-base">
-                                            {item.title || item.name}
-                                        </p>
-                                        <p className="text-sm text-gray-400">
-                                            {item.release_date ? `Movie (${item.release_date.substring(0, 4)})` :
-                                            item.first_air_date ? `TV Show (${item.first_air_date.substring(0, 4)})` :
-                                            item.type === "movie" ? "Movie" : "TV Show"}
-                                        </p>
+                                        <img className="w-[1.5rem] h-[1.5rem] ml-[.5rem]" src={movie} alt="Movie Icon" draggable="false"/>
+                                        <div>
+                                            <p className="font-[600] text-base">
+                                                {item.title || item.name}
+                                            </p>
+                                            <p className="text-sm text-slate-500 font-[600]">
+                                                {item.release_date ? `Movie (${item.release_date.substring(0, 4)})` :
+                                                item.first_air_date ? `TV Show (${item.first_air_date.substring(0, 4)})` :
+                                                item.type === "movie" ? "Movie" : "TV Show"}
+                                            </p>
+                                        </div>
                                     </li>
                                 ))}
                             </ul>
@@ -261,7 +278,7 @@ function Header() {
                         {searchTerm.length > 0 && !loadingSuggestions && !error &&
                         suggestions.length === 0 && searchResults.length === 0 && (
                             <p className="text-slate-300 text-center mt-4 text-base
-                            font-[550]">No results found.</p>
+                            font-[550]">No results found!</p>
                         )}
 
                         {searchResults.length > 0 && (
