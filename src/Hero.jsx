@@ -80,7 +80,7 @@ function Hero() {
     return (
         <>
             <div className="mt-[0.5rem] mx-[2rem] flex flex-col">
-                <h1 className="text-base font-[550]">Trending Now</h1>
+                <h1 className="text-base font-[650]">Trending Now</h1>
                 <div className="relative mt-5 rounded-[2rem] overflow-hidden bg-black 
                 h-[200px] select-none">
                     <div className="flex transition-transform duration-500 ease-in-out
@@ -108,13 +108,10 @@ function Hero() {
 
             <div className="flex gap-2 mt-5 items-center justify-center">
                 {MOVIES.map((_, i) => (
-                    <div
-                        key={i}
-                        className={`w-2.5 h-2.5 rounded-[5rem] cursor-pointer ${
-                            CURRENT_IMG_INDEX === i ? "bg-white" : "bg-slate-700"
-                        }`}
-                        onClick={() => goToSlide(i)}
-                    ></div>
+                    <div key={i}
+                    className={`w-2.5 h-2.5 rounded-[5rem] cursor-pointer ${
+                        CURRENT_IMG_INDEX === i ? "bg-white" : "bg-slate-700"
+                    }`} onClick={() => goToSlide(i)}></div>
                 ))}
             </div>
         </>
