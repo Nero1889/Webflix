@@ -1,18 +1,13 @@
 import {StrictMode} from "react";
 import {createRoot} from "react-dom/client";
+import {BrowserRouter} from "react-router-dom";
 import "./style.css";
-import Header from "./Header.jsx";
-import Hero from "./Hero.jsx";
-import AnimatedMovies from "./AnimatedMovies.jsx";
-import Footer from "./Footer.jsx";
+import App from "./App.jsx";
 
 createRoot(document.getElementById("root")).render(
     <StrictMode>
-        <Header/>
-        <Hero/>
-        <AnimatedMovies/>
-        <AnimatedMovies/>
-        <AnimatedMovies/>
-        <Footer/>
-    </StrictMode>,
+        <BrowserRouter>
+            <App/>
+        </BrowserRouter>
+    </StrictMode>
 );
