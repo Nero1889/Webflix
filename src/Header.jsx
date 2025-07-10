@@ -158,7 +158,8 @@ function Header() {
         setSuggestions([]);
         setSearchResults([item]);
 
-        navigate(`/movie/${item.id}`, {state:{data: item}}); 
+        const routeType = item.type === "tv" ? "tv" : "movie";
+        navigate(`/${routeType}/${item.id}`, {state:{data: item}});
         // ^ Ship item data off to Movie.jsx! ^
     };
 
