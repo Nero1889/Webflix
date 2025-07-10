@@ -19,6 +19,14 @@ const TMDB_IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w300";
 const TMDB_SMALL_IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w92";
 
 function Header() {
+    const LINE_CLAMP5 = {
+        overflow: "hidden",
+        display: "-webkit-box",
+        WebkitBoxOrient: "vertical",
+        WebkitLineClamp: 5,
+        whiteSpace: "normal",
+    }
+
     const [IS_MENU_OPEN, setIsMenuOpen] = useState(false);
     const [IS_SEARCH_OPEN, setIsSearchOpen] = useState(false);
     const [searchTerm, setSearchTerm] = useState("");
@@ -150,7 +158,8 @@ function Header() {
         setSuggestions([]);
         setSearchResults([item]);
 
-        navigate(`/movie/${item.id}`, {state:{data: item}}); // Ship item data off to Movie.jsx!
+        navigate(`/movie/${item.id}`, {state:{data: item}}); 
+        // ^ Ship item data off to Movie.jsx! ^
     };
 
     useEffect(() => {
@@ -173,12 +182,14 @@ function Header() {
                 <h1 className="text-xl font-[650]">Webflix</h1>
                 <div className="flex gap-5 items-center">
                     <button className="bg-slate-800 p-2 rounded-full flex items-center
-                    justify-center hover:bg-slate-900 transition-colors duration-[.25s]" onClick={() => setIsSearchOpen(true)}>
+                    justify-center hover:bg-slate-900 transition-colors duration-[.25s]" 
+                    onClick={() => setIsSearchOpen(true)}>
                         <img className="w-7 h-7" src={search} alt="Search Icon"
                         draggable="false"/>
                     </button>
                     <button className="bg-[#b71234] p-2 rounded-full flex items-center
-                    justify-center hover:bg-[#710033] transition-colors duration-[.25s]" onClick={TOGGLE_MENU}>
+                    justify-center hover:bg-[#710033] transition-colors duration-[.25s]" 
+                    onClick={TOGGLE_MENU}>
                         <img className="w-7 h-7" src={MENU_ICON_SRC} alt={IS_MENU_OPEN ?
                         "Close menu" : "Open menu"} draggable="false"/>
                     </button>
@@ -277,49 +288,40 @@ function Header() {
 
                         {searchTerm.length > 0 && !loadingSuggestions && !error &&
                         suggestions.length === 0 && searchResults.length === 0 && (
-                            <p className="text-slate-300 text-center mt-4 text-base
-                            font-[550]">No results found!</p>
+                            <p className="text-slate-300 text-center mt-4 text-base font-[550]">No results found!</p>
                         )}
 
                         {searchResults.length > 0 && (
-                            <div className="mt-4 space-y-6">
+                            <div className="mt-4 space-y-1">
                                 {searchResults.map((item) => (
-                                    <div key={item.id} className="p-4 bg-slate-800 
-                                    rounded-lg flex flex-col md:flex-row items-center 
-                                    md:items-start gap-4">
+                                    <div key={item.id} className="p-4 flex items-center md:items-start gap-4">
                                         {item.poster_path ? (
                                             <img src={`${TMDB_IMAGE_BASE_URL}${item.poster_path}`} 
-                                            alt={item.title || item.name} className="w-48
-                                            h-auto object-cover rounded shadow-lg
-                                            flex-shrink-0"/>
+                                            alt={item.title || item.name} className="w-[7rem] h-auto object-cover rounded-[1rem] flex-shrink-0"/>
                                         ) : (
-                                            <div className="w-48 h-72 bg-slate-700 flex 
-                                            items-center justify-center text-sm 
-                                            text-center rounded flex-shrink-0">
+                                            <div className="w-48 h-72 bg-slate-700 flex items-center justify-center text-sm text-center rounded flex-shrink-0">
                                                 No Image Available
                                             </div>
                                         )}
                                         <div className="text-white text-center 
                                         md:text-left flex-grow">
-                                            <h2 className="text-2xl font-bold mb-2">
+                                            <h2 className="text-base font-[650] mb-2 text-left">
                                                 {item.title || item.name}
                                             </h2>
-                                            <p className="text-gray-300 text-lg mb-2">
+                                            <p className="text-slate-400 font-[550] text-xs mb-2 text-left">
                                                 {item.release_date ? `Movie (${item.release_date.substring(0, 4)})` :
                                                  item.first_air_date ? `TV Show (${item.first_air_date.substring(0, 4)})` :
                                                  item.type === "movie" ? "Movie" : "TV Show"}
                                             </p>
-                                            <p className="text-gray-400 text-sm mb-4">
+                                            <p style={LINE_CLAMP5} className="text-slate-500 font-[550] text-xs mb-4 text-left">
                                                 {item.overview || "No overview available."}
                                             </p>
                                             {item.vote_average > 0 && (
-                                                <div className="text-gray-300 text-sm 
-                                                flex items-center gap-2">
+                                                <div className="text-slate-500 font-[550] text-sm flex items-center gap-2">
                                                     <img src={starRating} alt="Star icon" 
                                                     className="w-4 h-4" draggable="false"/>
                                                     <span>
-                                                        <span className="font-[650]
-                                                        text-white">
+                                                        <span className="font-[650] text-white">
                                                             {item.vote_average.toFixed(1)}
                                                         </span> / 10
                                                     </span>
