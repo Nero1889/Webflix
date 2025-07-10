@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import React, {useEffect, useState} from "react";
+import {useParams, useNavigate} from "react-router-dom";
 import Header from "./Header.jsx";
 import Footer from "./Footer.jsx";
 import back from "./assets/back.png";
@@ -94,24 +94,31 @@ function Actor() {
 
 
     if (loading) {
-        return <p className="text-sm text-white text-center p-10 mt-[5rem]">Loading actor details...</p>;
+        return <p className="text-base text-white text-center p-10 mt-[5rem]">
+            Loading actor details...
+        </p>
     }
 
     if (error) {
-        return <p className="text-sm text-[#b71234] text-center p-10 mt-[5rem]">{error}</p>;
+        return <p className="text-base text-[#b71234] text-center p-10 mt-[5rem]">
+            {error}
+        </p>
     }
 
     if (!actor) {
-        return <p className="text-sm text-white text-center p-10 mt-[5rem]">No actor data found for this ID!</p>;
+        return <p className="text-base text-white text-center p-10 mt-[5rem]">
+            No actor data found for this ID!
+        </p>
     }
 
     return (
         <div>
             <Header/>
             <button onClick={() => navigate(-1)} className="absolute z-8 ml-[1rem] 
-            mt-[1rem] p-2 rounded-full bg-slate-800 hover:bg-slate-700 transition-colors
+            mt-[1rem] p-2 rounded-full bg-slate-800 hover:bg-slate-900 transition-colors
             duration-[.25s] flex items-center justify-center">
-                <img className="w-[1.5rem] h-[1.5rem]" src={back} alt="Back Icon" draggable="false"/>
+                <img className="w-[1.5rem] h-[1.5rem]" src={back} alt="Back Icon" 
+                draggable="false"/>
             </button>
 
             <div className="mx-[2rem] mt-[2.5rem] flex items-center gap-5">
@@ -120,7 +127,8 @@ function Actor() {
                         src={`${TMDB_PROFILE_BASE_URL}${actor.profile_path}`}
                         alt={actor.name}/>
                 ) : (
-                    <div className="w-[7rem] h-[10rem] bg-slate-700 rounded-[1rem] flex items-center justify-center text-slate-400 text-sm">
+                    <div className="w-[7rem] h-[10rem] bg-slate-700 rounded-[1rem] flex 
+                    items-center justify-center text-slate-400 text-sm">
                         No Image
                     </div>
                 )}
@@ -130,13 +138,15 @@ function Actor() {
                     </h1>
                     {actor.birthday && (
                         <div className="flex gap-2 items-center mb-[.25rem]">
-                            <img className="w-[1rem] h-[1rem]" src={cake} alt="Birthday Cake Icon" draggable="false"/>
+                            <img className="w-[1rem] h-[1rem]" src={cake} 
+                            alt="Birthday Cake Icon" draggable="false"/>
                             <p className={BIRTH}>{formatDate(actor.birthday)}</p>
                         </div>
                     )}
                     {actor.place_of_birth && (
                         <div className="flex gap-2 items-center">
-                            <img className="w-[1rem] h-[1rem]" src={location} alt="Location Icon" draggable="false"/>
+                            <img className="w-[1rem] h-[1rem]" src={location} 
+                            alt="Location Icon" draggable="false"/>
                             <p className={BIRTH}>{actor.place_of_birth}</p>
                         </div>
                     )}
@@ -165,20 +175,27 @@ function Actor() {
                     <h1 className="text-white text-lg font-[650] mb-4">
                         Movies
                     </h1>
-                    <div className="flex gap-4 overflow-x-auto whitespace-nowrap scrollbar-hide">
+                    <div className="flex gap-4 overflow-x-auto whitespace-nowrap 
+                    scrollbar-hide">
                         {filmography.map((movie) => (
-                            <div key={movie.id} className="flex-shrink-0 w-24 cursor-pointer"
+                            <div key={movie.id} className="flex-shrink-0 w-24 
+                            cursor-pointer"
                                  onClick={() => navigate(`/movie/${movie.id}`)}>
-                                <div className="mb-2 w-[6rem] h-[8rem] bg-slate-700 rounded-lg overflow-hidden flex items-center justify-center">
+                                <div className="mb-2 w-[6rem] h-[8rem] bg-slate-700 
+                                rounded-lg overflow-hidden flex items-center 
+                                justify-center">
                                     {movie.poster_path ? (
                                         <img src={`${TMDB_MOVIE_POSTER_BASE_URL}${movie.poster_path}`}
-                                             alt={movie.title}
-                                             className="w-full h-full object-cover rounded-lg"/>
+                                        alt={movie.title} className="w-full h-full 
+                                        object-cover rounded-lg"/>
                                     ) : (
-                                        <span className="text-xs text-slate-400">No Image</span>
+                                        <span className="text-xs text-slate-400">
+                                            No Image
+                                        </span>
                                     )}
                                 </div>
-                                <h3 style={LINE_CLAMP3} className="text-left text-sm text-slate-300 font-[550] mb-1 w-24">
+                                <h3 style={LINE_CLAMP3} className="text-left text-sm 
+                                text-slate-300 font-[550] mb-1 w-24">
                                     {movie.title}
                                 </h3>
                                 <p className="text-left text-xs text-slate-500 w-24">
