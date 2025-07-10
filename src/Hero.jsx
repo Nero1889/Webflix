@@ -3,7 +3,7 @@ import spiderman from "./assets/spiderManHomecoming.png";
 import theMartian from "./assets/theMartian.png";
 import wallE from "./assets/wallE.png";
 import marioMovie from "./assets/theSuperMarioBrosMovie.png";
-import infinityWar from "./assets/avengersInfinityWar.png";
+import breakingBad from "./assets/breakingBad.png";
 
 function Hero() {
     const MOVIES = [
@@ -19,13 +19,13 @@ function Hero() {
         title: "WALL-E",
         studio: "Disney · Pixar"},
 
+        {image: breakingBad,
+        title: "Breaking Bad",
+        studio: "Sony Pictures"},
+
         {image: marioMovie,
         title: "The Super Mario Bros. Movie",
         studio: "Universal Pictures"},
-
-        {image: infinityWar,
-        title: "Avengers: Infinity War",
-        studio: "Marvel Studios"}
     ];
 
     const [CURRENT_IMG_INDEX, setCurrentImageIndex] = useState(0);
@@ -107,12 +107,15 @@ function Hero() {
             </div>
 
             <div className="flex gap-2 mt-5 items-center justify-center">
-                {MOVIES.map((_, i) => (
-                    <div key={i}
-                    className={`w-2.5 h-2.5 rounded-[5rem] cursor-pointer ${
-                        CURRENT_IMG_INDEX === i ? "bg-white" : "bg-slate-700"
-                    }`} onClick={() => goToSlide(i)}></div>
-                ))}
+                {MOVIES.map((_, i) => {
+                    const isActive = CURRENT_IMG_INDEX === i;
+                    return (
+                        <div key={i}
+                        className={`w-2.5 h-2.5 rounded-[5rem] cursor-pointer
+                        ${isActive ? "bg-white" : "bg-slate-700 hover:bg-slate-500"}`}
+                        onClick={() => goToSlide(i)}></div>
+                    );
+                })}
             </div>
         </>
     );
