@@ -268,7 +268,8 @@ function Header() {
                         suggestions.length > 0 && searchResults.length === 0 && (
                             <ul className="text-white mt-4 space-y-3">
                                 {suggestions.map((item) => (
-                                    <li key={item.id} className="bg-slate-900 p-2 rounded-[.5rem] flex items-center gap-5 cursor-pointer"
+                                    <li key={item.id} className="bg-slate-900 p-2 rounded-[.5rem] flex items-center gap-5 cursor-pointer hover:bg-slate-800
+                                    transition-colors duration-[.25s]"
                                     onClick={() => handleSuggestionClick(item)}>
                                         <img className="w-[1.5rem] h-[1.5rem] ml-[.5rem]" src={movie} alt="Movie Icon" draggable="false"/>
                                         <div>
@@ -294,12 +295,17 @@ function Header() {
                         {searchResults.length > 0 && (
                             <div className="mt-4 space-y-1">
                                 {searchResults.map((item) => (
-                                    <div key={item.id} className="p-4 flex items-center md:items-start gap-4">
+                                    <div key={item.id} onClick={() => handleSuggestionClick(item)} 
+                                    className="p-4 flex items-center md:items-start gap-4 
+                                    bg-slate-900 rounded-[1rem] hover:bg-slate-800 
+                                    transition-colors duration-[.25s]">
                                         {item.poster_path ? (
                                             <img src={`${TMDB_IMAGE_BASE_URL}${item.poster_path}`} 
                                             alt={item.title || item.name} className="w-[7rem] h-auto object-cover rounded-[1rem] flex-shrink-0"/>
                                         ) : (
-                                            <div className="w-48 h-72 bg-slate-700 flex items-center justify-center text-sm text-center rounded flex-shrink-0">
+                                            <div className="w-[7rem] h-[10rem] 
+                                            bg-slate-700 flex items-center justify-center
+                                            text-sm text-center rounded-[1rem] flex-shrink-0">
                                                 No Image Available
                                             </div>
                                         )}
