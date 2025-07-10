@@ -175,27 +175,32 @@ function Movie() {
                 </div>
             )}
 
+            {/* Cast */}
             {cast.length > 0 && (
                 <div className="ml-[2rem] mt-8">
                     <h1 className="text-white text-lg font-[650] mb-4">Cast</h1>
                     <div className="flex gap-4 overflow-x-auto whitespace-nowrap scrollbar-hide">
                         {cast.map((actor) => (
-                            <div key={actor.id} className="flex-shrink-0 text-center w-24 cursor-pointer">
+                            <div
+                                key={actor.id}
+                                className="flex-shrink-0 text-center w-24 cursor-pointer"
+                                onClick={() => navigate(`/actor/${actor.id}`)}
+                            >
                                 <div className="mb-2 w-[6rem] h-[8rem] bg-slate-700 rounded-lg overflow-hidden flex items-center justify-center">
                                     {actor.profile_path ? (
-                                        <img src={`${TMDB_PROFILE_BASE_URL}${actor.profile_path}`}
-                                        alt={actor.name}
-                                        className="w-full h-full object-cover"/>
+                                        <img
+                                            src={`${TMDB_PROFILE_BASE_URL}${actor.profile_path}`}
+                                            alt={actor.name}
+                                            className="w-full h-full object-cover"
+                                        />
                                     ) : (
                                         <span className="text-xs text-slate-400">No Image</span>
                                     )}
                                 </div>
-                                {/* Actor's Name */}
                                 <h3 style={LINE_CLAMP3} className="text-left text-sm text-slate-300 font-[550] mb-1 w-24 break-words whitespace-normal">
                                     {actor.name}
                                 </h3>
-                                {/* Character Name */}
-                                <p style={LINE_CLAMP3} className="text-left text-xs text-slate-500 font-[550] w-24 break-words whitespace-normal">
+                                <p style={LINE_CLAMP3} className="text-left text-xs text-slate-500 font-[550] w-24 break-words whitespace-norma">
                                     {actor.character}
                                 </p>
                             </div>
