@@ -1,7 +1,7 @@
 import Header from "./Header.jsx";
 import Footer from "./Footer.jsx";
-import { useParams, useNavigate, useLocation } from "react-router-dom";
-import { useEffect, useState } from "react";
+import {useParams, useNavigate, useLocation} from "react-router-dom";
+import {useEffect, useState} from "react";
 import back from "./assets/back.png";
 import star from "./assets/star.png";
 import clock from "./assets/clock.png";
@@ -15,8 +15,8 @@ const TMDB_POSTER_BASE_URL = "https://image.tmdb.org/t/p/w300";
 const TMDB_PROFILE_BASE_URL = "https://image.tmdb.org/t/p/w185";
 
 function Movie() {
-    const { id } = useParams();
-    const { pathname } = useLocation();
+    const {id} = useParams();
+    const {pathname} = useLocation();
     const navigate = useNavigate();
 
     const contentType = pathname.includes("/tv/") ? "tv" : "movie";
@@ -78,10 +78,10 @@ function Movie() {
         fetchFullMovieData();
     }, [id, contentType]);
 
-    const formatRuntime = (minutes) => {
-        if (typeof minutes !== "number" || isNaN(minutes) || minutes === 0) return "N/A";
-        const hours = Math.floor(minutes / 60);
-        const remainingMinutes = minutes % 60;
+    const formatRuntime = (mins) => {
+        if (typeof minutes !== "number" || isNaN(mins) || mins === 0) return "N/A";
+        const hours = Math.floor(mins / 60);
+        const remainingMinutes = mins % 60;
         return `${hours}h ${remainingMinutes}m`;
     };
 
@@ -121,15 +121,15 @@ function Movie() {
                     <h1 className="text-xl font-bold text-center mb-2 w-[17ch]">{movie.title || movie.name}</h1>
                     <div className="flex justify-center gap-5 items-center">
                         <div className="flex items-center gap-1">
-                            <img className="w-4 h-4" src={star} alt="Rating" />
+                            <img className="w-4 h-4" src={star} alt="Rating Icon"/>
                             <h3 className="text-slate-400 text-sm">{movie.vote_average?.toFixed(1) || "N/A"}</h3>
                         </div>
                         <div className="flex items-center gap-1">
-                            <img className="w-4 h-4" src={clock} alt="Runtime" />
+                            <img className="w-4 h-4" src={clock} alt="Runtime Icon"/>
                             <h3 className="text-slate-400 text-sm">{formatRuntime(movie.runtime || movie.episode_run_time?.[0])}</h3>
                         </div>
                         <div className="flex items-center gap-1">
-                            <img className="w-4 h-4" src={calendar} alt="Year" />
+                            <img className="w-4 h-4" src={calendar} alt="Year Icon"/>
                             <h3 className="text-slate-400 text-sm">
                                 {(movie.release_date || movie.first_air_date || "").substring(0, 4) || "N/A"}
                             </h3>
@@ -140,7 +140,7 @@ function Movie() {
 
             <div className="flex justify-center mb-8 px-4">
                 <button className="bg-slate-800 text-slate-400 text-sm font-[600] inline-flex items-center gap-2 p-3 rounded-[3rem] hover:bg-slate-700 transition-colors">
-                    <img className="w-4 h-4" src={playBtn} alt="Play" draggable="false" />
+                    <img className="w-4 h-4" src={playBtn} alt="Play Icon" draggable="false"/>
                     Watch Trailer
                 </button>
             </div>
@@ -166,10 +166,11 @@ function Movie() {
             {cast.length > 0 && (
                 <div className="ml-[2rem] mt-8">
                     <h1 className="text-white text-lg font-[650] mb-4">Cast</h1>
-                    <div className="flex gap-4 overflow-x-auto whitespace-nowrap scrollbar-hide">
+                    <div className="flex gap-4 overflow-x-auto whitespace-nowrap scrollbar-hide bord">
                         {cast.map(actor => (
                             <div key={actor.id} className="flex-shrink-0 text-center w-24 cursor-pointer" onClick={() => navigate(`/actor/${actor.id}`)}>
-                                <div className="mb-2 w-[6rem] h-[8rem] bg-slate-700 rounded-lg overflow-hidden flex items-center justify-center">
+                                <div className="mb-2 w-[6rem] h-[8rem] bg-slate-700 rounded-lg overflow-hidden flex items-center justify-center
+                                border-[#ffffff00] border-[2.5px] hover:border-[#b71234] transition-colors duration-[.25s]">
                                     {actor.profile_path ? (
                                         <img src={`${TMDB_PROFILE_BASE_URL}${actor.profile_path}`} alt={actor.name} className="w-full h-full object-cover" />
                                     ) : (
@@ -193,7 +194,7 @@ function Movie() {
                             const type = isMovie ? "movie" : "tv";
                             return (
                                 <div key={similarItem.id} className="flex-shrink-0 text-center w-24 cursor-pointer" onClick={() => navigate(`/${type}/${similarItem.id}`)}>
-                                    <div className="mb-2 w-24 h-36 bg-slate-700 rounded-lg overflow-hidden">
+                                    <div className="mb-2 w-24 h-36 bg-slate-700 rounded-lg overflow-hidden border-[#ffffff00] border-[2.5px] hover:border-[#b71234] transition-colors duration-[.25s]">
                                         {similarItem.poster_path ? (
                                             <img src={`${TMDB_POSTER_BASE_URL}${similarItem.poster_path}`} alt={similarItem.title || similarItem.name} className="w-full h-full object-cover" />
                                         ) : (
