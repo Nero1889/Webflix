@@ -11,7 +11,8 @@ function Category() {
         "Sci-Fi", 
         "Horror", 
         "Adventure", 
-        "Shows"
+        "Shows",
+        "Documentary",
     ];
 
     const BASE_CAT = `bg-slate-800 text-xs font-[600] inline-block px-3 py-2 
