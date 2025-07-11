@@ -6,6 +6,7 @@ import ActionMovies from "./ActionMovies.jsx";
 import DramaMovies from "./DramaMovies.jsx";
 import CrimeMovies from "./CrimeMovies.jsx";
 import SciFiMovies from "./SciFiMovies.jsx";
+import Anime from "./Anime.jsx";
 import Shows from "./Shows.jsx";
 import Footer from "./Footer.jsx";
 
@@ -19,6 +20,7 @@ function HomePage() {
             <ActionMovies/>
             <CrimeMovies/>
             <SciFiMovies/>
+            <Anime/>
             <DramaMovies/>
             <Shows/>
             <Footer/>
