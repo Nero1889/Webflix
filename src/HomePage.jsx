@@ -4,6 +4,8 @@ import AnimatedMovies from "./AnimatedMovies.jsx";
 import Category from "./Category.jsx";
 import ActionMovies from "./ActionMovies.jsx";
 import DramaMovies from "./DramaMovies.jsx";
+import CrimeMovies from "./CrimeMovies.jsx";
+import SciFiMovies from "./SciFiMovies.jsx";
 import Shows from "./Shows.jsx";
 import Footer from "./Footer.jsx";
 
@@ -15,6 +17,8 @@ function HomePage() {
             <AnimatedMovies/>
             <Category/>
             <ActionMovies/>
+            <CrimeMovies/>
+            <SciFiMovies/>
             <DramaMovies/>
             <Shows/>
             <Footer/>
