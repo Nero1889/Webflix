@@ -6,6 +6,8 @@ import ActionMovies from "./ActionMovies.jsx";
 import DramaMovies from "./DramaMovies.jsx";
 import CrimeMovies from "./CrimeMovies.jsx";
 import SciFiMovies from "./SciFiMovies.jsx";
+import HorrorMovies from "./HorrorMovies.jsx";
+import ComedyMovies from "./ComedyMovies.jsx";
 import Anime from "./Anime.jsx";
 import Shows from "./Shows.jsx";
 import Footer from "./Footer.jsx";
@@ -18,11 +20,13 @@ function HomePage() {
             <AnimatedMovies/>
             <Category/>
             <ActionMovies/>
-            <CrimeMovies/>
-            <SciFiMovies/>
-            <Anime/>
             <DramaMovies/>
             <Shows/>
+            <CrimeMovies/>
+            <SciFiMovies/>
+            <HorrorMovies/>
+            <ComedyMovies/>
+            <Anime/>
             <Footer/>
         </>
     );
