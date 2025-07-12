@@ -8,6 +8,8 @@ import CrimeMovies from "./CrimeMovies.jsx";
 import SciFiMovies from "./SciFiMovies.jsx";
 import HorrorMovies from "./HorrorMovies.jsx";
 import ComedyMovies from "./ComedyMovies.jsx";
+import RomanceMovies from "./RomanceMovies.jsx";
+import AdventureMovies from "./AdventureMovies.jsx";
 import Anime from "./Anime.jsx";
 import Shows from "./Shows.jsx";
 import Footer from "./Footer.jsx";
@@ -26,6 +28,8 @@ function HomePage() {
             <SciFiMovies/>
             <HorrorMovies/>
             <ComedyMovies/>
+            <RomanceMovies/>
+            <AdventureMovies/>
             <Anime/>
             <Footer/>
         </>
