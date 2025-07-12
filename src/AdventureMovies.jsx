@@ -29,7 +29,7 @@ function AdventureMovies() {
         {id: 1771, type: "movie"},      // Captain America: The First Avenger
         {id: 20526, type: "movie"},     // TRON: Legacy
         {id: 127380, type: "movie"},    // Finding Dory
-        {id: 7248, type: "movie"},      // The Magic School Bus
+        {id: 7248, type: "tv"},         // The Magic School Bus
     ];
 
     const [moviesData, setMoviesData] = useState([]);
