@@ -4,15 +4,16 @@ function Category() {
     const [SELECTED_CATEGORY, setSelectedCategory] = useState("All");
     const CATEGORIES = [
         "All", 
-        "Drama", 
-        "Crime", 
         "Action", 
+        "Adventure", 
+        "Anime",
+        "Comedy",
+        "Crime", 
+        "Drama", 
+        "Horror", 
         "Romance", 
         "Sci-Fi", 
-        "Horror", 
-        "Adventure", 
         "Shows",
-        "Documentary",
     ];
 
     const BASE_CAT = `bg-slate-800 text-xs font-[600] inline-block px-3 py-2 
