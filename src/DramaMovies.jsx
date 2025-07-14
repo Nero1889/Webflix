@@ -14,22 +14,22 @@ function AnimatedMovies() {
     };
 
     const MOVIES = [
-        {id: 299536, type: "movie"},    // 
-        {id: 140607, type: "movie"},    // 
-        {id: 124905, type: "movie"},    // 
-        {id: 634649, type: "movie"},    // 
-        {id: 286217, type: "movie"},    // 
-        {id: 20526, type: "movie"},     // 
-        {id: 559, type: "movie"},       // 
-        {id: 1930, type: "movie"},      // 
-        {id: 823464, type: "movie"},    // 
-        {id: 533535, type: "movie"},    // 
-        {id: 19995, type: "movie"},     // 
-        {id: 329, type: "movie"},       // 
-        {id: 299534, type: "movie"},    // 
-        {id: 91314, type: "movie"},     // 
-        {id: 155, type: "movie"},       // 
-        {id: 37724, type: "movie"},     // 
+        {id: 9479, type: "movie"},      // The Nightmare Before Christmas
+        {id: 872585, type: "movie"},    // Oppenheimer
+        {id: 93405, type: "tv"},        // Squid Game
+        {id: 1396, type: "tv"},         // Breaking Bad
+        {id: 597, type: "movie"},       // Titanic
+        {id: 98, type: "movie"},        // Gladiator
+        {id: 475557, type: "movie"},    // Joker
+        {id: 66732, type: "tv"},        // Stranger Things
+        {id: 14161, type: "movie"},     // 2012
+        {id: 49026, type: "movie"},     // The Dark Knight Rises
+        {id: 1417, type: "tv"},         // Glee
+        {id: 84892, type: "movie"},     // The Perks of Being a Wallflower
+        {id: 238, type: "movie"},       // The Godfather
+        {id: 216015, type: "movie"},    // Fifty Shades of Grey
+        {id: 496243, type: "movie"},    // Parasite
+        {id: 4057, type: "tv"},         // Criminal Minds
     ];
 
     const [moviesData, setMoviesData] = useState([]);
