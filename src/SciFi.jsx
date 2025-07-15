@@ -4,7 +4,7 @@ import {Link} from "react-router-dom";
 const TMDB_API_KEY = "a185d00309246af13fc09d5674ea20ee";
 const TMDB_IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w300";
 
-function SciFiMovies() {
+function SciFi() {
     const LINE_CLAMP2 = {
         overflow: "hidden",
         display: "-webkit-box",
@@ -87,4 +87,4 @@ function SciFiMovies() {
     );
 }
 
-export default SciFiMovies;
+export default SciFi;
