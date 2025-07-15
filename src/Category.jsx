@@ -1,39 +1,35 @@
-import {useState} from "react";
-
-function Category() {
-    const [SELECTED_CATEGORY, setSelectedCategory] = useState("All");
+function Category({onCategorySelect, selectedCategory}) {
     const CATEGORIES = [
-        "All", 
-        "Action", 
-        "Adventure", 
+        "All",
+        "Action",
+        "Adventure",
         "Anime",
         "Comedy",
-        "Crime", 
-        "Drama", 
-        "Horror", 
-        "Romance", 
-        "Sci-Fi", 
+        "Crime",
+        "Drama",
+        "Horror",
+        "Romance",
+        "Sci-Fi",
         "Shows",
     ];
 
-    const BASE_CAT = `bg-slate-800 text-xs font-[600] inline-block px-3 py-2 
-    rounded-[3rem] mr-2 mb-2 cursor-pointer hover:bg-slate-700 transition-color 
+    const BASE_CAT = `bg-slate-800 text-xs font-[600] inline-block px-3 py-2
+    rounded-[3rem] mr-2 mb-2 cursor-pointer hover:bg-slate-700 transition-color
     duration-[.25s]`;
 
     return (
         <section className="mt-[2.5rem] flex flex-col">
             <h1 className="mx-[2rem] text-sm font-[650]">Category</h1>
-            <div className="ml-[2rem] mt-[1rem] flex items-center gap-1 overflow-x-auto 
+            <div className="ml-[2rem] mt-[1rem] flex items-center gap-1 overflow-x-auto
             whitespace-nowrap scrollbar-hide">
                 {CATEGORIES.map((category) => (
-                    <p key={category}
-                    className={`${BASE_CAT} 
-                    ${SELECTED_CATEGORY === category 
-                    ? "text-white" 
+                    <button key={category} className={`${BASE_CAT}
+                    ${selectedCategory === category
+                    ? "text-white"
                     : "text-slate-400"}`}
-                    onClick={() => setSelectedCategory(category)}>
+                    onClick={() => onCategorySelect(category)}>
                         {category}
-                    </p>
+                    </button>
                 ))}
             </div>
         </section>
