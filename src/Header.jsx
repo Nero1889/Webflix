@@ -149,7 +149,7 @@ function Header() {
         setSearchResults([]);
 
         let routePath;
-        let passedState = { data: item };
+        let passedState = {data: item};
 
         if (item.media_type === "person") {
             routePath = `/actor/${item.id}`;
