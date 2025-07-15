@@ -1,16 +1,16 @@
 import Header from "./Header.jsx";
 import Hero from "./Hero.jsx";
-import AnimatedMovies from "./AnimatedMovies.jsx";
+import Animated from "./Animated.jsx";
 import Category from "./Category.jsx";
-import ActionMovies from "./ActionMovies.jsx";
-import DramaMovies from "./DramaMovies.jsx";
-import CrimeMovies from "./CrimeMovies.jsx";
-import SciFiMovies from "./SciFiMovies.jsx";
-import HorrorMovies from "./HorrorMovies.jsx";
-import ComedyMovies from "./ComedyMovies.jsx";
-import RomanceMovies from "./RomanceMovies.jsx";
-import AdventureMovies from "./AdventureMovies.jsx";
+import Action from "./Action.jsx";
+import Adventure from "./Adventure.jsx";
 import Anime from "./Anime.jsx";
+import Comedy from "./Comedy.jsx";
+import Crime from "./Crime.jsx";
+import Drama from "./Drama.jsx";
+import Horror from "./Horror.jsx";
+import Romance from "./Romance.jsx";
+import SciFi from "./SciFi.jsx";
 import Shows from "./Shows.jsx";
 import Footer from "./Footer.jsx";
 
@@ -19,18 +19,18 @@ function HomePage() {
         <>
             <Header/>
             <Hero/>
-            <AnimatedMovies/>
+            <Animated/>
             <Category/>
-            <ActionMovies/>
-            <DramaMovies/>
-            <Shows/>
-            <CrimeMovies/>
-            <SciFiMovies/>
-            <HorrorMovies/>
-            <ComedyMovies/>
-            <RomanceMovies/>
-            <AdventureMovies/>
+            <Action/>
+            <Adventure/>
             <Anime/>
+            <Comedy/>
+            <Crime/>
+            <Drama/>
+            <Horror/>
+            <Romance/>
+            <SciFi/>
+            <Shows/>
             <Footer/>
         </>
     );
