@@ -57,7 +57,7 @@ function Anime() {
 
     return (
         <section className="mt-[2.5rem] flex flex-col">
-            <h1 className="mx-[2rem] text-sm font-[650]">Animes</h1>
+            <h1 className="mx-[2rem] text-sm font-[650]">Anime</h1>
             <div className="ml-[2rem] flex gap-5 overflow-x-auto whitespace-nowrap scrollbar-hide">
                 {animesData.map((movie) => (
                     <Link to={`/${movie.type}/${movie.id}`} key={movie.id} 
