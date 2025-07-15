@@ -1,4 +1,3 @@
-import HomePage from "./HomePage.jsx";
 import {Link, useNavigate} from "react-router-dom";
 import React, {useState, useEffect, useRef} from "react";
 import search from "./assets/search.png";
@@ -11,6 +10,7 @@ import portfolio from "./assets/portfolio.png";
 import back from "./assets/back.png";
 import slateSearch from "./assets/searchBarMag.png";
 import movie from "./assets/movie.png";
+import actor from "./assets/actor.png";
 import starRating from "./assets/starRating.png";
 
 const TMDB_API_KEY = "a185d00309246af13fc09d5674ea20ee";
@@ -36,6 +36,7 @@ function Header() {
     const [searchResults, setSearchResults] = useState([]);
 
     const debounceTimeoutRef = useRef(null);
+    const navigate = useNavigate();
 
     const TOGGLE_MENU = () => setIsMenuOpen(!IS_MENU_OPEN);
     const MENU_ICON_SRC = IS_MENU_OPEN ? close : menu;
@@ -52,30 +53,26 @@ function Header() {
         setSearchResults([]);
 
         try {
-            const movieResponse = await fetch(
-                `${TMDB_BASE_URL}/search/movie?api_key=${TMDB_API_KEY}&query=${encodeURIComponent(query)}&include_adult=false`
-            );
-            const tvResponse = await fetch(
-                `${TMDB_BASE_URL}/search/tv?api_key=${TMDB_API_KEY}&query=${encodeURIComponent(query)}&include_adult=false`
+            const response = await fetch(
+                `${TMDB_BASE_URL}/search/multi?api_key=${TMDB_API_KEY}&query=${encodeURIComponent(query)}&include_adult=false`
             );
 
-            if (!movieResponse.ok || !tvResponse.ok) {
-                throw new Error("Failed to fetch data from TMDb!");
+            if (!response.ok) {
+                throw new Error("Failed to fetch data!");
             }
 
-            const movieData = await movieResponse.json();
-            const tvData = await tvResponse.json();
+            const data = await response.json();
 
-            const combinedResults = [
-                ...movieData.results.map(item => ({...item, type: "movie"})),
-                ...tvData.results.map(item => ({...item, type: "tv"}))
-            ].sort((a, b) => {
+            const combinedResults = data.results.filter(item =>
+                item.media_type === "movie" || item.media_type === "tv" || item.media_type === "person"
+            ).sort((a, b) => {
                 return (b.popularity || 0) - (a.popularity || 0);
             });
+
             setSuggestions(combinedResults.slice(0, 10));
 
         } catch (err) {
-            console.error(`Error fetching suggestions/results: ${err}`);
+            console.error(`Error fetching results: ${err}`);
             setError("Could not load results!");
             setSuggestions([]);
             setSearchResults([]);
@@ -100,7 +97,7 @@ function Header() {
 
     const handleKeyDown = (e) => {
         if (e.key === "Enter") {
-            e.preventDefault(); 
+            e.preventDefault();
             if (searchTerm.trim()) {
                 triggerFullSearch(searchTerm);
                 setSuggestions([]);
@@ -119,24 +116,19 @@ function Header() {
         setSuggestions([]);
 
         try {
-            const movieResponse = await fetch(
-                `${TMDB_BASE_URL}/search/movie?api_key=${TMDB_API_KEY}&query=${encodeURIComponent(query)}&include_adult=false`
-            );
-            const tvResponse = await fetch(
-                `${TMDB_BASE_URL}/search/tv?api_key=${TMDB_API_KEY}&query=${encodeURIComponent(query)}&include_adult=false`
+            const response = await fetch(
+                `${TMDB_BASE_URL}/search/multi?api_key=${TMDB_API_KEY}&query=${encodeURIComponent(query)}&include_adult=false`
             );
 
-            if (!movieResponse.ok || !tvResponse.ok) {
-                throw new Error("Failed to fetch data from TMDb.");
+            if (!response.ok) {
+                throw new Error("Failed to fetch data!");
             }
 
-            const movieData = await movieResponse.json();
-            const tvData = await tvResponse.json();
+            const data = await response.json();
 
-            const combinedFullResults = [
-                ...movieData.results.map(item => ({...item, type: "movie"})),
-                ...tvData.results.map(item => ({...item, type: "tv"}))
-            ].sort((a, b) => {
+            const combinedFullResults = data.results.filter(item =>
+                item.media_type === "movie" || item.media_type === "tv" || item.media_type === "person"
+            ).sort((a, b) => {
                 return (b.popularity || 0) - (a.popularity || 0);
             });
 
@@ -151,16 +143,22 @@ function Header() {
         }
     };
 
-    const navigate = useNavigate();
-
     const handleSuggestionClick = (item) => {
         setSearchTerm(item.title || item.name);
         setSuggestions([]);
-        setSearchResults([item]);
+        setSearchResults([]);
 
-        const routeType = item.type === "tv" ? "tv" : "movie";
-        navigate(`/${routeType}/${item.id}`, {state:{data: item}});
-        // ^ Ship item data off to Movie.jsx! ^
+        let routePath;
+        let passedState = { data: item };
+
+        if (item.media_type === "person") {
+            routePath = `/actor/${item.id}`;
+        } else {
+            routePath = `/${item.media_type}/${item.id}`;
+        }
+
+        navigate(routePath, passedState);
+        setIsSearchOpen(false);
     };
 
     useEffect(() => {
@@ -183,13 +181,13 @@ function Header() {
                 <h1 className="text-xl font-[650]">Webflix</h1>
                 <div className="flex gap-5 items-center">
                     <button className="bg-slate-800 p-2 rounded-full flex items-center
-                    justify-center hover:bg-slate-900 transition-colors duration-[.25s]" 
+                    justify-center hover:bg-slate-900 transition-colors duration-[.25s]"
                     onClick={() => setIsSearchOpen(true)}>
                         <img className="w-7 h-7" src={search} alt="Search Icon"
                         draggable="false"/>
                     </button>
                     <button className="bg-[#b71234] p-2 rounded-full flex items-center
-                    justify-center hover:bg-[#710033] transition-colors duration-[.25s]" 
+                    justify-center hover:bg-[#710033] transition-colors duration-[.25s]"
                     onClick={TOGGLE_MENU}>
                         <img className="w-7 h-7" src={MENU_ICON_SRC} alt={IS_MENU_OPEN ?
                         "Close menu" : "Open menu"} draggable="false"/>
@@ -198,9 +196,9 @@ function Header() {
             </header>
 
             {/* Mobile Navigation */}
-            <div className={`fixed left-0 w-full bg-slate-950 z-90 flex flex-col 
+            <div className={`fixed left-0 w-full bg-slate-950 z-90 flex flex-col
             mt-[-1.25rem] shadow-[0_4px_6px_-1px_rgba(0,0,0,0.5)]
-            ${IS_MENU_OPEN ? "visible" : "invisible"} 
+            ${IS_MENU_OPEN ? "visible" : "invisible"}
             ${IS_MENU_OPEN ? "opacity-100" : "opacity-0"}`}>
                 <nav className="w-full">
                     <ul className="list-none flex flex-col items-start gap-2 p-4 w-full">
@@ -249,9 +247,9 @@ function Header() {
                             pointer-events-none">
                                 <img src={slateSearch} alt="Slate Search Icon" className="w-5 h-5"/>
                             </span>
-                            <input type="text" placeholder="Search!" className="w-full 
+                            <input type="text" placeholder="Search!" className="w-full
                             h-[2.7rem] bg-slate-800 text-white pl-12 pr-4 rounded-[7rem]
-                            focus:outline-none text-sm" autoFocus value={searchTerm} 
+                            focus:outline-none text-sm" autoFocus value={searchTerm}
                             onChange={handleSearchChange} onKeyDown={handleKeyDown}/>
                         </div>
                     </div>
@@ -272,15 +270,27 @@ function Header() {
                                     <li key={item.id} className="bg-slate-900 p-2 rounded-[.5rem] flex items-center gap-5 cursor-pointer hover:bg-slate-800
                                     transition-colors duration-[.25s]"
                                     onClick={() => handleSuggestionClick(item)}>
-                                        <img className="w-[1.5rem] h-[1.5rem] ml-[.5rem]" src={movie} alt="Movie Icon" draggable="false"/>
+                                        {item.media_type === "person" ? (
+                                            item.profile_path ? (
+                                                <img className="w-[3rem] h-[3rem] rounded-full object-cover ml-[.5rem]"
+                                                src={`${TMDB_SMALL_IMAGE_BASE_URL}${item.profile_path}`}
+                                                alt={item.name} draggable="false"/>
+                                            ) : (
+                                                <img className="w-[3rem] h-[3rem] rounded-full object-cover ml-[.5rem] p-1" 
+                                                src={actor} alt="Actor Icon" draggable="false"/>
+                                            )
+                                        ) : (
+                                            <img className="w-[1.5rem] h-[1.5rem] ml-[.5rem]"
+                                            src={movie} alt="Movie Icon" draggable="false"/>
+                                        )}
                                         <div>
                                             <p className="font-[600] text-base">
                                                 {item.title || item.name}
                                             </p>
                                             <p className="text-sm text-slate-500 font-[600]">
-                                                {item.release_date ? `Movie (${item.release_date.substring(0, 4)})` :
-                                                item.first_air_date ? `TV Show (${item.first_air_date.substring(0, 4)})` :
-                                                item.type === "movie" ? "Movie" : "TV Show"}
+                                                {item.media_type === "movie" && `Movie (${item.release_date ? item.release_date.substring(0, 4) : "N/A"})`}
+                                                {item.media_type === "tv" && `TV Show (${item.first_air_date ? item.first_air_date.substring(0, 4) : "N/A"})`}
+                                                {item.media_type === "person" && `Actor`}
                                             </p>
                                         </div>
                                     </li>
@@ -293,39 +303,58 @@ function Header() {
                             <p className="text-slate-300 text-center mt-4 text-base font-[550]">No results found!</p>
                         )}
 
+
                         {searchResults.length > 0 && (
-                            <div className="mt-4 space-y-1">
+                            <div className="mt-4 space-y-3">
                                 {searchResults.map((item) => (
-                                    <div key={item.id} onClick={() => handleSuggestionClick(item)} 
-                                    className="p-4 flex items-center md:items-start gap-4 
-                                    bg-slate-900 rounded-[1rem] hover:bg-slate-800 
-                                    transition-colors duration-[.25s]">
-                                        {item.poster_path ? (
-                                            <img src={`${TMDB_IMAGE_BASE_URL}${item.poster_path}`} 
-                                            alt={item.title || item.name} className="w-[7rem] h-auto object-cover rounded-[1rem] flex-shrink-0"/>
+                                    <div key={item.id} onClick={() => handleSuggestionClick(item)}
+                                    className="p-4 flex items-center md:items-start gap-4
+                                    bg-slate-900 rounded-[1rem] hover:bg-slate-800
+                                    transition-colors duration-[.25s] cursor-pointer">
+                                        {item.media_type === "person" ? (
+                                            item.profile_path ? (
+                                                <img src={`${TMDB_IMAGE_BASE_URL}${item.profile_path}`}
+                                                alt={item.name}
+                                                className="w-[7rem] h-[10rem] object-cover rounded-[1rem] flex-shrink-0"
+                                                draggable="false"/>
+                                            ) : (
+                                                <div className="w-[7rem] h-[10rem] bg-slate-700 rounded-full flex items-center justify-center text-sm text-center flex-shrink-0">
+                                                    <img src={actor} alt="Actor Icon" className="w-12 h-12 p-1"/>
+                                                </div>
+                                            )
                                         ) : (
-                                            <div className="w-[7rem] h-[10rem] 
-                                            bg-slate-700 flex items-center justify-center
-                                            text-sm text-center rounded-[1rem] flex-shrink-0">
-                                                No Image Available
-                                            </div>
+                                            item.poster_path ? (
+                                                <img src={`${TMDB_IMAGE_BASE_URL}${item.poster_path}`}
+                                                alt={item.title || item.name}
+                                                className="w-[7rem] h-[10rem] object-cover rounded-[1rem] flex-shrink-0"
+                                                draggable="false"/>
+                                            ) : (
+                                                <div className="w-[7rem] h-[10rem] bg-slate-700 flex items-center justify-center text-sm text-center rounded-[1rem] flex-shrink-0">
+                                                    <img src={movie} alt="Movie Icon" className="w-12 h-12 p-1"/>
+                                                </div>
+                                            )
                                         )}
-                                        <div className="text-white text-center 
+                                        <div className="text-white text-center
                                         md:text-left flex-grow">
                                             <h2 className="text-base font-[650] mb-2 text-left">
                                                 {item.title || item.name}
                                             </h2>
                                             <p className="text-slate-400 font-[550] text-xs mb-2 text-left">
-                                                {item.release_date ? `Movie (${item.release_date.substring(0, 4)})` :
-                                                 item.first_air_date ? `TV Show (${item.first_air_date.substring(0, 4)})` :
-                                                 item.type === "movie" ? "Movie" : "TV Show"}
+                                                {item.media_type === "movie" && `Movie (${item.release_date ? item.release_date.substring(0, 4) : "N/A"})`}
+                                                {item.media_type === "tv" && `TV Show (${item.first_air_date ? item.first_air_date.substring(0, 4) : "N/A"})`}
+                                                {item.media_type === "person" && `Actor`}
                                             </p>
                                             <p style={LINE_CLAMP5} className="text-slate-500 font-[550] text-xs mb-4 text-left">
-                                                {item.overview || "No overview available."}
+                                                {item.media_type === "person" ?
+                                                    (item.known_for && item.known_for.length > 0 ?
+                                                        `${item.known_for.map(kf => kf.title || kf.name).join(", ")}` :
+                                                        "No known credits available!")
+                                                    : (item.overview || "No overview available!")
+                                                }
                                             </p>
-                                            {item.vote_average > 0 && (
+                                            {item.vote_average > 0 && item.media_type !== "person" && (
                                                 <div className="text-slate-500 font-[550] text-sm flex items-center gap-2">
-                                                    <img src={starRating} alt="Star icon" 
+                                                    <img src={starRating} alt="Star icon"
                                                     className="w-4 h-4" draggable="false"/>
                                                     <span>
                                                         <span className="font-[650] text-white">
