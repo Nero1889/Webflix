@@ -57,7 +57,7 @@ function SciFiMovies() {
 
     return (
         <section className="mt-[2.5rem] flex flex-col">
-            <h1 className="mx-[2rem] text-sm font-[650]">Sci-Fi Movies</h1>
+            <h1 className="mx-[2rem] text-sm font-[650]">Science Fiction</h1>
             <div className="ml-[2rem] flex gap-5 overflow-x-auto whitespace-nowrap scrollbar-hide">
                 {moviesData.map((movie) => (
                     <Link to={`/${movie.type}/${movie.id}`} key={movie.id} 
