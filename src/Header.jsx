@@ -256,8 +256,10 @@ function Header() {
 
                     <div className="p-5 pt-0">
                         {loadingSuggestions && (
-                            <p className="text-slate-300 text-center mt-4 text-base
-                            font-[550]">Loading...</p>
+                            <div className="flex justify-center items-center mt-4">
+                                <div className="w-[2.5rem] h-[2.5rem] border-4 border-slate-800
+                                border-t-slate-300 rounded-full animate-spin-slow"></div>
+                            </div>
                         )}
                         {error && (
                             <p className="text-[#b71234] text-center mt-4 border">{error}</p>
