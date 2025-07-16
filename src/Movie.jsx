@@ -85,7 +85,12 @@ function Movie() {
         return `${hours}h ${remainingMinutes}m`;
     };
 
-    if (loading) return <p className="text-base text-white text-center p-10 mt-[5rem]">Loading details...</p>;
+    if (loading) return (
+        <div className="flex justify-center items-center h-screen">
+            <div className="w-[2.5rem] h-[2.5rem] border-4 border-slate-800
+            border-t-slate-300 rounded-full animate-spin-slow"></div>
+        </div>
+    )
 
     if (error) {
         return (
