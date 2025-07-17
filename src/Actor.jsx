@@ -179,7 +179,7 @@ function Actor() {
                         Movies
                     </h1>
                     <div className="flex gap-4 overflow-x-auto whitespace-nowrap 
-                    scrollbar-hide">
+                    custom-scrollbar">
                         {filmography.map((movie) => (
                             <div key={movie.id} className="flex-shrink-0 w-24 
                             cursor-pointer"
