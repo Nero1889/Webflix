@@ -258,7 +258,7 @@ function Header() {
                         {loadingSuggestions && (
                             <div className="flex justify-center items-center mt-4">
                                 <div className="w-[2.5rem] h-[2.5rem] border-4 border-slate-800
-                                border-t-slate-300 rounded-full animate-spin-slow"></div>
+                                border-t-slate-300 rounded-full animate-spin"></div>
                             </div>
                         )}
                         {error && (
