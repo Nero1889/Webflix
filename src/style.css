@@ -15,7 +15,7 @@
         transform: rotate(360deg);
     }
 }
-.animate-spin-slow {
+.animate-spin {
     animation: spin .25s linear infinite;
 }
 
