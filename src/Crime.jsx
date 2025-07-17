@@ -58,7 +58,7 @@ function Crime() {
     return (
         <section className="mt-[2.5rem] flex flex-col">
             <h1 className="mx-[2rem] text-sm font-[650]">Crime</h1>
-            <div className="ml-[2rem] flex gap-5 overflow-x-auto whitespace-nowrap scrollbar-hide">
+            <div className="ml-[2rem] flex gap-5 overflow-x-auto whitespace-nowrap custom-scrollbar">
                 {moviesData.map((movie) => (
                     <Link to={`/${movie.type}/${movie.id}`} key={movie.id} 
                     className="mt-[1rem] flex-shrink-0">
