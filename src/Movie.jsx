@@ -171,7 +171,7 @@ function Movie() {
             {cast.length > 0 && (
                 <div className="ml-[2rem] mt-8">
                     <h1 className="text-white text-lg font-[650] mb-4">Cast</h1>
-                    <div className="flex gap-4 overflow-x-auto whitespace-nowrap scrollbar-hide bord">
+                    <div className="flex gap-4 overflow-x-auto whitespace-nowrap custom-scrollbar">
                         {cast.map(actor => (
                             <div key={actor.id} className="flex-shrink-0 text-center w-24 cursor-pointer" onClick={() => navigate(`/actor/${actor.id}`)}>
                                 <div className="mb-2 w-[6rem] h-[8rem] bg-slate-700 rounded-lg overflow-hidden flex items-center justify-center
@@ -193,7 +193,7 @@ function Movie() {
             {similar.length > 0 && (
                 <div className="ml-[2rem] mt-8 mb-8">
                     <h1 className="text-white text-lg font-[650] mb-4">More Like This</h1>
-                    <div className="flex gap-4 overflow-x-auto whitespace-nowrap scrollbar-hide">
+                    <div className="flex gap-4 overflow-x-auto whitespace-nowrap custom-scrollbar">
                         {similar.map(similarItem => {
                             const isMovie = Boolean(similarItem.title);
                             const type = isMovie ? "movie" : "tv";
