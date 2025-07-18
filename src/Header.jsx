@@ -181,19 +181,23 @@ function Header() {
                 <h1 className="text-xl font-[650]">Webflix</h1>
                 {/* Desktop Search Bar */}
                 <div className="relative hidden w-[24rem] h-[2.5rem] mt-[-1.5rem] lg:block xl:w-[34rem]">
-                    <img src={search} alt="Search Icon" className="absolute left-3 
+                    <img src={slateSearch} alt="Search Icon" className="absolute left-3 
                     top-[2.2rem] transform -translate-y-1/2 w-5 h-5 pointer-events-none" 
                     draggable="false"/>
                     <input type="text" placeholder="Search!"
-                    className="w-full h-full pl-10 pr-5 text-sm rounded-[2rem] 
-                    bg-slate-900 text-white placeholder:text-slate-500 
-                    focus:outline-none" value={searchTerm} onChange={handleSearchChange}
+                    className={`w-full h-full pl-10 pr-5 text-sm bg-slate-900 text-white
+                    placeholder:text-slate-500 focus:outline-none font-[550] ${
+                        searchTerm.length > 0 && suggestions.length > 0 && !loadingSuggestions
+                        ? "rounded-t-[1rem] rounded-b-none"
+                        : "rounded-[2rem]"
+                    }`} value={searchTerm} onChange={handleSearchChange} 
                     onKeyDown={handleKeyDown}/>
-
+                    
                     {/* Suggestions Dropdown */}
                     {searchTerm.length > 0 && suggestions.length > 0 && !loadingSuggestions && (
                         <ul className="absolute top-[2.7rem] left-0 w-full bg-slate-900 
-                        text-white mt-1 rounded-xl shadow-lg z-50 overflow-hidden">
+                        text-white mt-1 shadow-lg z-50 overflow-hidden"
+                        style={{borderRadius: "0 0 1rem 1rem"}}>
                             {suggestions.map((item) => (
                                 <li key={item.id} className="flex items-center gap-3 px-4 
                                 py-3 hover:bg-slate-800 cursor-pointer transition-colors
@@ -229,7 +233,7 @@ function Header() {
                 </div>
 
                 <div className="flex gap-5 items-center">
-                    {/* Mobile Search Bar*/}
+                    {/* Mobile Search Bar */}
                     <button className="bg-slate-800 p-2 rounded-full flex items-center
                     justify-center hover:bg-slate-900 transition-colors duration-[.25s]
                     lg:hidden" onClick={() => setIsSearchOpen(true)}>
