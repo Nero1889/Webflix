@@ -58,17 +58,17 @@ function Animated() {
     return (
         <section className="mt-[2.5rem] flex flex-col">
             <h1 className="mx-[2rem] text-sm font-[650] md:text-base lg:text-lg 
-            xl:text-xl xl:mb-[1rem]">Popular Animated Movies</h1>
+            xl:text-xl xl:mb-[1rem] 2xl:ml-[3.4rem]">Popular Animated Movies</h1>
             <div className="ml-[2rem] flex gap-5 overflow-x-auto whitespace-nowrap 
-            custom-scrollbar lg:gap-7 xl:gap-9">
+            custom-scrollbar lg:gap-7 xl:gap-9 2xl:ml-[3.4rem]">
                 {moviesData.map((movie) => (
                     <Link to={`/${movie.type}/${movie.id}`} key={movie.id} 
                     className="mt-[1rem] flex-shrink-0">
                         <div className="mb-[.5rem] w-[5rem] h-[7rem] bg-slate-800 
                         rounded-[1rem] overflow-hidden border-[#ffffff00] border-[2.5px]
                         hover:border-[#b71234] transition-colors duration-[.25s]
-                        md:w-[6rem] md:h-[8.5rem] lg:w-[7rem] lg:h-[10rem] xl:w-[8rem] 
-                        xl:h-[12rem] 2xl:w-[9rem] 2xl:h-[13rem]">
+                        md:w-[6rem] md:h-[8.5rem] lg:w-[7rem] lg:h-[10rem] lg:mb-[.7rem] 
+                        xl:mb-[1rem] xl:w-[8rem] xl:h-[12rem] 2xl:w-[9rem] 2xl:h-[13rem]">
                             {movie.poster_path ? (
                                 <img src={`${TMDB_IMAGE_BASE_URL}${movie.poster_path}`} 
                                 alt={movie.title} className="w-full h-full object-cover" 
