@@ -252,8 +252,9 @@ function Header() {
 
 
             {/* Mobile Navigation */}
-            <div className={`fixed left-0 w-full bg-slate-950 z-90 flex flex-col
+            <div className={`fixed right-0 w-full bg-slate-950 z-90 flex flex-col
             mt-[-1.25rem] shadow-[0_4px_6px_-1px_rgba(0,0,0,0.5)]
+            lg:w-[20rem] lg:h-full
             ${IS_MENU_OPEN ? "visible" : "invisible"}
             ${IS_MENU_OPEN ? "opacity-100" : "opacity-0"}`}>
                 <nav className="w-full">
@@ -269,7 +270,9 @@ function Header() {
                                     <img src={icon} alt={`${label} Icon`} className="w-7 h-7" draggable="false"/>
                                     {path ? (
                                         <Link to={path} onClick={TOGGLE_MENU}
-                                        className="text-white text-base font-[550] py-2 px-4 block">
+                                        className="text-slate-300 text-base font-[550] 
+                                        py-2 px-4 block hover:text-white transition-colors
+                                        duration-[.25s]">
                                             {label}
                                         </Link>
                                     ) : (
@@ -277,7 +280,9 @@ function Header() {
                                         onClick={label === "Portfolio" ? TOGGLE_MENU : undefined}
                                          target={label === "Portfolio" ? "_blank" : undefined}
                                         rel={label === "Portfolio" ? "noopener noreferrer" : undefined}
-                                        className="text-white text-base font-[550] py-2 px-4 block">
+                                        className="text-slate-300 text-base font-[550] 
+                                        py-2 px-4 block hover:text-white transition-colors
+                                        duration-[.25s]">
                                             {label}
                                         </a>
                                     )}
