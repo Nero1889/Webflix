@@ -180,11 +180,11 @@ function Header() {
             bg-slate-950 w-full z-10 text-white">
                 <h1 className="text-xl font-[650]">Webflix</h1>
                 {/* Desktop Search Bar */}
-                <div className="relative hidden w-[24rem] h-[2.5rem] mt-[-1.5rem] lg:block xl:w-[34rem]">
+                <div className="relative hidden w-[24rem] h-[2.5rem] lg:block xl:w-[34rem]">
                     <img src={slateSearch} alt="Search Icon" className="absolute left-3 
-                    top-[2.2rem] transform -translate-y-1/2 w-5 h-5 pointer-events-none" 
+                    top-[1.2rem] transform -translate-y-1/2 w-5 h-5 pointer-events-none" 
                     draggable="false"/>
-                    <input type="text" placeholder="Search!"
+                    <input type="text" placeholder="Search!" 
                     className={`w-full h-full pl-10 pr-5 text-sm bg-slate-900 text-white
                     placeholder:text-slate-500 focus:outline-none font-[550] ${
                         searchTerm.length > 0 && suggestions.length > 0 && !loadingSuggestions
@@ -192,8 +192,6 @@ function Header() {
                         : "rounded-[2rem]"
                     }`} value={searchTerm} onChange={handleSearchChange} 
                     onKeyDown={handleKeyDown}/>
-                    
-                    {/* Suggestions Dropdown */}
                     {searchTerm.length > 0 && suggestions.length > 0 && !loadingSuggestions && (
                         <ul className="absolute top-[2.7rem] left-0 w-full bg-slate-900 
                         text-white mt-1 shadow-lg z-50 overflow-hidden"
