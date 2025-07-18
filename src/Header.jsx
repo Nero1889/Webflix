@@ -193,7 +193,7 @@ function Header() {
                     }`} value={searchTerm} onChange={handleSearchChange} 
                     onKeyDown={handleKeyDown}/>
                     {searchTerm.length > 0 && suggestions.length > 0 && !loadingSuggestions && (
-                        <ul className="absolute top-[2.7rem] left-0 w-full bg-slate-900 
+                        <ul className="absolute top-[2.2rem] left-0 w-full bg-slate-900 
                         text-white mt-1 shadow-lg z-50 overflow-hidden"
                         style={{borderRadius: "0 0 1rem 1rem"}}>
                             {suggestions.map((item) => (
