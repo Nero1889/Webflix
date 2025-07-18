@@ -179,13 +179,64 @@ function Header() {
             <header className="p-7 flex items-center justify-between sticky top-0
             bg-slate-950 w-full z-10 text-white">
                 <h1 className="text-xl font-[650]">Webflix</h1>
+                {/* Desktop Search Bar */}
+                <div className="relative hidden w-[24rem] h-[2.5rem] mt-[-1.5rem] lg:block xl:w-[34rem]">
+                    <img src={search} alt="Search Icon" className="absolute left-3 
+                    top-[2.2rem] transform -translate-y-1/2 w-5 h-5 pointer-events-none" 
+                    draggable="false"/>
+                    <input type="text" placeholder="Search!"
+                    className="w-full h-full pl-10 pr-5 text-sm rounded-[2rem] 
+                    bg-slate-900 text-white placeholder:text-slate-500 
+                    focus:outline-none" value={searchTerm} onChange={handleSearchChange}
+                    onKeyDown={handleKeyDown}/>
+
+                    {/* Suggestions Dropdown */}
+                    {searchTerm.length > 0 && suggestions.length > 0 && !loadingSuggestions && (
+                        <ul className="absolute top-[2.7rem] left-0 w-full bg-slate-900 
+                        text-white mt-1 rounded-xl shadow-lg z-50 overflow-hidden">
+                            {suggestions.map((item) => (
+                                <li key={item.id} className="flex items-center gap-3 px-4 
+                                py-3 hover:bg-slate-800 cursor-pointer transition-colors
+                                duration-200" onClick={() => handleSuggestionClick(item)}>
+                                    {item.media_type === "person" ? (
+                                        item.profile_path ? (
+                                            <img src={`${TMDB_SMALL_IMAGE_BASE_URL}${item.profile_path}`}
+                                            alt={item.name} className="w-8 h-8 rounded-full object-cover"
+                                            draggable="false"/>
+                                        ) : (
+                                            <img src={actor} alt="Actor"
+                                            className="w-8 h-8 rounded-full"
+                                            draggable="false"/>
+                                        )
+                                    ) : (
+                                        <img src={movie} alt="Movie"
+                                        className="w-5 h-5" draggable="false"/>
+                                    )}
+                                    <div>
+                                        <p className="font-semibold text-sm">{item.title || item.name}</p>
+                                        <p className="text-xs text-slate-400">
+                                            {item.media_type === "movie" &&
+                                                `Movie (${item.release_date ? item.release_date.slice(0, 4) : "N/A"})`}
+                                            {item.media_type === "tv" &&
+                                                `TV Show (${item.first_air_date ? item.first_air_date.slice(0, 4) : "N/A"})`}
+                                            {item.media_type === "person" && "Actor"}
+                                        </p>
+                                    </div>
+                                </li>
+                            ))}
+                        </ul>
+                    )}
+                </div>
+
                 <div className="flex gap-5 items-center">
+                    {/* Mobile Search Bar*/}
                     <button className="bg-slate-800 p-2 rounded-full flex items-center
-                    justify-center hover:bg-slate-900 transition-colors duration-[.25s]"
-                    onClick={() => setIsSearchOpen(true)}>
+                    justify-center hover:bg-slate-900 transition-colors duration-[.25s]
+                    lg:hidden" onClick={() => setIsSearchOpen(true)}>
                         <img className="w-7 h-7" src={search} alt="Search Icon"
                         draggable="false"/>
                     </button>
+
                     <button className="bg-[#b71234] p-2 rounded-full flex items-center
                     justify-center hover:bg-[#710033] transition-colors duration-[.25s]"
                     onClick={TOGGLE_MENU}>
@@ -194,6 +245,7 @@ function Header() {
                     </button>
                 </div>
             </header>
+
 
             {/* Mobile Navigation */}
             <div className={`fixed left-0 w-full bg-slate-950 z-90 flex flex-col
