@@ -276,7 +276,7 @@ function Header() {
                                     ) : (
                                         <a href={href}
                                         onClick={label === "Portfolio" ? TOGGLE_MENU : undefined}
-                                         target={label === "Portfolio" ? "_blank" : undefined}
+                                        target={label === "Portfolio" ? "_blank" : undefined}
                                         rel={label === "Portfolio" ? "noopener noreferrer" : undefined}
                                         className="text-slate-300 text-base font-[550] 
                                         py-2 px-4 block hover:text-white transition-colors
@@ -285,7 +285,7 @@ function Header() {
                                         </a>
                                     )}
                                 </li>
-                                {i < 3 && <div className="bg-slate-500 w-full h-[1px] my-2"></div>}
+                                {i < 3 && <div className="bg-slate-800 w-full h-[2px] my-2 rounded-[5rem]"></div>}
                             </React.Fragment>
                         ))}
                     </ul>
