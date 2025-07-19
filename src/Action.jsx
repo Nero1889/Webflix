@@ -56,7 +56,7 @@ function Action() {
     });
 
     return (
-        <section className="mt-[2.5rem] flex flex-col">
+        <section className="mt-[2.5rem] flex flex-col xl:mt-[3.5rem]">
             <h1 className="mx-[2rem] text-sm font-[650] md:text-base lg:text-lg 
             xl:text-xl xl:mb-[1rem] 2xl:ml-[3.4rem]">Action</h1>
             <div className="ml-[2rem] flex gap-5 overflow-x-auto whitespace-nowrap 
