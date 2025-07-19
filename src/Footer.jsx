@@ -25,7 +25,7 @@ function Footer() {
     ];
 
     return (
-        <footer className="my-[2.5rem] mx-[2rem]">
+        <footer className="my-[2.5rem] mx-[2rem] 2xl:mx-[3.4rem]">
             <div className="flex justify-between items-center w-full">
                 <div>
                     <p className={TEXT}>Raul Luna - 2025</p>
