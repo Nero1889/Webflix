@@ -18,11 +18,11 @@ function Category({onCategorySelect, selectedCategory}) {
     duration-[.25s] md:text-sm lg:px-5 lg:py-3`;
 
     return (
-        <section className="mt-[2.5rem] flex flex-col">
+        <section className="mt-[2.5rem] flex flex-col xl:mt-[3.5rem]">
             <h1 className="mx-[2rem] text-sm font-[650] md:text-base lg:text-lg 
-            xl:text-xl xl:mb-[1rem]">Category</h1>
+            xl:text-xl xl:mb-[1rem] 2xl:ml-[3.4rem]">Category</h1>
             <div className="ml-[2rem] mt-[1rem] flex items-center gap-1 overflow-x-auto
-            whitespace-nowrap scrollbar-hide md:gap-2 lg:gap-3">
+            whitespace-nowrap scrollbar-hide md:gap-2 lg:gap-3 2xl:ml-[3.4rem]">
                 {CATEGORIES.map((category) => (
                     <button key={category} className={`${BASE_CAT}
                     ${selectedCategory === category
