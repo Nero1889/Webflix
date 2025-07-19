@@ -3,8 +3,9 @@ import gmail from "./assets/slateGmail.png";
 import linkedIn from "./assets/slateLinkedIn.png";
 
 function Footer() {
-    const ICON = "w-[2rem] h-[2rem] border border-slate-800 rounded";
-    const TEXT = "text-xs text-slate-400 font-[600]";
+    const ICON = `w-[2rem] h-[2rem] border border-slate-800 rounded md:w-[2.5rem] 
+    md:h-[2.5rem]`;
+    const TEXT = "text-xs text-slate-400 font-[600] md:text-sm xl:text-base";
 
     const LINKS = [
         {href: "https://github.com/Nero1889",
@@ -30,7 +31,7 @@ function Footer() {
                     <p className={TEXT}>Raul Luna - 2025</p>
                     <p className={TEXT}>© Webflix</p>
                 </div>
-                <div className="flex gap-2">
+                <div className="flex gap-2 md:gap-5">
                     {LINKS.map(({href, src, alt, title}, i) => (
                         <a key={i} href={href} target="_blank" rel="noopener noreferrer"
                         title={title}>
