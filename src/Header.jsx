@@ -178,7 +178,7 @@ function Header() {
         <>
             <header className="p-7 flex items-center justify-between sticky top-0
             bg-slate-950 w-full z-10 text-white">
-                <h1 className="text-xl font-[650]">Webflix</h1>
+                <h1 className="text-xl font-[650] text-white">Webflix</h1>
                 {/* Desktop Search Bar */}
                 <div className="relative hidden w-[24rem] h-[2.5rem] lg:block xl:w-[34rem]">
                     <img src={slateSearch} alt="Search Icon" className="absolute left-3 
