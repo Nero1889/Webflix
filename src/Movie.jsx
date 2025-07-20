@@ -112,7 +112,7 @@ function Movie() {
             <Header/>
             <div className="relative bg-black mb-4">
                 <button onClick={() => navigate(-1)} className="absolute z-8 ml-[1rem] mt-[1rem] p-2 rounded-full bg-slate-800 hover:bg-slate-900 transition-colors duration-[.25s] flex items-center justify-center">
-                    <img className="w-[1.5rem] h-[1.5rem]" src={back} alt="Back Icon" draggable="false" />
+                    <img className="w-[1.5rem] h-[1.5rem]" src={back} alt="Back Icon" draggable="false"/>
                 </button>
 
                 {movie.backdrop_path ? (
@@ -121,21 +121,24 @@ function Movie() {
                     <div className="w-full h-[50vh] bg-slate-900 opacity-50 flex items-center justify-center text-slate-500">No Backdrop Available</div>
                 )}
 
-                <div className="absolute inset-0 bg-gradient-to-t from-[#010617] via-transparent to-transparent z-0" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#010617] via-transparent to-transparent z-0"/>
                 <div className="absolute bottom-4 left-0 right-0 px-4 z-5 text-white flex flex-col items-center">
-                    <h1 className="text-xl font-bold text-center mb-2 w-[17ch]">{movie.title || movie.name}</h1>
-                    <div className="flex justify-center gap-5 items-center">
+                    <h1 className="text-xl font-bold text-center mb-2 w-[17ch] 
+                    sm:text-2xl sm:w-[25ch] sm:mb-[1rem] md:border-[#b71234]"> {/* Title */}
+                        {movie.title || movie.name}
+                    </h1>
+                    <div className="flex justify-center gap-5 items-center sm:gap-7"> {/* Stats */}
                         <div className="flex items-center gap-1">
                             <img className="w-4 h-4" src={star} alt="Rating Icon"/>
-                            <h3 className="text-slate-400 text-sm">{movie.vote_average?.toFixed(1) || "N/A"}</h3>
+                            <h3 className="text-slate-400 text-sm sm:text-base">{movie.vote_average?.toFixed(1) || "N/A"}</h3>
                         </div>
                         <div className="flex items-center gap-1">
                             <img className="w-4 h-4" src={clock} alt="Runtime Icon"/>
-                            <h3 className="text-slate-400 text-sm">{formatRuntime(movie.runtime || movie.episode_run_time?.[0])}</h3>
+                            <h3 className="text-slate-400 text-sm sm:text-base">{formatRuntime(movie.runtime || movie.episode_run_time?.[0])}</h3>
                         </div>
                         <div className="flex items-center gap-1">
                             <img className="w-4 h-4" src={calendar} alt="Year Icon"/>
-                            <h3 className="text-slate-400 text-sm">
+                            <h3 className="text-slate-400 text-sm sm:text-base">
                                 {(movie.release_date || movie.first_air_date || "").substring(0, 4) || "N/A"}
                             </h3>
                         </div>
@@ -170,12 +173,15 @@ function Movie() {
 
             {cast.length > 0 && (
                 <div className="ml-[2rem] mt-8">
-                    <h1 className="text-white text-lg font-[650] mb-4">Cast</h1>
-                    <div className="flex gap-4 overflow-x-auto whitespace-nowrap custom-scrollbar">
+                    <h1 className="text-white text-lg font-[650] mb-[1rem] md:text-xl lg:text-2xl lg:mb-[1.5rem] 2xl:ml-[3.4rem]">Cast</h1>
+                    <div className="flex gap-5 overflow-x-auto whitespace-nowrap custom-scrollbar lg:gap-10 xl:gap-15 2xl:gap-20 2xl:ml-[3.4rem]">
                         {cast.map(actor => (
                             <div key={actor.id} className="flex-shrink-0 text-center w-24 cursor-pointer" onClick={() => navigate(`/actor/${actor.id}`)}>
-                                <div className="mb-2 w-[6rem] h-[8rem] bg-slate-700 rounded-lg overflow-hidden flex items-center justify-center
-                                border-[#ffffff00] border-[2.5px] hover:border-[#b71234] transition-colors duration-[.25s]">
+                                <div className="mb-2 w-[6rem] h-[8.5rem] bg-slate-800 
+                                rounded-[1rem] overflow-hidden border-[#ffffff00] border-[2.5px]
+                                hover:border-[#b71234] transition-colors duration-[.25s]
+                                md:w-[6rem] md:h-[8.5rem] lg:w-[7rem] lg:h-[10rem] lg:mb-[.7rem] 
+                                xl:mb-[1rem] xl:w-[8rem] xl:h-[12rem] 2xl:w-[9rem] 2xl:h-[13rem]">
                                     {actor.profile_path ? (
                                         <img src={`${TMDB_PROFILE_BASE_URL}${actor.profile_path}`} alt={actor.name} className="w-full h-full object-cover" />
                                     ) : (
@@ -192,14 +198,18 @@ function Movie() {
 
             {similar.length > 0 && (
                 <div className="ml-[2rem] mt-8 mb-8">
-                    <h1 className="text-white text-lg font-[650] mb-4">More Like This</h1>
-                    <div className="flex gap-4 overflow-x-auto whitespace-nowrap custom-scrollbar">
+                    <h1 className="text-white text-lg font-[650] mb-[1rem] md:text-xl lg:text-2xl lg:mt-[3rem] lg:mb-[1.5rem] 2xl:ml-[3.4rem]">More Like This</h1>
+                    <div className="flex gap-5 overflow-x-auto whitespace-nowrap custom-scrollbar lg:gap-10 xl:gap-15 2xl:gap-20 2xl:ml-[3.4rem]">
                         {similar.map(similarItem => {
                             const isMovie = Boolean(similarItem.title);
                             const type = isMovie ? "movie" : "tv";
                             return (
                                 <div key={similarItem.id} className="flex-shrink-0 text-center w-24 cursor-pointer" onClick={() => navigate(`/${type}/${similarItem.id}`)}>
-                                    <div className="mb-2 w-24 h-36 bg-slate-700 rounded-lg overflow-hidden border-[#ffffff00] border-[2.5px] hover:border-[#b71234] transition-colors duration-[.25s]">
+                                    <div className="mb-2 w-[6rem] h-[8.5rem] bg-slate-800 
+                                    rounded-[1rem] overflow-hidden border-[#ffffff00] border-[2.5px]
+                                    hover:border-[#b71234] transition-colors duration-[.25s]
+                                    md:w-[6rem] md:h-[8.5rem] lg:w-[7rem] lg:h-[10rem] lg:mb-[.7rem] 
+                                    xl:mb-[1rem] xl:w-[8rem] xl:h-[12rem] 2xl:w-[9rem] 2xl:h-[13rem]">
                                         {similarItem.poster_path ? (
                                             <img src={`${TMDB_POSTER_BASE_URL}${similarItem.poster_path}`} alt={similarItem.title || similarItem.name} className="w-full h-full object-cover" />
                                         ) : (
