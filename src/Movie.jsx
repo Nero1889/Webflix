@@ -28,7 +28,7 @@ function Movie() {
     const [error, setError] = useState(null);
 
     const GENRES = `bg-slate-800 text-slate-400 text-xs font-[600] inline-block px-3 py-2 rounded-[3rem] mr-2 mb-2
-    md:text-sm`;
+    md:text-sm lg:text-base`;
 
     const LINE_CLAMP3 = {
         overflow: "hidden",
@@ -172,7 +172,7 @@ function Movie() {
                 </div>
             </div>
 
-            <div className="flex justify-center mb-8 px-4">
+            <div className="flex justify-center mb-8 px-4 lg:hidden">
                 <button className="bg-slate-800 text-slate-400 text-sm font-[600] inline-flex items-center gap-2 p-3 rounded-[3rem] hover:bg-slate-700 transition-colors">
                     <img className="w-4 h-4" src={playBtn} alt="Play Icon" draggable="false"/>
                     Watch Trailer
@@ -180,9 +180,9 @@ function Movie() {
             </div>
 
             {movie.genres?.length > 0 && (
-                <div className="mx-[2rem] mt-4">
-                    <h1 className="text-white text-lg font-[650] mb-[.7rem] md:text-xl">Genres</h1>
-                    <div className="flex flex-wrap gap-1 md:gap-2">
+                <div className="mx-[2rem] mt-4 lg:mt-[3rem] 2xl:ml-[3.4rem]">
+                    <h1 className="text-white text-lg font-[650] mb-[1rem] md:text-xl lg:text-2xl lg:mb-[1.5rem]">Genres</h1>
+                    <div className="flex flex-wrap gap-1 md:gap-2 lg:gap-3">
                         {movie.genres.map(genre => (
                             <p key={genre.id} className={GENRES}>{genre.name}</p>
                         ))}
@@ -191,14 +191,14 @@ function Movie() {
             )}
 
             {movie.overview && (
-                <div className="mx-[2rem] mt-8 lg:hidden">
+                <div className="mx-[2rem] mt-[2rem] lg:hidden">
                     <h1 className="text-white text-lg font-[650] mb-[.7rem] md:text-xl">Summary</h1>
                     <p className="text-slate-400 text-sm leading-relaxed md:text-base">{movie.overview}</p>
                 </div>
             )}
 
             {cast.length > 0 && (
-                <div className="ml-[2rem] mt-8 2xl:ml-0">
+                <div className="ml-[2rem] mt-[2rem] 2xl:ml-0 md:mt-[3rem] xl:mt-[4rem]">
                     <h1 className="text-white text-lg font-[650] mb-[1rem] md:text-xl lg:text-2xl lg:mb-[1.5rem] 2xl:ml-[3.4rem]">Cast</h1>
                     <div className="flex gap-5 overflow-x-auto whitespace-nowrap custom-scrollbar lg:gap-10 xl:gap-15 2xl:gap-20 2xl:ml-[3.4rem]">
                         {cast.map(actor => (
@@ -223,7 +223,7 @@ function Movie() {
             )}
 
             {similar.length > 0 && (
-                <div className="ml-[2rem] mt-8 mb-8 2xl:ml-0">
+                <div className="ml-[2rem] mt-[2rem] 2xl:ml-0 md:mt-[3rem] xl:mt-[4rem]">
                     <h1 className="text-white text-lg font-[650] mb-[1rem] md:text-xl lg:text-2xl lg:mt-[3rem] lg:mb-[1.5rem] 2xl:ml-[3.4rem]">More Like This</h1>
                     <div className="flex gap-5 overflow-x-auto whitespace-nowrap custom-scrollbar lg:gap-10 xl:gap-15 2xl:gap-20 2xl:ml-[3.4rem]">
                         {similar.map(similarItem => {
