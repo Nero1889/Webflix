@@ -172,7 +172,7 @@ function Movie() {
             )}
 
             {cast.length > 0 && (
-                <div className="ml-[2rem] mt-8">
+                <div className="ml-[2rem] mt-8 2xl:ml-0">
                     <h1 className="text-white text-lg font-[650] mb-[1rem] md:text-xl lg:text-2xl lg:mb-[1.5rem] 2xl:ml-[3.4rem]">Cast</h1>
                     <div className="flex gap-5 overflow-x-auto whitespace-nowrap custom-scrollbar lg:gap-10 xl:gap-15 2xl:gap-20 2xl:ml-[3.4rem]">
                         {cast.map(actor => (
@@ -188,8 +188,8 @@ function Movie() {
                                         <span className="text-xs text-slate-400">No Image</span>
                                     )}
                                 </div>
-                                <h3 style={LINE_CLAMP3} className="text-left text-sm text-slate-300 font-[550] mb-1 w-24">{actor.name}</h3>
-                                <p style={LINE_CLAMP3} className="text-left text-xs text-slate-500 font-[550] w-24">{actor.character}</p>
+                                <h3 style={LINE_CLAMP3} className="text-left text-sm text-slate-300 font-[550] mb-1 w-[6rem] xl:text-base xl:w-[8rem]">{actor.name}</h3>
+                                <p style={LINE_CLAMP3} className="text-left text-xs text-slate-500 font-[550] w-[6rem] xl:text-base xl:w-[8rem]">{actor.character}</p>
                             </div>
                         ))}
                     </div>
@@ -197,7 +197,7 @@ function Movie() {
             )}
 
             {similar.length > 0 && (
-                <div className="ml-[2rem] mt-8 mb-8">
+                <div className="ml-[2rem] mt-8 mb-8 2xl:ml-0">
                     <h1 className="text-white text-lg font-[650] mb-[1rem] md:text-xl lg:text-2xl lg:mt-[3rem] lg:mb-[1.5rem] 2xl:ml-[3.4rem]">More Like This</h1>
                     <div className="flex gap-5 overflow-x-auto whitespace-nowrap custom-scrollbar lg:gap-10 xl:gap-15 2xl:gap-20 2xl:ml-[3.4rem]">
                         {similar.map(similarItem => {
@@ -216,8 +216,8 @@ function Movie() {
                                             <span className="text-xs text-slate-400">No Image</span>
                                         )}
                                     </div>
-                                    <h3 style={LINE_CLAMP3} className="text-left text-sm text-slate-300 font-[550] mb-1 w-24">{similarItem.title || similarItem.name}</h3>
-                                    <p className="text-left text-xs text-slate-500 font-[550] w-24">
+                                    <h3 style={LINE_CLAMP3} className="text-left text-sm text-slate-300 font-[550] mb-1 w-[6rem] xl:text-base xl:w-[8rem]">{similarItem.title || similarItem.name}</h3>
+                                    <p className="text-left text-xs text-slate-500 font-[550] w-[6rem] xl:text-base xl:w-[8rem]">
                                         {(similarItem.release_date || similarItem.first_air_date || "").substring(0, 4) || "N/A"}
                                     </p>
                                 </div>
