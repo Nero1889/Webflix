@@ -27,7 +27,8 @@ function Movie() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    const GENRES = `bg-slate-800 text-slate-400 text-xs font-[600] inline-block px-3 py-2 rounded-[3rem] mr-2 mb-2`;
+    const GENRES = `bg-slate-800 text-slate-400 text-xs font-[600] inline-block px-3 py-2 rounded-[3rem] mr-2 mb-2
+    md:text-sm`;
 
     const LINE_CLAMP3 = {
         overflow: "hidden",
@@ -116,18 +117,43 @@ function Movie() {
                 </button>
 
                 {movie.backdrop_path ? (
-                    <img className="opacity-50 w-full h-auto object-cover max-h-[50vh]" src={`${TMDB_BACKDROP_BASE_URL}${movie.backdrop_path}`} alt={`${movie.title || movie.name} Backdrop`} />
+                    <img className="opacity-50 w-full h-auto object-cover max-h-[50vh] xl:max-h-[60vh]
+                    2xl:max-h-[65vh]" src={`${TMDB_BACKDROP_BASE_URL}${movie.backdrop_path}`} alt={`${movie.title || movie.name} Backdrop`} />
                 ) : (
                     <div className="w-full h-[50vh] bg-slate-900 opacity-50 flex items-center justify-center text-slate-500">No Backdrop Available</div>
                 )}
 
-                <div className="absolute inset-0 bg-gradient-to-t from-[#010617] via-transparent to-transparent z-0"/>
-                <div className="absolute bottom-4 left-0 right-0 px-4 z-5 text-white flex flex-col items-center">
+                <div className="absolute inset-0 bg-gradient-to-t from-[#010617] via-transparent to-transparent"/>
+                <div className="absolute bottom-4 left-0 right-0 px-4 z-5 text-white flex flex-col items-center lg:items-start">
                     <h1 className="text-xl font-bold text-center mb-2 w-[17ch] 
-                    sm:text-2xl sm:w-[25ch] sm:mb-[1rem] md:border-[#b71234]"> {/* Title */}
+                    sm:text-2xl sm:w-[25ch] sm:mb-[1rem] md:border-[#b71234] 
+                    lg:mb-[.25rem] lg:w-[auto] lg:ml-[5rem] xl:text-3xl
+                    xl:mb-[.5rem] 2xl:text-4xl 2xl:mb-[1rem]"> {/* Title */}
                         {movie.title || movie.name}
                     </h1>
-                    <div className="flex justify-center gap-5 items-center sm:gap-7"> {/* Stats */}
+
+                    <div className="hidden lg:flex justify-center gap-5 items-center sm:gap-7 lg:ml-[5rem]"> {/* Stats */}
+                        <div className="flex items-center gap-1">
+                            <img className="w-4 h-4" src={star} alt="Rating Icon"/>
+                            <h3 className="text-slate-400 text-sm sm:text-base xl:text-lg 2xl:text-xl">{movie.vote_average?.toFixed(1) || "N/A"}</h3>
+                        </div>
+                        <div className="flex items-center gap-1">
+                            <img className="w-4 h-4" src={clock} alt="Runtime Icon"/>
+                            <h3 className="text-slate-400 text-sm sm:text-base xl:text-lg 2xl:text-xl">{formatRuntime(movie.runtime || movie.episode_run_time?.[0])}</h3>
+                        </div>
+                        <div className="flex items-center gap-1">
+                            <img className="w-4 h-4" src={calendar} alt="Year Icon"/>
+                            <h3 className="text-slate-400 text-sm sm:text-base xl:text-lg 2xl:text-xl">
+                                {(movie.release_date || movie.first_air_date || "").substring(0, 4) || "N/A"}
+                            </h3>
+                        </div>
+                    </div>
+
+                    {/* Desktop Overview Prototype */}
+                    <p className="hidden text-slate-400 text-sm leading-relaxed mb-[5rem] lg:block lg:ml-[5rem] w-[70ch] mt-[1rem] 
+                    xl:text-base xl:w-[80ch] xl:mb-[6.5rem] 2xl:text-lg 2xl:w-[88ch] 2xl:mb-[8.5rem]">{movie.overview}</p>
+
+                    <div className="flex justify-center gap-5 items-center sm:gap-7 lg:hidden"> {/* Stats */}
                         <div className="flex items-center gap-1">
                             <img className="w-4 h-4" src={star} alt="Rating Icon"/>
                             <h3 className="text-slate-400 text-sm sm:text-base">{movie.vote_average?.toFixed(1) || "N/A"}</h3>
@@ -155,8 +181,8 @@ function Movie() {
 
             {movie.genres?.length > 0 && (
                 <div className="mx-[2rem] mt-4">
-                    <h1 className="text-white text-lg font-[650] mb-3">Genres</h1>
-                    <div className="flex flex-wrap gap-1">
+                    <h1 className="text-white text-lg font-[650] mb-[.7rem] md:text-xl">Genres</h1>
+                    <div className="flex flex-wrap gap-1 md:gap-2">
                         {movie.genres.map(genre => (
                             <p key={genre.id} className={GENRES}>{genre.name}</p>
                         ))}
@@ -165,9 +191,9 @@ function Movie() {
             )}
 
             {movie.overview && (
-                <div className="mx-[2rem] mt-8">
-                    <h1 className="text-white text-lg font-[650] mb-2">Summary</h1>
-                    <p className="text-slate-400 text-sm leading-relaxed">{movie.overview}</p>
+                <div className="mx-[2rem] mt-8 lg:hidden">
+                    <h1 className="text-white text-lg font-[650] mb-[.7rem] md:text-xl">Summary</h1>
+                    <p className="text-slate-400 text-sm leading-relaxed md:text-base">{movie.overview}</p>
                 </div>
             )}
 
