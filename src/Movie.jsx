@@ -27,7 +27,7 @@ function Movie() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    const GENRES = `bg-slate-800 text-slate-400 text-xs font-[600] inline-block px-3 py-2 
+    const GENRES = `bg-slate-800 text-slate-400 text-xs font-[600] inline-block px-3 py-2
     rounded-[3rem] mr-2 mb-2 md:text-sm lg:text-base`;
 
     const LINE_CLAMP3 = {
@@ -119,10 +119,10 @@ function Movie() {
         <div>
             <Header/>
             <div className="relative bg-black mb-4">
-                <button onClick={() => navigate(-1)} className="absolute z-8 ml-[1rem] 
-                mt-[1rem] p-2 rounded-full bg-slate-800 hover:bg-slate-900 
+                <button onClick={() => navigate(-1)} className="absolute z-8 ml-[1rem]
+                mt-[1rem] p-2 rounded-full bg-slate-800 hover:bg-slate-900
                 transition-colors duration-[.25s] flex items-center justify-center">
-                    <img className="w-[1.5rem] h-[1.5rem]" src={back} alt="Back Icon" 
+                    <img className="w-[1.5rem] h-[1.5rem]" src={back} alt="Back Icon"
                     draggable="false"/>
                 </button>
 
@@ -148,7 +148,7 @@ function Movie() {
                         {movie.title || movie.name}
                     </h1>
 
-                    <div className="hidden lg:flex justify-center gap-5 items-center 
+                    <div className="hidden lg:flex justify-center gap-5 items-center
                     mb-[1rem] sm:gap-7 lg:ml-[5rem]">
                         <div className="flex items-center gap-1">
                             <img className="w-4 h-4" src={star} alt="Rating Icon"/>
@@ -262,11 +262,11 @@ function Movie() {
                                         <span className="text-xs text-slate-400">No Image</span>
                                     )}
                                 </div>
-                                <h3 style={LINE_CLAMP3} className="text-left text-sm 
+                                <h3 style={LINE_CLAMP3} className="text-left text-sm
                                 text-slate-300 font-[550] mb-1 w-[6rem] xl:text-base xl:w-[8rem]">
                                     {actor.name}
                                 </h3>
-                                <p style={LINE_CLAMP3} className="text-left text-xs 
+                                <p style={LINE_CLAMP3} className="text-left text-xs
                                 text-slate-500 font-[550] w-[6rem] xl:text-base xl:w-[8rem]">
                                     {actor.character}
                                 </p>
@@ -288,22 +288,29 @@ function Movie() {
                             const isMovie = Boolean(similarItem.title);
                             const type = isMovie ? "movie" : "tv";
                             return (
-                                <div key={similarItem.id} className="flex-shrink-0 
-                                text-center w-24 cursor-pointer" 
+                                <div key={similarItem.id} className="flex-shrink-0
+                                text-center w-24 cursor-pointer"
                                 onClick={() => navigate(`/${type}/${similarItem.id}`)}>
-                                    <div className="mb-2 w-[6rem] h-[8.5rem] bg-slate-800 
+                                    <div className="mb-2 w-[6rem] h-[8.5rem] bg-slate-800
                                     rounded-[1rem] overflow-hidden border-[#ffffff00] border-[2.5px]
                                     hover:border-[#b71234] transition-colors duration-[.25s]
-                                    md:w-[6rem] md:h-[8.5rem] lg:w-[7rem] lg:h-[10rem] lg:mb-[.7rem] 
-                                    xl:mb-[1rem] xl:w-[8rem] xl:h-[12rem] 2xl:w-[9rem] 2xl:h-[13rem]"> {/* Here! */}
+                                    md:w-[6rem] md:h-[8.5rem] lg:w-[7rem] lg:h-[10rem] lg:mb-[.7rem]
+                                    xl:mb-[1rem] xl:w-[8rem] xl:h-[12rem] 2xl:w-[9rem] 2xl:h-[13rem]">
                                         {similarItem.poster_path ? (
-                                            <img src={`${TMDB_POSTER_BASE_URL}${similarItem.poster_path}`} alt={similarItem.title || similarItem.name} className="w-full h-full object-cover" />
+                                            <img src={`${TMDB_POSTER_BASE_URL}${similarItem.poster_path}`} 
+                                            alt={similarItem.title || similarItem.name} 
+                                            className="w-full h-full object-cover"/>
                                         ) : (
                                             <span className="text-xs text-slate-400">No Image</span>
                                         )}
                                     </div>
-                                    <h3 style={LINE_CLAMP3} className="text-left text-sm text-slate-300 font-[550] mb-1 w-[6rem] xl:text-base xl:w-[8rem]">{similarItem.title || similarItem.name}</h3>
-                                    <p className="text-left text-xs text-slate-500 font-[550] w-[6rem] xl:text-base xl:w-[8rem]">
+                                    <h3 style={LINE_CLAMP3} className="text-left text-sm
+                                    text-slate-300 font-[550] mb-1 w-[6rem] xl:text-base
+                                    xl:w-[8rem]">
+                                        {similarItem.title || similarItem.name}
+                                    </h3>
+                                    <p className="text-left text-xs text-slate-500
+                                    font-[550] w-[6rem] xl:text-base xl:w-[8rem]">
                                         {(similarItem.release_date || similarItem.first_air_date || "").substring(0, 4) || "N/A"}
                                     </p>
                                 </div>
