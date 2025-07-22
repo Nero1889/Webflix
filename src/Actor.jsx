@@ -20,8 +20,9 @@ function Actor() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    const ROLE = `bg-slate-800 text-slate-400 text-xs font-[600] inline-block px-3 py-2 rounded-[3rem] mr-2 mb-2`;
-    const BIRTH = "text-xs font-[550] text-slate-400";
+    const ROLE = `bg-slate-800 text-slate-400 text-xs font-[600] inline-block px-3 py-2
+    rounded-[3rem] mr-2 mb-2 md:text-sm lg:text-base`;
+    const BIRTH = "text-xs font-[550] text-slate-400 sm:text-sm md:text-base lg:text-lg";
 
     const LINE_CLAMP3 = {
         overflow: "hidden",
@@ -124,10 +125,10 @@ function Actor() {
                 draggable="false"/>
             </button>
 
-            <div className="mx-[2rem] mt-[2.5rem] flex items-center gap-5">
+            <div className="mx-[2rem] mt-[2.5rem] flex items-center justify-center gap-5 sm:gap-7 md:gap-12 xl:gap-20">
                 {actor.profile_path ? (
-                    <img className="w-[7rem] h-[auto] rounded-[1rem] object-cover"
-                        src={`${TMDB_PROFILE_BASE_URL}${actor.profile_path}`}
+                    <img className="w-[7rem] h-[auto] rounded-[1rem] object-cover sm:w-[8.5rem] md:w-[10rem] lg:w-[12rem] xl:w-[14rem]"
+                        src={`${TMDB_PROFILE_BASE_URL}${actor.profile_path}`} /* Actor Img */
                         alt={actor.name}/>
                 ) : (
                     <div className="w-[7rem] h-[10rem] bg-slate-700 rounded-[1rem] flex 
@@ -136,19 +137,19 @@ function Actor() {
                     </div>
                 )}
                 <div>
-                    <h1 className="text-xl font-[650] text-white mb-[.5rem]">
+                    <h1 className="text-xl font-[650] text-white mb-[.5rem] sm:text-2xl md:text-3xl lg:text-4xl"> {/* Name */}
                         {actor.name}
                     </h1>
                     {actor.birthday && (
-                        <div className="flex gap-2 items-center mb-[.25rem]">
-                            <img className="w-[1rem] h-[1rem]" src={cake} 
+                        <div className="flex gap-2 items-center md:gap-4 mb-[.25rem] md:mt-[1rem] lg:mt-[2rem]">
+                            <img className="w-[1rem] h-[1rem] md:w-[1.5rem] md:h-[1.5rem] xl:w-[2rem] xl:h-[2rem]" src={cake} /* Birthday */
                             alt="Birthday Cake Icon" draggable="false"/>
                             <p className={BIRTH}>{formatDate(actor.birthday)}</p>
                         </div>
                     )}
                     {actor.place_of_birth && (
-                        <div className="flex gap-2 items-center">
-                            <img className="w-[1rem] h-[1rem]" src={location} 
+                        <div className="flex gap-2 items-center md:gap-4 md:mt-[.5rem] xl:mt-[1rem]"> {/* Place of Birth */}
+                            <img className="w-[1rem] h-[1rem] md:w-[1.5rem] md:h-[1.5rem] xl:w-[2rem] xl:h-[2rem]" src={location} 
                             alt="Location Icon" draggable="false"/>
                             <p className={BIRTH}>{actor.place_of_birth}</p>
                         </div>
@@ -157,7 +158,7 @@ function Actor() {
             </div>
 
             {actor.known_for_department && (
-                <div className="mx-[2rem] mt-[2rem]">
+                <div className="ml-[2rem] mt-[2rem] md:ml-[3.4rem] lg:mt-[3rem]">
                     <div className="flex flex-wrap gap-1">
                         <p className={ROLE}>{getDepartment(actor.known_for_department)}</p>
                     </div>
@@ -165,9 +166,9 @@ function Actor() {
             )}
 
             {actor.biography && (
-                <div className="mx-[2rem] mt-[2rem]">
-                    <h1 className="text-white text-lg font-[650] mb-2">Biography</h1>
-                    <p className="text-slate-400 text-sm leading-relaxed">
+                <div className="mx-[2rem] mt-[2rem] md:mx-[3.4rem]"> {/* Bio */}
+                    <h1 className="text-white text-lg font-[650] mb-2 md:text-xl xl:text-2xl">Biography</h1>
+                    <p className="text-slate-400 text-sm leading-relaxed md:mt-[1rem] md:text-base xl:mt-[1.5rem] xl:text-lg">
                         {actor.biography}
                     </p>
                 </div>
