@@ -175,19 +175,22 @@ function Actor() {
             )}
 
             {filmography.length > 0 && (
-                <div className="ml-[2rem] mt-[3rem]">
-                    <h1 className="text-white text-lg font-[650] mb-4">
+                <div className="ml-[2rem] mt-[2rem] 2xl:ml-0 md:mt-[3rem] xl:mt-[4rem]">
+                    <h1 className="text-white text-lg font-[650] mb-[1rem] md:text-xl
+                    lg:text-2xl lg:mb-[1.5rem] 2xl:ml-[3.4rem]">
                         Movies
                     </h1>
-                    <div className="flex gap-4 overflow-x-auto whitespace-nowrap 
-                    custom-scrollbar">
+                    <div className="flex gap-5 overflow-x-auto whitespace-nowrap
+                    custom-scrollbar lg:gap-10 xl:gap-15 2xl:gap-20 2xl:ml-[3.4rem]">
                         {filmography.map((movie) => (
-                            <div key={movie.id} className="flex-shrink-0 w-24 
-                            cursor-pointer"
-                                 onClick={() => navigate(`/movie/${movie.id}`)}>
-                                <div className="mb-2 w-[6rem] h-[8rem] bg-slate-700 
-                                rounded-lg overflow-hidden flex items-center 
-                                justify-center">
+                            <div key={movie.id} className="flex-shrink-0 text-center
+                            w-24 cursor-pointer" onClick={() => navigate(`/movie/${movie.id}`)}>
+                                <div className="mb-2 w-[6rem] h-[8.5rem] bg-slate-800
+                                rounded-[1rem] overflow-hidden border-[#ffffff00]
+                                border-[2.5px] hover:border-[#b71234] transition-colors
+                                duration-[.25s] md:w-[6rem] md:h-[8.5rem] lg:w-[7rem]
+                                lg:h-[10rem] lg:mb-[.7rem] xl:mb-[1rem] xl:w-[8rem]
+                                xl:h-[12rem] 2xl:w-[9rem] 2xl:h-[13rem]">
                                     {movie.poster_path ? (
                                         <img src={`${TMDB_MOVIE_POSTER_BASE_URL}${movie.poster_path}`}
                                         alt={movie.title} className="w-full h-full 
@@ -198,11 +201,11 @@ function Actor() {
                                         </span>
                                     )}
                                 </div>
-                                <h3 style={LINE_CLAMP3} className="text-left text-sm 
-                                text-slate-300 font-[550] mb-1 w-24">
+                                <h3 style={LINE_CLAMP3} className="text-left text-sm
+                                text-slate-300 font-[550] mb-1 w-[6rem] xl:text-base xl:w-[8rem]">
                                     {movie.title}
                                 </h3>
-                                <p className="text-left text-xs text-slate-500 w-24">
+                                <p className="text-left text-xs text-slate-500 font-[550] w-[6rem] xl:text-base xl:w-[8rem]">
                                     {movie.release_date ? movie.release_date.substring(0, 4) : "N/A"}
                                 </p>
                             </div>
