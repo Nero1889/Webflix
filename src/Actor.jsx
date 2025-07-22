@@ -175,13 +175,13 @@ function Actor() {
             )}
 
             {filmography.length > 0 && (
-                <div className="ml-[2rem] mt-[2rem] 2xl:ml-0 md:mt-[3rem] xl:mt-[4rem]">
+                <div className="ml-[2rem] mt-[2rem] md:ml-[3.4rem] md:mt-[3rem] xl:mt-[4rem]">
                     <h1 className="text-white text-lg font-[650] mb-[1rem] md:text-xl
-                    lg:text-2xl lg:mb-[1.5rem] 2xl:ml-[3.4rem]">
+                    lg:text-2xl lg:mb-[1.5rem]">
                         Movies
                     </h1>
                     <div className="flex gap-5 overflow-x-auto whitespace-nowrap
-                    custom-scrollbar lg:gap-10 xl:gap-15 2xl:gap-20 2xl:ml-[3.4rem]">
+                    custom-scrollbar lg:gap-10 xl:gap-15 2xl:gap-20">
                         {filmography.map((movie) => (
                             <div key={movie.id} className="flex-shrink-0 text-center
                             w-24 cursor-pointer" onClick={() => navigate(`/movie/${movie.id}`)}>
