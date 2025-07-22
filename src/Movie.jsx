@@ -214,7 +214,7 @@ function Movie() {
             </div>
 
             {movie.genres?.length > 0 && (
-                <div className="mx-[2rem] mt-4 lg:mt-[3rem] 2xl:ml-[3.4rem]">
+                <div className="mx-[2rem] mt-4 md:ml-[3.4rem] lg:mt-[3rem]">
                     <h1 className="text-white text-lg font-[650] mb-[1rem] md:text-xl
                     lg:text-2xl lg:mb-[1.5rem]">
                         Genres
@@ -228,7 +228,7 @@ function Movie() {
             )}
 
             {movie.overview && (
-                <div className="mx-[2rem] mt-[2rem] lg:hidden">
+                <div className="mx-[2rem] mt-[2rem] md:ml-[3.4rem] lg:hidden">
                     <h1 className="text-white text-lg font-[650] mb-[.7rem] md:text-xl">
                         Summary
                     </h1>
@@ -239,7 +239,8 @@ function Movie() {
             )}
 
             {cast.length > 0 && (
-                <div className="ml-[2rem] mt-[2rem] 2xl:ml-0 md:mt-[3rem] xl:mt-[4rem]">
+                <div className="ml-[2rem] mt-[2rem] 2xl:ml-0 md:ml-[3.4rem] md:mt-[3rem]
+                xl:mt-[4rem]">
                     <h1 className="text-white text-lg font-[650] mb-[1rem] md:text-xl
                     lg:text-2xl lg:mb-[1.5rem] 2xl:ml-[3.4rem]">
                         Cast
@@ -277,13 +278,13 @@ function Movie() {
             )}
 
             {similar.length > 0 && (
-                <div className="ml-[2rem] mt-[2rem] 2xl:ml-0 md:mt-[3rem] xl:mt-[4rem]">
+                <div className="ml-[2rem] mt-[2rem] md:ml-[3.4rem] md:mt-[3rem] xl:mt-[4rem]">
                     <h1 className="text-white text-lg font-[650] mb-[1rem] md:text-xl
-                    lg:text-2xl lg:mt-[3rem] lg:mb-[1.5rem] 2xl:ml-[3.4rem]">
+                    lg:text-2xl lg:mt-[3rem] lg:mb-[1.5rem]">
                         More Like This
                     </h1>
                     <div className="flex gap-5 overflow-x-auto whitespace-nowrap
-                    custom-scrollbar lg:gap-10 xl:gap-15 2xl:gap-20 2xl:ml-[3.4rem]">
+                    custom-scrollbar lg:gap-10 xl:gap-15 2xl:gap-20">
                         {similar.map(similarItem => {
                             const isMovie = Boolean(similarItem.title);
                             const type = isMovie ? "movie" : "tv";
