@@ -80,11 +80,11 @@ function Movie() {
     }, [id, contentType]);
 
     const formatRuntime = (mins) => {
-        if (typeof minutes !== "number" || isNaN(mins) || mins === 0) return "N/A";
+        if (typeof mins !== "number" || isNaN(mins) || mins === 0) return "N/A";
         const hours = Math.floor(mins / 60);
         const remainingMinutes = mins % 60;
         return `${hours}h ${remainingMinutes}m`;
-    };
+    }
 
     if (loading) return (
         <div className="flex justify-center items-center h-screen">
@@ -96,19 +96,23 @@ function Movie() {
     if (error) {
         return (
             <div className="flex flex-col items-center justify-center h-[100vh]">
-                <p className="text-base text-[#b71234] font-[650] text-center mb-6 
+                <p className="text-base text-[#b71234] font-[650] text-center mb-6
                 w-[15ch]">{error}</p>
-                <button onClick={() => navigate(-1)} className="p-2 rounded-full 
-                bg-slate-800 hover:bg-slate-900 transition-colors duration-[.25s] flex 
+                <button onClick={() => navigate(-1)} className="p-2 rounded-full
+                bg-slate-800 hover:bg-slate-900 transition-colors duration-[.25s] flex
                 items-center justify-center">
-                    <img className="w-[1.5rem] h-[1.5rem]" src={back} alt="Back Icon" draggable="false" />
+                    <img className="w-[1.5rem] h-[1.5rem]" src={back} alt="Back Icon" draggable="false"/>
                 </button>
             </div>
         );
     }
 
     if (!movie) {
-        return <p className="text-base text-white text-center p-10 mt-[5rem]">No data found for this ID.</p>;
+        return (
+            <p className="text-base text-white text-center p-10 mt-[5rem]">
+                No data found for this ID!
+            </p>
+        )
     }
 
     return (
@@ -123,23 +127,23 @@ function Movie() {
                 </button>
 
                 {movie.backdrop_path ? (
-                    <img className="opacity-50 w-full h-auto object-cover max-h-[50vh] 
+                    <img className="opacity-50 w-full h-auto object-cover max-h-[50vh]
                     xl:max-h-[60vh] 2xl:max-h-[65vh]" src={`${TMDB_BACKDROP_BASE_URL}${movie.backdrop_path}`} 
-                    alt={`${movie.title || movie.name} Backdrop`} />
+                    alt={`${movie.title || movie.name} Backdrop`}/>
                 ) : (
-                    <div className="w-full h-[50vh] bg-slate-900 opacity-50 flex 
+                    <div className="w-full h-[50vh] bg-slate-900 opacity-50 flex
                     items-center justify-center text-slate-500">
                         No Backdrop Available
                     </div>
                 )}
 
-                <div className="absolute inset-0 bg-gradient-to-t from-[#010617] 
+                <div className="absolute inset-0 bg-gradient-to-t from-[#010617]
                 via-transparent to-transparent"/>
                 <div className="absolute bottom-4 left-0 right-0 px-4 z-5 text-white flex
                 flex-col items-center lg:items-start">
-                    <h1 className="text-xl font-bold text-center mb-2 w-[17ch] 
-                    sm:text-2xl sm:w-[25ch] sm:mb-[1rem] md:border-[#b71234] 
-                    lg:mb-[.25rem] lg:w-[auto] lg:ml-[5rem] xl:text-3xl xl:mb-[.5rem] 
+                    <h1 className="text-xl font-bold text-center mb-2 w-[17ch]
+                    sm:text-2xl sm:w-[25ch] sm:mb-[1rem] md:border-[#b71234]
+                    lg:mb-[.25rem] lg:w-[auto] lg:ml-[5rem] xl:text-3xl xl:mb-[.5rem]
                     2xl:text-4xl 2xl:mb-[1rem]">
                         {movie.title || movie.name}
                     </h1>
@@ -170,7 +174,7 @@ function Movie() {
                     </div>
 
                     <p className="hidden text-slate-400 text-sm leading-relaxed mb-[5rem]
-                    lg:block lg:ml-[5rem] w-[70ch] mt-[1rem] xl:text-base xl:w-[80ch] 
+                    lg:block lg:ml-[5rem] w-[70ch] mt-[1rem] xl:text-base xl:w-[80ch]
                     xl:mb-[6.5rem] 2xl:text-lg 2xl:w-[88ch] 2xl:mb-[8.5rem]">
                         {movie.overview}
                     </p>
