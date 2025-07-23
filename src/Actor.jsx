@@ -89,11 +89,6 @@ function Actor() {
         }
     };
 
-    const getDepartment = (knownForDepartment) => {
-        return knownForDepartment || "Unknown";
-    };
-
-
     if (loading) {
         return (
             <div className="flex justify-center items-center h-screen">
@@ -118,52 +113,52 @@ function Actor() {
     return (
         <div>
             <Header/>
-            <button onClick={() => navigate(-1)} className="absolute z-8 ml-[1rem] 
-            mt-[1rem] p-2 rounded-full bg-slate-800 hover:bg-slate-900 transition-colors
-            duration-[.25s] flex items-center justify-center">
-                <img className="w-[1.5rem] h-[1.5rem]" src={back} alt="Back Icon" 
-                draggable="false"/>
-            </button>
-
-            <div className="mx-[2rem] mt-[2.5rem] flex items-center justify-center gap-5 sm:gap-7 md:gap-12 xl:gap-20">
-                {actor.profile_path ? (
-                    <img className="w-[7rem] h-[auto] rounded-[1rem] object-cover sm:w-[8.5rem] md:w-[10rem] lg:w-[12rem] xl:w-[14rem]"
-                        src={`${TMDB_PROFILE_BASE_URL}${actor.profile_path}`} /* Actor Img */
-                        alt={actor.name}/>
-                ) : (
-                    <div className="w-[7rem] h-[10rem] bg-slate-700 rounded-[1rem] flex 
-                    items-center justify-center text-slate-400 text-sm">
-                        No Image
+            <div className="w-full px-[2rem] flex flex-col items-start justify-center">
+                <div className="flex items-center gap-5">
+                    <div>
+                        <button onClick={() => navigate(-1)} className="z-8
+                        p-2 rounded-full bg-slate-800 hover:bg-slate-900 transition-colors
+                        duration-[.25s] flex items-center justify-center">
+                            <img className="w-[1.5rem] h-[1.5rem]" src={back} alt="Back Icon" 
+                            draggable="false"/>
+                        </button>
                     </div>
-                )}
-                <div>
-                    <h1 className="text-xl font-[650] text-white mb-[.5rem] sm:text-2xl md:text-3xl lg:text-4xl"> {/* Name */}
-                        {actor.name}
-                    </h1>
-                    {actor.birthday && (
-                        <div className="flex gap-2 items-center md:gap-4 mb-[.25rem] md:mt-[1rem] lg:mt-[2rem]">
-                            <img className="w-[1rem] h-[1rem] md:w-[1.5rem] md:h-[1.5rem] xl:w-[2rem] xl:h-[2rem]" src={cake} /* Birthday */
-                            alt="Birthday Cake Icon" draggable="false"/>
-                            <p className={BIRTH}>{formatDate(actor.birthday)}</p>
-                        </div>
-                    )}
-                    {actor.place_of_birth && (
-                        <div className="flex gap-2 items-center md:gap-4 md:mt-[.5rem] xl:mt-[1rem]"> {/* Place of Birth */}
-                            <img className="w-[1rem] h-[1rem] md:w-[1.5rem] md:h-[1.5rem] xl:w-[2rem] xl:h-[2rem]" src={location} 
-                            alt="Location Icon" draggable="false"/>
-                            <p className={BIRTH}>{actor.place_of_birth}</p>
-                        </div>
-                    )}
+                        <div>
+                        <h1 className="text-white font-[650] text-lg">{actor.name}</h1>
+                        <p className="text-slate-500 font-[550] text-sm">Actor</p>
+                    </div>
                 </div>
             </div>
 
-            {actor.known_for_department && (
-                <div className="ml-[2rem] mt-[2rem] md:ml-[3.4rem] lg:mt-[3rem]">
-                    <div className="flex flex-wrap gap-1">
-                        <p className={ROLE}>{getDepartment(actor.known_for_department)}</p>
+            {/* New Actor Design */}
+            <div className="w-full px-[2rem] mt-[1.25rem] flex flex-col items-center justify-center gap-5">
+                {/* Actor Img */}
+                <div className="bg-slate-900 w-full h-[12rem] rounded-[1.25rem]">
+    
+                </div>
+    
+                <div className="flex flex-col gap-5 w-full">
+                    <div className="bg-slate-900 w-full h-[6rem] rounded-[1.25rem] flex flex-col items-start justify-center gap-1 px-[1.5rem]">
+                        <p className="text-slate-400 text-base font-[550]">Age</p>
+                        <h1 className="text-white text-xl font-[550]">29 Years</h1>
+                    </div>
+                    <div className="bg-slate-900 w-full h-[6rem] rounded-[1.25rem] flex flex-col items-start justify-center gap-1 px-[1.5rem]">
+                        <p className="text-slate-400 text-base font-[550]">Overview</p>
+                        {actor.birthday && (
+                            <div className="flex gap-2 items-center">
+                                <img className="w-[1rem] h-[1rem]" src={cake} alt="Birthday Cake Icon" draggable="false"/>
+                                <p className="text-white text-xs">{formatDate(actor.birthday)}</p>
+                            </div>
+                        )}
+                        {actor.place_of_birth && (
+                            <div className="flex gap-2 items-center"> 
+                                <img className="w-[1rem] h-[1rem]" src={location} alt="Location Icon" draggable="false"/>
+                                <p className="text-white text-xs">{actor.place_of_birth}</p>
+                            </div>
+                        )}
                     </div>
                 </div>
-            )}
+            </div>
 
             {actor.biography && (
                 <div className="mx-[2rem] mt-[2rem] md:mx-[3.4rem]"> {/* Bio */}
