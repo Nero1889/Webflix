@@ -8,7 +8,7 @@ import location from "./assets/location.png";
 
 const TMDB_API_KEY = "a185d00309246af13fc09d5674ea20ee";
 const TMDB_BASE_URL = "https://api.themoviedb.org/3";
-const TMDB_PROFILE_BASE_URL = "https://image.tmdb.org/t/p/w300";
+const TMDB_PROFILE_BASE_URL = "https://image.tmdb.org/t/p/w300"; // For larger profile images
 const TMDB_MOVIE_POSTER_BASE_URL = "https://image.tmdb.org/t/p/w185";
 
 function Actor() {
@@ -17,6 +17,7 @@ function Actor() {
 
     const [actor, setActor] = useState(null);
     const [filmography, setFilmography] = useState([]);
+    const [actorImages, setActorImages] = useState([]); // New state for actor images
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
@@ -44,8 +45,10 @@ function Actor() {
             setError(null);
             setActor(null);
             setFilmography([]);
+            setActorImages([]); // Reset actor images
 
             try {
+                // Fetch actor details
                 const actorDetailsRes = await fetch(`${TMDB_BASE_URL}/person/${actorId}?api_key=${TMDB_API_KEY}`);
                 if (!actorDetailsRes.ok) {
                     throw new Error(`Failed to fetch actor details: ${actorDetailsRes.statusText}`);
@@ -53,6 +56,20 @@ function Actor() {
                 const actorData = await actorDetailsRes.json();
                 setActor(actorData);
 
+                // Fetch actor images
+                const actorImagesRes = await fetch(`${TMDB_BASE_URL}/person/${actorId}/images?api_key=${TMDB_API_KEY}`);
+                if (!actorImagesRes.ok) {
+                    throw new Error(`Failed to fetch actor images: ${actorImagesRes.statusText}`);
+                }
+                const imagesData = await actorImagesRes.json();
+                // Filter and take up to 3 profile images
+                const profileImages = imagesData.profiles
+                    .filter(img => img.file_path)
+                    .slice(0, 3)
+                    .map(img => `${TMDB_PROFILE_BASE_URL}${img.file_path}`);
+                setActorImages(profileImages);
+
+                // Fetch filmography
                 const filmographyRes = await fetch(`${TMDB_BASE_URL}/person/${actorId}/movie_credits?api_key=${TMDB_API_KEY}`);
                 if (!filmographyRes.ok) {
                     throw new Error(`Failed to fetch filmography: ${filmographyRes.statusText}`);
@@ -89,6 +106,23 @@ function Actor() {
         }
     };
 
+    const calculateAge = (birthday) => {
+        if (!birthday) return "N/A";
+        try {
+            const birthDate = new Date(birthday);
+            const today = new Date();
+            let age = today.getFullYear() - birthDate.getFullYear();
+            const m = today.getMonth() - birthDate.getMonth();
+            if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+                age--;
+            }
+            return `${age} Years`;
+        } catch {
+            return "N/A";
+        }
+    };
+
+
     if (loading) {
         return (
             <div className="flex justify-center items-center h-screen">
@@ -119,41 +153,61 @@ function Actor() {
                         <button onClick={() => navigate(-1)} className="z-8
                         p-2 rounded-full bg-slate-800 hover:bg-slate-900 transition-colors
                         duration-[.25s] flex items-center justify-center">
-                            <img className="w-[1.5rem] h-[1.5rem]" src={back} alt="Back Icon" 
+                            <img className="w-[1.5rem] h-[1.5rem]" src={back} alt="Back Icon"
                             draggable="false"/>
                         </button>
                     </div>
                         <div>
-                        <h1 className="text-white font-[650] text-lg">{actor.name}</h1>
-                        <p className="text-slate-500 font-[550] text-sm">Actor</p>
+                        <h1 className="text-white font-[650] text-lg sm:text-xl md:text-2xl">{actor.name}</h1>
+                        <p className="text-slate-500 font-[550] text-sm sm:text-base md:text-lg">Actor</p>
                     </div>
                 </div>
             </div>
 
             {/* New Actor Design */}
             <div className="w-full px-[2rem] mt-[1.25rem] flex flex-col items-center justify-center gap-5">
-                {/* Actor Img */}
-                <div className="bg-slate-900 w-full h-[12rem] rounded-[1.25rem]">
-    
-                </div>
-    
-                <div className="flex flex-col gap-5 w-full">
-                    <div className="bg-slate-900 w-full h-[6rem] rounded-[1.25rem] flex flex-col items-start justify-center gap-1 px-[1.5rem]">
-                        <p className="text-slate-400 text-base font-[550]">Age</p>
-                        <h1 className="text-white text-xl font-[550]">29 Years</h1>
+                <div className="bg-slate-900 w-full h-[18rem] rounded-[1.25rem] flex overflow-hidden sm:h-[24rem] md:h-[30rem]">
+                    {actorImages[0] && (
+                        <div className="w-1/2 h-full pr-1 py-1 pl-1">
+                            <img src={actorImages[0]} alt={`${actor.name} - 1`}
+                            className="w-full h-full object-cover rounded-l-[1.25rem]"/>
+                        </div>
+                    )}
+                    <div className="w-1/2 h-full flex flex-col pl-1 py-1 pr-1 gap-1">
+                        {actorImages[1] && (
+                            <div className="w-full h-1/2 pb-0.5">
+                                <img src={actorImages[1]} alt={`${actor.name} - 2`}
+                                className="w-full h-full object-cover rounded-tr-[1.25rem]"/>
+                            </div>
+                        )}
+                        {actorImages[2] && (
+                            <div className="w-full h-1/2 pb-1">
+                                <img src={actorImages[2]} alt={`${actor.name} - 3`}
+                                className="w-full h-full object-cover rounded-br-[1.25rem]"/>
+                            </div>
+                        )}
                     </div>
-                    <div className="bg-slate-900 w-full h-[6rem] rounded-[1.25rem] flex flex-col items-start justify-center gap-1 px-[1.5rem]">
-                        <p className="text-slate-400 text-base font-[550]">Overview</p>
+                </div>
+
+                <div className="flex flex-col gap-5 w-full sm:flex-row">
+                    <div className="bg-slate-900 w-full h-[6rem] rounded-[1.25rem] flex flex-col items-start justify-center gap-1 px-[1.5rem]
+                    md:h-[8rem]">
+                        <p className="text-slate-400 text-base font-[550] md:text-lg">Age</p>
+                        <h1 className="text-white text-xl font-[550] md:text-2xl">{calculateAge(actor.birthday)}</h1>
+                    </div>
+                    <div className="bg-slate-900 w-full h-[6rem] rounded-[1.25rem] flex flex-col items-start justify-center gap-1 px-[1.5rem]
+                    md:h-[8rem]">
+                        <p className="text-slate-400 text-base font-[550] md:text-lg">Overview</p>
                         {actor.birthday && (
                             <div className="flex gap-2 items-center">
                                 <img className="w-[1rem] h-[1rem]" src={cake} alt="Birthday Cake Icon" draggable="false"/>
-                                <p className="text-white text-xs">{formatDate(actor.birthday)}</p>
+                                <p className="text-white text-xs md:text-sm">{formatDate(actor.birthday)}</p>
                             </div>
                         )}
                         {actor.place_of_birth && (
-                            <div className="flex gap-2 items-center"> 
+                            <div className="flex gap-2 items-center">
                                 <img className="w-[1rem] h-[1rem]" src={location} alt="Location Icon" draggable="false"/>
-                                <p className="text-white text-xs">{actor.place_of_birth}</p>
+                                <p className="text-white text-xs md:text-sm">{actor.place_of_birth}</p>
                             </div>
                         )}
                     </div>
@@ -188,7 +242,7 @@ function Actor() {
                                 xl:h-[12rem] 2xl:w-[9rem] 2xl:h-[13rem]">
                                     {movie.poster_path ? (
                                         <img src={`${TMDB_MOVIE_POSTER_BASE_URL}${movie.poster_path}`}
-                                        alt={movie.title} className="w-full h-full 
+                                        alt={movie.title} className="w-full h-full
                                         object-cover rounded-lg"/>
                                     ) : (
                                         <span className="text-xs text-slate-400">
