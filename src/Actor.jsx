@@ -147,7 +147,7 @@ function Actor() {
     return (
         <div>
             <Header/>
-            <div className="w-full px-[2rem] flex flex-col items-start justify-center">
+            <div className="w-full px-[2rem] flex flex-col items-start justify-center md:px-[3.4rem]">
                 <div className="flex items-center gap-5">
                     <div>
                         <button onClick={() => navigate(-1)} className="z-8
@@ -165,8 +165,9 @@ function Actor() {
             </div>
 
             {/* New Actor Design */}
-            <div className="w-full px-[2rem] mt-[1.25rem] flex flex-col items-center justify-center gap-5 md:px-[3.4rem] lg:flex-row border">
-                <div className="bg-slate-900 w-full h-[18rem] rounded-[1.25rem] flex overflow-hidden sm:h-[24rem] md:h-[30rem] lg:h-[21.2rem]">
+            <div className="w-full px-[2rem] mt-[1.25rem] flex flex-col items-center justify-center gap-5 md:px-[3.4rem] lg:flex-row">
+                <div className="bg-slate-900 w-full h-[18rem] rounded-[1.25rem] flex overflow-hidden sm:h-[24rem] md:h-[30rem] lg:h-[21.2rem] lg:w-[34rem]
+                xl:h-[25.3rem]">
                     {actorImages[0] && (
                         <div className="w-1/2 h-full pr-1 py-1 pl-1">
                             <img src={actorImages[0]} alt={`${actor.name} - 1`}
@@ -189,25 +190,25 @@ function Actor() {
                     </div>
                 </div>
 
-                <div className="flex flex-col gap-5 w-full sm:flex-row lg:flex-col">
+                <div className="flex flex-col gap-5 w-full sm:flex-row lg:flex-col lg:w-auto">
                     <div className="bg-slate-900 w-full h-[6rem] rounded-[1.25rem] flex flex-col items-start justify-center gap-1 px-[1.5rem]
-                    md:h-[8rem] lg:h-[10rem] lg:w-[17rem]">
-                        <p className="text-slate-400 text-base font-[550] md:text-lg">Age</p>
-                        <h1 className="text-white text-xl font-[550] md:text-2xl">{calculateAge(actor.birthday)}</h1>
+                    md:h-[8rem] lg:h-[10rem] lg:w-[17rem] lg:gap-4 xl:h-[12rem] xl:w-[20rem]">
+                        <p className="text-slate-400 text-base font-[550] md:text-lg lg:ml-[.25rem] xl:text-xl">Age</p>
+                        <h1 className="text-white text-xl font-[550] md:text-2xl lg:ml-[.25rem] lg:text-3xl">{calculateAge(actor.birthday)}</h1>
                     </div>
                     <div className="bg-slate-900 w-full h-[6rem] rounded-[1.25rem] flex flex-col items-start justify-center gap-1 px-[1.5rem]
-                    md:h-[8rem] lg:h-[10rem] lg:w-[17rem]">
-                        <p className="text-slate-400 text-base font-[550] md:text-lg">Overview</p>
+                    md:h-[8rem] lg:h-[10rem] lg:w-[17rem] lg:gap-2 xl:h-[12rem] xl:w-[20rem]">
+                        <p className="text-slate-400 text-base font-[550] md:text-lg lg:ml-[.25rem] xl:text-xl">Overview</p>
                         {actor.birthday && (
-                            <div className="flex gap-2 items-center">
-                                <img className="w-[1rem] h-[1rem]" src={cake} alt="Birthday Cake Icon" draggable="false"/>
-                                <p className="text-white text-xs md:text-sm">{formatDate(actor.birthday)}</p>
+                            <div className="flex gap-2 items-center lg:ml-[.25rem] lg:gap-3 lg:mt-[.5rem] xl:mt-[1rem]">
+                                <img className="w-[1rem] h-[1rem] lg:w-[1.5rem] lg:h-[1.5rem]" src={cake} alt="Birthday Cake Icon" draggable="false"/>
+                                <p className="text-white text-xs md:text-sm xl:text-base">{formatDate(actor.birthday)}</p>
                             </div>
                         )}
                         {actor.place_of_birth && (
-                            <div className="flex gap-2 items-center">
-                                <img className="w-[1rem] h-[1rem]" src={location} alt="Location Icon" draggable="false"/>
-                                <p className="text-white text-xs md:text-sm">{actor.place_of_birth}</p>
+                            <div className="flex gap-2 items-center lg:ml-[.25rem] lg:gap-3">
+                                <img className="w-[1rem] h-[1rem] lg:w-[1.5rem] lg:h-[1.5rem]" src={location} alt="Location Icon" draggable="false"/>
+                                <p className="text-white text-xs md:text-sm xl:text-base">{actor.place_of_birth}</p>
                             </div>
                         )}
                     </div>
