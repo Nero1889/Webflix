@@ -135,16 +135,18 @@ function Actor() {
                 <button onClick={() => navigate(-1)} className="p-2 rounded-full
                 bg-slate-800 hover:bg-slate-900 transition-colors duration-[.25s] flex
                 items-center justify-center">
-                    <img className="w-[1.5rem] h-[1.5rem]" src={back} alt="Back Icon" draggable="false" />
+                    <img className="w-[1.5rem] h-[1.5rem]" src={back} alt="Back Icon" draggable="false"/>
                 </button>
             </div>
         );
     }
 
     if (!actor) {
-        return <p className="text-base text-white text-center p-10 mt-[5rem]">
-            No actor data found for this ID!
-        </p>
+        return (
+            <p className="text-base text-white text-center p-10 mt-[5rem]">
+                No actor data found!
+            </p>
+        )  
     }
 
     return (
