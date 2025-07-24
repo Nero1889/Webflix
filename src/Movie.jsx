@@ -7,6 +7,8 @@ import star from "./assets/star.png";
 import clock from "./assets/clock.png";
 import calendar from "./assets/calendar.png";
 import playBtn from "./assets/playButton.png";
+import unavailableActor from "./assets/unavailableActor.png";
+import unavailableMovie from "./assets/unavailableMovie.png";
 
 const TMDB_API_KEY = "a185d00309246af13fc09d5674ea20ee";
 const TMDB_BASE_URL = "https://api.themoviedb.org/3";
@@ -112,7 +114,7 @@ function Movie() {
             <p className="text-base text-white text-center p-10 mt-[5rem]">
                 No data found for this ID!
             </p>
-        )
+        );
     }
 
     return (
@@ -121,7 +123,7 @@ function Movie() {
             <div className="relative bg-black mb-4">
                 <button onClick={() => navigate(-1)} className="absolute z-8 ml-[1rem]
                 mt-[1rem] p-2 rounded-full bg-slate-800 hover:bg-slate-900
-                transition-colors duration-[.25s] flex items-center justify-center">
+                transition-colors duration-[.25s] flex items-center justify-center md:ml-[3.4rem]">
                     <img className="w-[1.5rem] h-[1.5rem]" src={back} alt="Back Icon"
                     draggable="false"/>
                 </button>
@@ -260,7 +262,9 @@ function Movie() {
                                         <img src={`${TMDB_PROFILE_BASE_URL}${actor.profile_path}`} 
                                         alt={actor.name} className="w-full h-full object-cover"/>
                                     ) : (
-                                        <span className="text-xs text-slate-400">No Image</span>
+                                        <div className="flex items-center justify-center h-full">
+                                            <img className="w-[3.4rem] h-[3.4rem]" src={unavailableActor} alt="Unavailable Movie Icon"/>
+                                        </div>
                                     )}
                                 </div>
                                 <h3 style={LINE_CLAMP3} className="text-left text-sm
@@ -302,7 +306,9 @@ function Movie() {
                                             alt={similarItem.title || similarItem.name} 
                                             className="w-full h-full object-cover"/>
                                         ) : (
-                                            <span className="text-xs text-slate-400">No Image</span>
+                                            <div className="flex items-center justify-center h-full">
+                                                <img className="w-[3.4rem] h-[3.4rem]" src={unavailableMovie} alt="Unavailable Movie Icon"/>
+                                            </div>
                                         )}
                                     </div>
                                     <h3 style={LINE_CLAMP3} className="text-left text-sm
