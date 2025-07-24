@@ -5,10 +5,11 @@ import Footer from "./Footer.jsx";
 import back from "./assets/back.png";
 import cake from "./assets/birthdayCake.png";
 import location from "./assets/location.png";
+import slateActor from "./assets/actor.png";
 
 const TMDB_API_KEY = "a185d00309246af13fc09d5674ea20ee";
 const TMDB_BASE_URL = "https://api.themoviedb.org/3";
-const TMDB_PROFILE_BASE_URL = "https://image.tmdb.org/t/p/w300"; // For larger profile images
+const TMDB_PROFILE_BASE_URL = "https://image.tmdb.org/t/p/w300";
 const TMDB_MOVIE_POSTER_BASE_URL = "https://image.tmdb.org/t/p/w185";
 
 function Actor() {
@@ -17,13 +18,12 @@ function Actor() {
 
     const [actor, setActor] = useState(null);
     const [filmography, setFilmography] = useState([]);
-    const [actorImages, setActorImages] = useState([]); // New state for actor images
+    const [actorImages, setActorImages] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
     const ROLE = `bg-slate-800 text-slate-400 text-xs font-[600] inline-block px-3 py-2
     rounded-[3rem] mr-2 mb-2 md:text-sm lg:text-base`;
-    const BIRTH = "text-xs font-[550] text-slate-400 sm:text-sm md:text-base lg:text-lg";
 
     const LINE_CLAMP3 = {
         overflow: "hidden",
@@ -45,10 +45,9 @@ function Actor() {
             setError(null);
             setActor(null);
             setFilmography([]);
-            setActorImages([]); // Reset actor images
+            setActorImages([]);
 
             try {
-                // Fetch actor details
                 const actorDetailsRes = await fetch(`${TMDB_BASE_URL}/person/${actorId}?api_key=${TMDB_API_KEY}`);
                 if (!actorDetailsRes.ok) {
                     throw new Error(`Failed to fetch actor details: ${actorDetailsRes.statusText}`);
@@ -56,20 +55,17 @@ function Actor() {
                 const actorData = await actorDetailsRes.json();
                 setActor(actorData);
 
-                // Fetch actor images
                 const actorImagesRes = await fetch(`${TMDB_BASE_URL}/person/${actorId}/images?api_key=${TMDB_API_KEY}`);
                 if (!actorImagesRes.ok) {
                     throw new Error(`Failed to fetch actor images: ${actorImagesRes.statusText}`);
                 }
                 const imagesData = await actorImagesRes.json();
-                // Filter and take up to 3 profile images
                 const profileImages = imagesData.profiles
                     .filter(img => img.file_path)
                     .slice(0, 3)
                     .map(img => `${TMDB_PROFILE_BASE_URL}${img.file_path}`);
                 setActorImages(profileImages);
 
-                // Fetch filmography
                 const filmographyRes = await fetch(`${TMDB_BASE_URL}/person/${actorId}/movie_credits?api_key=${TMDB_API_KEY}`);
                 if (!filmographyRes.ok) {
                     throw new Error(`Failed to fetch filmography: ${filmographyRes.statusText}`);
@@ -122,6 +118,9 @@ function Actor() {
         }
     };
 
+    const getDepartment = (knownForDepartment) => {
+        return knownForDepartment || "Unknown";
+    };
 
     if (loading) {
         return (
@@ -133,9 +132,17 @@ function Actor() {
     }
 
     if (error) {
-        return <p className="text-base text-[#b71234] text-center p-10 mt-[5rem]">
-            {error}
-        </p>
+        return (
+            <div className="flex flex-col items-center justify-center h-[100vh]">
+                <p className="text-base text-[#b71234] font-[650] text-center mb-6
+                w-[15ch]">{error}</p>
+                <button onClick={() => navigate(-1)} className="p-2 rounded-full
+                bg-slate-800 hover:bg-slate-900 transition-colors duration-[.25s] flex
+                items-center justify-center">
+                    <img className="w-[1.5rem] h-[1.5rem]" src={back} alt="Back Icon" draggable="false" />
+                </button>
+            </div>
+        );
     }
 
     if (!actor) {
@@ -164,29 +171,46 @@ function Actor() {
                 </div>
             </div>
 
-            {/* New Actor Design */}
             <div className="w-full px-[2rem] mt-[1.25rem] flex flex-col items-center justify-center gap-5 md:px-[3.4rem] lg:flex-row">
                 <div className="bg-slate-900 w-full h-[18rem] rounded-[1.25rem] flex overflow-hidden sm:h-[24rem] md:h-[30rem] lg:h-[21.2rem] lg:w-[34rem]
                 xl:h-[25.3rem]">
-                    {actorImages[0] && (
-                        <div className="w-1/2 h-full pr-1 py-1 pl-1">
+                    {/* Image 1 */}
+                    <div className="w-1/2 h-full pr-1 py-1 pl-1 flex items-center justify-center">
+                        {actorImages[0] ? (
                             <img src={actorImages[0]} alt={`${actor.name} - 1`}
                             className="w-full h-full object-cover rounded-l-[1.25rem]"/>
-                        </div>
-                    )}
+                        ) : (
+                            <div className="w-full h-full bg-slate-700 flex items-center justify-center rounded-l-[1.25rem]">
+                                <img src={slateActor} alt="Actor Icon" className="w-[4rem] h-[4rem]
+                                sm:w-[4.5rem] sm:h-[4.5rem] md:w-[5rem] md:h-[5rem] opacity-50" draggable="false"/>
+                            </div>
+                        )}
+                    </div>
                     <div className="w-1/2 h-full flex flex-col pl-1 py-1 pr-1 gap-1">
-                        {actorImages[1] && (
-                            <div className="w-full h-1/2 pb-0.5">
+                        {/* Image 2 */}
+                        <div className="w-full h-1/2 pb-0.5 flex items-center justify-center">
+                            {actorImages[1] ? (
                                 <img src={actorImages[1]} alt={`${actor.name} - 2`}
                                 className="w-full h-full object-cover rounded-tr-[1.25rem]"/>
-                            </div>
-                        )}
-                        {actorImages[2] && (
-                            <div className="w-full h-1/2 pb-1">
+                            ) : (
+                                <div className="w-full h-full bg-slate-700 flex items-center justify-center rounded-tr-[1.25rem]">
+                                    <img src={slateActor} alt="Actor Icon" className="w-[4rem] h-[4rem]
+                                    sm:w-[4.5rem] sm:h-[4.5rem] md:w-[5rem] md:h-[5rem] opacity-50" draggable="false"/>
+                                </div>
+                            )}
+                        </div>
+                        {/* Image 3 */}
+                        <div className="w-full h-1/2 pb-1 flex items-center justify-center">
+                            {actorImages[2] ? (
                                 <img src={actorImages[2]} alt={`${actor.name} - 3`}
                                 className="w-full h-full object-cover rounded-br-[1.25rem]"/>
-                            </div>
-                        )}
+                            ) : (
+                                <div className="w-full h-full bg-slate-800 flex items-center justify-center rounded-br-[1.25rem]">
+                                    <img src={slateActor} alt="Actor Icon" className="w-[4rem] h-[4rem]
+                                    sm:w-[4.5rem] sm:h-[4.5rem] md:w-[5rem] md:h-[5rem] opacity-50" draggable="false"/>
+                                </div>
+                            )}
+                        </div>
                     </div>
                 </div>
 
@@ -215,8 +239,16 @@ function Actor() {
                 </div>
             </div>
 
+            {actor.known_for_department && (
+                <div className="mx-[2rem] mt-[2rem] md:mx-[3.4rem]">
+                    <div className="flex flex-wrap gap-1">
+                        <p className={ROLE}>{getDepartment(actor.known_for_department)}</p>
+                    </div>
+                </div>
+            )}
+
             {actor.biography && (
-                <div className="mx-[2rem] mt-[2rem] md:mx-[3.4rem]"> {/* Bio */}
+                <div className="mx-[2rem] mt-[2rem] md:mx-[3.4rem]">
                     <h1 className="text-white text-lg font-[650] mb-2 md:text-xl xl:text-2xl">Biography</h1>
                     <p className="text-slate-400 text-sm leading-relaxed md:mt-[1rem] md:text-base xl:mt-[1.5rem] xl:text-lg">
                         {actor.biography}
@@ -228,7 +260,7 @@ function Actor() {
                 <div className="ml-[2rem] mt-[2rem] md:ml-[3.4rem] md:mt-[3rem] xl:mt-[4rem]">
                     <h1 className="text-white text-lg font-[650] mb-[1rem] md:text-xl
                     lg:text-2xl lg:mb-[1.5rem]">
-                        Movies
+                        Filmography
                     </h1>
                     <div className="flex gap-5 overflow-x-auto whitespace-nowrap
                     custom-scrollbar lg:gap-10 xl:gap-15 2xl:gap-20">
