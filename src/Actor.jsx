@@ -118,10 +118,6 @@ function Actor() {
         }
     };
 
-    const getDepartment = (knownForDepartment) => {
-        return knownForDepartment || "Unknown";
-    };
-
     if (loading) {
         return (
             <div className="flex justify-center items-center h-screen">
@@ -238,14 +234,6 @@ function Actor() {
                     </div>
                 </div>
             </div>
-
-            {actor.known_for_department && (
-                <div className="mx-[2rem] mt-[2rem] md:mx-[3.4rem]">
-                    <div className="flex flex-wrap gap-1">
-                        <p className={ROLE}>{getDepartment(actor.known_for_department)}</p>
-                    </div>
-                </div>
-            )}
 
             {actor.biography && (
                 <div className="mx-[2rem] mt-[2rem] md:mx-[3.4rem]">
