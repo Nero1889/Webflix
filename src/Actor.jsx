@@ -148,7 +148,7 @@ function Actor() {
         <div>
             <Header/>
             <div className="w-full px-[2rem] flex flex-col items-start justify-center md:px-[3.4rem]">
-                <div className="flex items-center gap-5">
+                <div className="flex items-center gap-5 md:gap-7 xl:gap-10">
                     <div>
                         <button onClick={() => navigate(-1)} className="z-8
                         p-2 rounded-full bg-slate-800 hover:bg-slate-900 transition-colors
@@ -201,13 +201,13 @@ function Actor() {
                         <p className="text-slate-400 text-base font-[550] md:text-lg lg:ml-[.25rem] xl:text-xl">Overview</p>
                         {actor.birthday && (
                             <div className="flex gap-2 items-center lg:ml-[.25rem] lg:gap-3 lg:mt-[.5rem] xl:mt-[1rem]">
-                                <img className="w-[1rem] h-[1rem] lg:w-[1.5rem] lg:h-[1.5rem]" src={cake} alt="Birthday Cake Icon" draggable="false"/>
+                                <img className="w-[1rem] h-[1rem] lg:w-[1.5rem] lg:h-[1.5rem] xl:w-[2rem] xl:h-[2rem]" src={cake} alt="Birthday Cake Icon" draggable="false"/>
                                 <p className="text-white text-xs md:text-sm xl:text-base">{formatDate(actor.birthday)}</p>
                             </div>
                         )}
                         {actor.place_of_birth && (
                             <div className="flex gap-2 items-center lg:ml-[.25rem] lg:gap-3">
-                                <img className="w-[1rem] h-[1rem] lg:w-[1.5rem] lg:h-[1.5rem]" src={location} alt="Location Icon" draggable="false"/>
+                                <img className="w-[1rem] h-[1rem] lg:w-[1.5rem] lg:h-[1.5rem] xl:w-[2rem] xl:h-[2rem]" src={location} alt="Location Icon" draggable="false"/>
                                 <p className="text-white text-xs md:text-sm xl:text-base">{actor.place_of_birth}</p>
                             </div>
                         )}
