@@ -184,7 +184,7 @@ function Header() {
                     <img src={slateSearch} alt="Search Icon" className="absolute left-3 
                     top-[1.2rem] transform -translate-y-1/2 w-5 h-5 pointer-events-none" 
                     draggable="false"/>
-                    <input type="text" placeholder="Search!" 
+                    <input type="text" placeholder="Search!"
                     className={`w-full h-full pl-10 pr-5 text-sm bg-slate-900 text-white
                     placeholder:text-slate-500 focus:outline-none font-[550] ${
                         searchTerm.length > 0 && suggestions.length > 0 && !loadingSuggestions
@@ -315,7 +315,7 @@ function Header() {
 
                     <div className="p-5 pt-0">
                         {loadingSuggestions && (
-                            <div className="flex justify-center items-center mt-4">
+                            <div className="flex justify-center items-center mt-[5rem]">
                                 <div className="w-[2.5rem] h-[2.5rem] border-4 border-slate-800
                                 border-t-slate-300 rounded-full animate-spin"></div>
                             </div>
@@ -361,7 +361,7 @@ function Header() {
 
                         {searchTerm.length > 0 && !loadingSuggestions && !error &&
                         suggestions.length === 0 && searchResults.length === 0 && (
-                            <p className="text-slate-300 text-center mt-4 text-base font-[550]">No results found!</p>
+                            <p className="text-slate-300 text-center mt-[5rem] text-base font-[550]">No results found!</p>
                         )}
 
 
