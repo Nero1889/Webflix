@@ -416,7 +416,7 @@ function Header() {
                                             {item.vote_average > 0 && item.media_type !== "person" && (
                                                 <div className="text-slate-500 font-[550] text-sm flex items-center gap-2">
                                                     <img src={starRating} alt="Star icon"
-                                                    className="w-4 h-4" draggable="false"/>
+                                                    className="w-[1rem] h-[1rem]" draggable="false"/>
                                                     <span>
                                                         <span className="font-[650] text-white">
                                                             {item.vote_average.toFixed(1)}
