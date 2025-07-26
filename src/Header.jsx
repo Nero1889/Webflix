@@ -231,7 +231,6 @@ function Header() {
                 </div>
 
                 <div className="flex gap-5 items-center">
-                    {/* Mobile Search Bar */}
                     <button className="bg-slate-800 p-2 rounded-full flex items-center
                     justify-center hover:bg-slate-900 transition-colors duration-[.25s]
                     lg:hidden" onClick={() => setIsSearchOpen(true)}>
@@ -249,7 +248,7 @@ function Header() {
             </header>
 
 
-            {/* Mobile Navigation */}
+            {/* Navigation */}
             <div className={`fixed right-0 w-full bg-slate-950 z-90 flex flex-col
             mt-[-1.25rem] shadow-[0_4px_6px_-1px_rgba(0,0,0,0.5)]
             lg:w-[20rem] lg:h-full
@@ -301,6 +300,7 @@ function Header() {
                             <img src={back} alt="Back Icon" className="w-10 h-10 mr-5"
                             draggable="false"/>
                         </button>
+                        {/* Mobile Search Bar */}
                         <div className="relative flex-grow flex">
                             <span className="absolute inset-y-0 left-4 flex items-center
                             pointer-events-none">
@@ -367,66 +367,65 @@ function Header() {
 
                         {searchResults.length > 0 && (
                             <div className="mt-4 space-y-3">
-                                {searchResults.map((item) => (
-                                    <div key={item.id} onClick={() => handleSuggestionClick(item)}
-                                    className="p-4 flex items-center md:items-start gap-4
-                                    bg-slate-900 rounded-[1rem] hover:bg-slate-800
-                                    transition-colors duration-[.25s] cursor-pointer">
-                                        {item.media_type === "person" ? (
-                                            item.profile_path ? (
-                                                <img src={`${TMDB_IMAGE_BASE_URL}${item.profile_path}`}
-                                                alt={item.name}
-                                                className="w-[7rem] h-[10rem] object-cover rounded-[1rem] flex-shrink-0"
-                                                draggable="false"/>
+                                <div className="grid grid-cols-2 gap-2">
+                                    {searchResults.map((item) => (
+                                        <div key={item.id} onClick={() => handleSuggestionClick(item)}
+                                        className="p-2 flex items-center flex-col md:flex-row gap-4
+                                        bg-slate-900 rounded-[1rem] hover:bg-slate-800
+                                        transition-colors duration-[.25s] cursor-pointer">
+                                            {item.media_type === "person" ? (
+                                                item.profile_path ? (
+                                                    <img src={`${TMDB_IMAGE_BASE_URL}${item.profile_path}`}
+                                                    alt={item.name}
+                                                    className="w-[7rem] h-[10rem] object-cover rounded-[1rem] flex-shrink-0"
+                                                    draggable="false"/>
+                                                ) : (
+                                                    <div className="w-[7rem] h-[10rem] bg-slate-700 rounded-full flex items-center justify-center text-sm text-center flex-shrink-0">
+                                                        <img src={actor} alt="Actor Icon" className="w-12 h-12 p-1"/>
+                                                    </div>
+                                                )
                                             ) : (
-                                                <div className="w-[7rem] h-[10rem] bg-slate-700 rounded-full flex items-center justify-center text-sm text-center flex-shrink-0">
-                                                    <img src={actor} alt="Actor Icon" className="w-12 h-12 p-1"/>
-                                                </div>
-                                            )
-                                        ) : (
-                                            item.poster_path ? (
-                                                <img src={`${TMDB_IMAGE_BASE_URL}${item.poster_path}`}
-                                                alt={item.title || item.name}
-                                                className="w-[7rem] h-[10rem] object-cover rounded-[1rem] flex-shrink-0"
-                                                draggable="false"/>
-                                            ) : (
-                                                <div className="w-[7rem] h-[10rem] bg-slate-700 flex items-center justify-center text-sm text-center rounded-[1rem] flex-shrink-0">
-                                                    <img src={movie} alt="Movie Icon" className="w-12 h-12 p-1"/>
-                                                </div>
-                                            )
-                                        )}
-                                        <div className="text-white text-center
-                                        md:text-left flex-grow">
-                                            <h2 className="text-base font-[650] mb-2 text-left">
-                                                {item.title || item.name}
-                                            </h2>
-                                            <p className="text-slate-400 font-[550] text-xs mb-2 text-left">
-                                                {item.media_type === "movie" && `Movie (${item.release_date ? item.release_date.substring(0, 4) : "N/A"})`}
-                                                {item.media_type === "tv" && `TV Show (${item.first_air_date ? item.first_air_date.substring(0, 4) : "N/A"})`}
-                                                {item.media_type === "person" && `Actor`}
-                                            </p>
-                                            <p style={LINE_CLAMP5} className="text-slate-500 font-[550] text-xs mb-4 text-left">
-                                                {item.media_type === "person" ?
-                                                    (item.known_for && item.known_for.length > 0 ?
-                                                        `${item.known_for.map(kf => kf.title || kf.name).join(", ")}` :
-                                                        "No known credits available!")
-                                                    : (item.overview || "No overview available!")
-                                                }
-                                            </p>
-                                            {item.vote_average > 0 && item.media_type !== "person" && (
-                                                <div className="text-slate-500 font-[550] text-sm flex items-center gap-2">
-                                                    <img src={starRating} alt="Star icon"
-                                                    className="w-[1rem] h-[1rem]" draggable="false"/>
-                                                    <span>
-                                                        <span className="font-[650] text-white">
-                                                            {item.vote_average.toFixed(1)}
-                                                        </span> / 10
-                                                    </span>
-                                                </div>
+                                                item.poster_path ? (
+                                                    <img src={`${TMDB_IMAGE_BASE_URL}${item.poster_path}`}
+                                                    alt={item.title || item.name}
+                                                    className="w-[7rem] h-[10rem] object-cover rounded-[1rem] flex-shrink-0"
+                                                    draggable="false"/>
+                                                ) : (
+                                                    <div className="w-[7rem] h-[10rem]
+                                                    bg-slate-700 flex items-center 
+                                                    justify-center text-sm text-center 
+                                                    rounded-[1rem] flex-shrink-0">
+                                                        <img src={movie} alt="Movie Icon"
+                                                        className="w-12 h-12 p-1"/>
+                                                    </div>
+                                                )
                                             )}
+                                            <div className="text-center flex-grow flex flex-col justify-between">
+                                                <div>
+                                                    <h1 className="text-white text-xs font-[650] text-left mb-[.25rem]">
+                                                        {item.title || item.name}
+                                                    </h1>
+                                                    <p className="text-slate-400 font-[550] text-xs mb-[.35rem] text-left">
+                                                        {item.media_type === "movie" && `Movie (${item.release_date ? item.release_date.substring(0, 4) : "N/A"})`}
+                                                        {item.media_type === "tv" && `TV Show (${item.first_air_date ? item.first_air_date.substring(0, 4) : "N/A"})`}
+                                                        {item.media_type === "person" && `Actor`}
+                                                    </p>
+                                                </div>
+                                                {item.vote_average > 0 && item.media_type !== "person" && (
+                                                    <div className="text-slate-500 font-[650] text-xs flex items-center justify-center gap-2 mt-auto mb-[.25rem]">
+                                                        <img src={starRating} alt="Star icon"
+                                                        className="w-[1rem] h-[1rem]" draggable="false"/>
+                                                        <span>
+                                                            <span className="font-[650] text-white">
+                                                                {item.vote_average.toFixed(1)}
+                                                            </span> / 10
+                                                        </span>
+                                                    </div>
+                                                )}
+                                            </div>
                                         </div>
-                                    </div>
-                                ))}
+                                    ))}
+                                </div>
                             </div>
                         )}
                     </div>
