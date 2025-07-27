@@ -28,12 +28,13 @@ function Header() {
     }
 
     const [IS_MENU_OPEN, setIsMenuOpen] = useState(false);
-    const [IS_SEARCH_OPEN, setIsSearchOpen] = useState(false);
+    const [IS_SEARCH_OPEN, setIsSearchOpen] = useState(false); // This is primarily for mobile search overlay
     const [searchTerm, setSearchTerm] = useState("");
     const [suggestions, setSuggestions] = useState([]);
     const [loadingSuggestions, setLoadingSuggestions] = useState(false);
     const [error, setError] = useState(null);
     const [searchResults, setSearchResults] = useState([]);
+    const [showFullSearchResults, setShowFullSearchResults] = useState(false);
 
     const debounceTimeoutRef = useRef(null);
     const navigate = useNavigate();
@@ -45,12 +46,13 @@ function Header() {
         if (!query.trim()) {
             setSuggestions([]);
             setSearchResults([]);
+            setShowFullSearchResults(false);
             return;
         }
 
         setLoadingSuggestions(true);
         setError(null);
-        setSearchResults([]);
+        setShowFullSearchResults(false);
 
         try {
             const response = await fetch(
@@ -76,15 +78,17 @@ function Header() {
             setError("Could not load results!");
             setSuggestions([]);
             setSearchResults([]);
+            setShowFullSearchResults(false);
         } finally {
             setLoadingSuggestions(false);
         }
     };
 
     const handleSearchChange = (e) => {
-        const query = e.target.value;
+    const query = e.target.value;
         setSearchTerm(query);
         setSearchResults([]);
+        setShowFullSearchResults(false);
 
         if (debounceTimeoutRef.current) {
             clearTimeout(debounceTimeoutRef.current);
@@ -92,7 +96,7 @@ function Header() {
 
         debounceTimeoutRef.current = setTimeout(() => {
             fetchSuggestions(query);
-        }, 300);
+    }, 300);
     };
 
     const handleKeyDown = (e) => {
@@ -108,16 +112,18 @@ function Header() {
     const triggerFullSearch = async (query) => {
         if (!query.trim()) {
             setSearchResults([]);
+            setShowFullSearchResults(false);
             return;
         }
 
         setLoadingSuggestions(true);
         setError(null);
         setSuggestions([]);
+        setShowFullSearchResults(true);
 
         try {
             const response = await fetch(
-                `${TMDB_BASE_URL}/search/multi?api_key=${TMDB_API_KEY}&query=${encodeURIComponent(query)}&include_adult=false`
+                `${TMDB_BASE_URL}/search/multi?api_key=${TMDB_API_KEY}&query=${encodeURIComponent(query)}`
             );
 
             if (!response.ok) {
@@ -129,15 +135,16 @@ function Header() {
             const combinedFullResults = data.results.filter(item =>
                 item.media_type === "movie" || item.media_type === "tv" || item.media_type === "person"
             ).sort((a, b) => {
-                return (b.popularity || 0) - (a.popularity || 0);
+                 return (b.popularity || 0) - (a.popularity || 0);
             });
 
             setSearchResults(combinedFullResults);
-            setSuggestions([]);
+
         } catch (err) {
             console.error(`Error fetching full search results: ${err}`);
             setError("Could not load full results!");
             setSearchResults([]);
+            setShowFullSearchResults(false);
         } finally {
             setLoadingSuggestions(false);
         }
@@ -147,6 +154,7 @@ function Header() {
         setSearchTerm(item.title || item.name);
         setSuggestions([]);
         setSearchResults([]);
+        setShowFullSearchResults(false);
 
         let routePath;
         let passedState = {data: item};
@@ -168,6 +176,7 @@ function Header() {
             setError(null);
             setLoadingSuggestions(false);
             setSearchResults([]);
+            setShowFullSearchResults(false);
             if (debounceTimeoutRef.current) {
                 clearTimeout(debounceTimeoutRef.current);
             }
@@ -181,23 +190,23 @@ function Header() {
                 <h1 className="text-xl font-[650] text-white">Webflix</h1>
                 {/* Desktop Search Bar */}
                 <div className="relative hidden w-[24rem] h-[2.5rem] lg:block xl:w-[34rem]">
-                    <img src={slateSearch} alt="Search Icon" className="absolute left-3 
-                    top-[1.2rem] transform -translate-y-1/2 w-5 h-5 pointer-events-none" 
+                    <img src={slateSearch} alt="Search Icon" className="absolute left-3
+                    top-[1.2rem] transform -translate-y-1/2 w-5 h-5 pointer-events-none"
                     draggable="false"/>
                     <input type="text" placeholder="Search!"
                     className={`w-full h-full pl-10 pr-5 text-sm bg-slate-900 text-white
                     placeholder:text-slate-500 focus:outline-none font-[550] ${
-                        searchTerm.length > 0 && suggestions.length > 0 && !loadingSuggestions
+                        searchTerm.length > 0 && suggestions.length > 0 && !loadingSuggestions && !showFullSearchResults
                         ? "rounded-t-[1rem] rounded-b-none"
                         : "rounded-[2rem]"
-                    }`} value={searchTerm} onChange={handleSearchChange} 
+                    }`} value={searchTerm} onChange={handleSearchChange}
                     onKeyDown={handleKeyDown}/>
-                    {searchTerm.length > 0 && suggestions.length > 0 && !loadingSuggestions && (
-                        <ul className="absolute top-[2.2rem] left-0 w-full bg-slate-900 
+                    {searchTerm.length > 0 && suggestions.length > 0 && !loadingSuggestions && !showFullSearchResults && (
+                        <ul className="absolute top-[2.2rem] left-0 w-full bg-slate-900
                         text-white mt-1 shadow-lg z-50 overflow-hidden"
                         style={{borderRadius: "0 0 1rem 1rem"}}>
                             {suggestions.map((item) => (
-                                <li key={item.id} className="flex items-center gap-3 px-4 
+                                <li key={item.id} className="flex items-center gap-3 px-4
                                 py-3 hover:bg-slate-800 cursor-pointer transition-colors
                                 duration-200" onClick={() => handleSuggestionClick(item)}>
                                     {item.media_type === "person" ? (
@@ -247,6 +256,72 @@ function Header() {
                 </div>
             </header>
 
+            {showFullSearchResults && searchResults.length > 0 && (
+                <div className="fixed inset-0 bg-slate-950 z-[100] overflow-y-auto hidden lg:block">
+                    <div className="flex items-start mt-2 p-5 sticky top-0 bg-slate-950">
+                        <button onClick={() => { setSearchTerm(""); setSearchResults([]); setShowFullSearchResults(false); }}
+                        className="flex items-center">
+                            <img src={back} alt="Back Icon" className="w-10 h-10 mr-5" draggable="false"/>
+                        </button>
+                        <div className="relative flex-grow flex">
+                            <span className="absolute inset-y-0 left-4 flex items-center pointer-events-none">
+                                <img src={slateSearch} alt="Slate Search Icon" className="w-5 h-5"/>
+                            </span>
+                            <input type="text" placeholder="Search!" 
+                            className="w-full h-[2.7rem] bg-slate-900 text-white pl-12 pr-4 rounded-[7rem] 
+                            focus:outline-none text-sm" autoFocus value={searchTerm} onChange={handleSearchChange} onKeyDown={handleKeyDown}/>
+                        </div>
+                    </div>
+                    <h1 className="text-slate-500 text-sm font-[650] mb-[1rem]">
+                        Results For: 
+                        <span className="text-slate-300 ml-[.35rem]">{searchTerm}</span>
+                    </h1>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 mx-[2rem]">
+                        {searchResults.map((item) => (
+                            <div key={item.id} onClick={() => handleSuggestionClick(item)}
+                            className="p-3 bg-slate-900 rounded-lg flex flex-col items-center
+                            hover:bg-slate-800 transition-colors duration-200 cursor-pointer">
+                                {item.media_type === "person" ? (
+                                    item.profile_path ? (
+                                        <img src={`${TMDB_IMAGE_BASE_URL}${item.profile_path}`}
+                                        alt={item.name}
+                                        className="w-full h-auto object-cover rounded-md mb-2"
+                                        draggable="false"/>
+                                    ) : (
+                                        <div className="w-full h-[15rem] bg-slate-700 rounded-md flex items-center justify-center mb-2">
+                                            <img src={actor} alt="Actor Icon" className="w-16 h-16 p-2"/>
+                                        </div>
+                                    )
+                                ) : (
+                                    item.poster_path ? (
+                                        <img src={`${TMDB_IMAGE_BASE_URL}${item.poster_path}`}
+                                        alt={item.title || item.name}
+                                        className="w-full h-auto object-cover rounded-md mb-2"
+                                        draggable="false"/>
+                                    ) : (
+                                        <div className="w-full h-[15rem] bg-slate-700 rounded-md flex items-center justify-center mb-2">
+                                            <img src={movie} alt="Movie Icon" className="w-16 h-16 p-2"/>
+                                        </div>
+                                    )
+                                )}
+                                <h3 className="text-base font-semibold text-center mt-2">{item.title || item.name}</h3>
+                                <p className="text-sm text-slate-400 text-center">
+                                    {item.media_type === "movie" && `Movie (${item.release_date ? item.release_date.substring(0, 4) : "N/A"})`}
+                                    {item.media_type === "tv" && `TV Show (${item.first_air_date ? item.first_air_date.substring(0, 4) : "N/A"})`}
+                                    {item.media_type === "person" && `Actor`}
+                                </p>
+                                {item.vote_average > 0 && item.media_type !== "person" && (
+                                    <div className="flex items-center gap-1 mt-1">
+                                        <img src={starRating} alt="Star icon" className="w-4 h-4" draggable="false"/>
+                                        <span className="text-sm text-white font-semibold">{item.vote_average.toFixed(1)}</span>
+                                        <span className="text-xs text-slate-400">/ 10</span>
+                                    </div>
+                                )}
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            )}
 
             {/* Navigation */}
             <div className={`fixed right-0 w-full bg-slate-950 z-90 flex flex-col
@@ -267,7 +342,7 @@ function Header() {
                                     <img src={icon} alt={`${label} Icon`} className="w-7 h-7" draggable="false"/>
                                     {path ? (
                                         <Link to={path} onClick={TOGGLE_MENU}
-                                        className="text-slate-300 text-base font-[550] 
+                                        className="text-slate-300 text-base font-[550]
                                         py-2 px-4 block hover:text-white transition-colors
                                         duration-[.25s]">
                                             {label}
@@ -277,7 +352,7 @@ function Header() {
                                         onClick={label === "Portfolio" ? TOGGLE_MENU : undefined}
                                         target={label === "Portfolio" ? "_blank" : undefined}
                                         rel={label === "Portfolio" ? "noopener noreferrer" : undefined}
-                                        className="text-slate-300 text-base font-[550] 
+                                        className="text-slate-300 text-base font-[550]
                                         py-2 px-4 block hover:text-white transition-colors
                                         duration-[.25s]">
                                             {label}
@@ -291,24 +366,23 @@ function Header() {
                 </nav>
             </div>
 
-            {/* Search Overlay */}
+            {/* Search Overlay - Mobile */}
             {IS_SEARCH_OPEN && (
-                <div className="fixed inset-0 bg-slate-950 z-[100] overflow-y-auto">
+                <div className="fixed inset-0 bg-slate-950 z-[100] overflow-y-auto lg:hidden">
                     <div className="flex items-start mt-2 p-5 sticky top-0 bg-slate-950">
                         <button onClick={() => setIsSearchOpen(false)}
                         className="flex items-center">
                             <img src={back} alt="Back Icon" className="w-10 h-10 mr-5"
                             draggable="false"/>
                         </button>
-                        {/* Mobile Search Bar */}
                         <div className="relative flex-grow flex">
                             <span className="absolute inset-y-0 left-4 flex items-center
                             pointer-events-none">
                                 <img src={slateSearch} alt="Slate Search Icon" className="w-5 h-5"/>
                             </span>
                             <input type="text" placeholder="Search!" className="w-full
-                            h-[2.7rem] bg-slate-800 text-white pl-12 pr-4 rounded-[7rem]
-                            focus:outline-none text-sm" autoFocus value={searchTerm}
+                            h-[2.7rem] bg-slate-900 text-white pl-12 pr-4 rounded-[7rem]
+                            placeholder:text-slate-500 font-[550] focus:outline-none text-sm" autoFocus value={searchTerm}
                             onChange={handleSearchChange} onKeyDown={handleKeyDown}/>
                         </div>
                     </div>
@@ -325,7 +399,7 @@ function Header() {
                         )}
 
                         {searchTerm.length > 0 && !loadingSuggestions && !error &&
-                        suggestions.length > 0 && searchResults.length === 0 && (
+                        suggestions.length > 0 && !showFullSearchResults && (
                             <ul className="text-white mt-4 space-y-3">
                                 {suggestions.map((item) => (
                                     <li key={item.id} className="bg-slate-900 p-2 rounded-[.5rem] flex items-center gap-5 cursor-pointer hover:bg-slate-800
@@ -337,7 +411,7 @@ function Header() {
                                                 src={`${TMDB_SMALL_IMAGE_BASE_URL}${item.profile_path}`}
                                                 alt={item.name} draggable="false"/>
                                             ) : (
-                                                <img className="w-[3rem] h-[3rem] rounded-full object-cover ml-[.5rem] p-1" 
+                                                <img className="w-[3rem] h-[3rem] rounded-full object-cover ml-[.5rem] p-1"
                                                 src={actor} alt="Actor Icon" draggable="false"/>
                                             )
                                         ) : (
@@ -360,13 +434,19 @@ function Header() {
                         )}
 
                         {searchTerm.length > 0 && !loadingSuggestions && !error &&
-                        suggestions.length === 0 && searchResults.length === 0 && (
-                            <p className="text-slate-300 text-center mt-[5rem] text-base font-[550]">No results found!</p>
+                        (suggestions.length === 0 || showFullSearchResults) && searchResults.length === 0 && (
+                            <p className="text-slate-500 text-center mt-[5rem] text-base font-[550]">
+                                No results found!
+                            </p>
                         )}
 
-
                         {searchResults.length > 0 && (
-                            <div className="mt-4 space-y-3">
+                            <div className="space-y-3">
+                                <h1 className="text-slate-500 text-sm font-[650] mb-[1rem]">
+                                    Results For: 
+                                    <span className="text-slate-300 ml-[.35rem]">{searchTerm}</span>
+                                </h1>
+
                                 <div className="grid grid-cols-2 gap-2">
                                     {searchResults.map((item) => (
                                         <div key={item.id} onClick={() => handleSuggestionClick(item)}
@@ -392,8 +472,8 @@ function Header() {
                                                     draggable="false"/>
                                                 ) : (
                                                     <div className="w-[7rem] h-[10rem]
-                                                    bg-slate-700 flex items-center 
-                                                    justify-center text-sm text-center 
+                                                    bg-slate-700 flex items-center
+                                                    justify-center text-sm text-center
                                                     rounded-[1rem] flex-shrink-0">
                                                         <img src={movie} alt="Movie Icon"
                                                         className="w-12 h-12 p-1"/>
@@ -419,7 +499,7 @@ function Header() {
                                                             <span className="font-[650] text-white">
                                                                 {item.vote_average.toFixed(1)}
                                                             </span> / 10
-                                                        </span>
+                                                    </span>
                                                     </div>
                                                 )}
                                             </div>
