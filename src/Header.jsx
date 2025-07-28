@@ -44,7 +44,6 @@ function Header() {
 
         setLoadingSuggestions(true);
         setError(null);
-        setShowFullSearchResults(false);
 
         try {
             const response = await fetch(
@@ -127,7 +126,7 @@ function Header() {
             const combinedFullResults = data.results.filter(item =>
                 item.media_type === "movie" || item.media_type === "tv" || item.media_type === "person"
             ).sort((a, b) => {
-                 return (b.popularity || 0) - (a.popularity || 0);
+                return (b.popularity || 0) - (a.popularity || 0);
             });
 
             setSearchResults(combinedFullResults);
@@ -151,12 +150,10 @@ function Header() {
         let routePath;
         let passedState = {data: item};
 
-        if (item.media_type === "person") {
-            routePath = `/actor/${item.id}`;
-        } else {
-            routePath = `/${item.media_type}/${item.id}`;
-        }
-
+        item.media_type === "person"
+        ? routePath = `/actor/${item.id}`
+        : routePath = `/${item.media_type}/${item.id}`;
+        
         navigate(routePath, passedState);
         setIsSearchOpen(false);
     };
@@ -169,9 +166,7 @@ function Header() {
             setLoadingSuggestions(false);
             setSearchResults([]);
             setShowFullSearchResults(false);
-            if (debounceTimeoutRef.current) {
-                clearTimeout(debounceTimeoutRef.current);
-            }
+            if (debounceTimeoutRef.current) clearTimeout(debounceTimeoutRef.current);
         }
     }, [IS_SEARCH_OPEN]);
 
@@ -346,8 +341,8 @@ function Header() {
                 </nav>
             </div>
 
-            {/* Search Overlay - Mobile */}
-            {IS_SEARCH_OPEN && (
+            {/* Search Overlay - Mobile & Full Results */}
+            {IS_SEARCH_OPEN && !showFullSearchResults && (
                 <div className="fixed inset-0 bg-slate-950 z-[100] overflow-y-auto lg:hidden">
                     <div className="flex items-start mt-2 p-5 sticky top-0 bg-slate-950">
                         <button onClick={() => setIsSearchOpen(false)}
@@ -374,11 +369,11 @@ function Header() {
                             </div>
                         )}
                         {error && (
-                            <p className="text-[#b71234] text-center mt-4 border">{error}</p>
+                            <p className="text-[#b71234] text-center mt-4 border-rose-500 border-[2px]">{error}</p>
                         )}
 
                         {searchTerm.length > 0 && !loadingSuggestions && !error &&
-                        suggestions.length > 0 && !showFullSearchResults && (
+                        suggestions.length > 0 && (
                             <ul className="text-white mt-4 space-y-3">
                                 {suggestions.map((item) => (
                                     <li key={item.id} className="bg-slate-900 p-2 rounded-[.5rem] flex items-center gap-5 cursor-pointer hover:bg-slate-800
@@ -413,81 +408,10 @@ function Header() {
                         )}
 
                         {searchTerm.length > 0 && !loadingSuggestions && !error &&
-                        (suggestions.length === 0 || showFullSearchResults) && searchResults.length === 0 && (
+                        (suggestions.length === 0) && (
                             <p className="text-slate-500 text-center mt-[5rem] text-base font-[550]">
                                 No results found!
                             </p>
-                        )}
-
-                        {searchResults.length > 0 && (
-                            <div className="space-y-3">
-                                <h1 className="text-slate-500 text-sm font-[650] mb-[1rem]">
-                                    Search Results For: 
-                                    <span className="text-slate-300 ml-[.35rem]">{searchTerm}</span>
-                                </h1>
-
-                                {/* Mobile Results */}
-                                <div className="grid grid-cols-2 gap-2 justify-items-center sm:grid-cols-3">
-                                    {searchResults.map((item) => (
-                                        /* Individual Div */
-                                        <div key={item.id} onClick={() => handleSuggestionClick(item)}
-                                        className="p-2 flex items-center flex-col gap-4 bg-slate-900 rounded-[1rem] hover:bg-slate-800 
-                                        transition-colors duration-[.25s] cursor-pointer w-full ">
-                                            {item.media_type === "person" ? (
-                                                item.profile_path ? (
-                                                    <img src={`${TMDB_IMAGE_BASE_URL}${item.profile_path}`}
-                                                    alt={item.name}
-                                                    className="w-[7rem] h-[10rem] object-cover rounded-[1rem] flex-shrink-0 "
-                                                    draggable="false"/>
-                                                ) : (
-                                                    <div className="w-[7rem] h-[10rem] bg-slate-700 rounded-full flex items-center justify-center text-sm text-center
-                                                    flex-shrink-0 ">
-                                                        <img src={actor} alt="Actor Icon" className="w-12 h-12 p-1"/>
-                                                    </div>
-                                                )
-                                            ) : (
-                                                item.poster_path ? (
-                                                    <img src={`${TMDB_IMAGE_BASE_URL}${item.poster_path}`}
-                                                    alt={item.title || item.name}
-                                                    className="w-[7rem] h-[10rem] object-cover rounded-[1rem] flex-shrink-0"
-                                                    draggable="false"/>
-                                                ) : (
-                                                    <div className="w-[7rem] h-[10rem] bg-slate-700 flex items-center justify-center text-sm text-center 
-                                                    rounded-[1rem] flex-shrink-0">
-                                                        <img src={movie} alt="Movie Icon"
-                                                        className="w-12 h-12 p-1 border-rose-600 border"/>
-                                                    </div>
-                                                )
-                                            )}
-                                            {/* Super Important!!! */}
-                                            <div className="text-center flex-grow flex flex-col justify-between">
-                                                <div>
-                                                    <h1 className="text-white text-xs font-[650] text-center w-[7.5rem] mb-[.25rem] sm:text-sm sm:w-[11rem]">
-                                                        {item.title || item.name}
-                                                    </h1>
-                                                    <p className="text-slate-400 font-[550] text-xs mb-[.35rem] text-center sm:text-sm">
-                                                        {item.media_type === "movie" && `Movie (${item.release_date ? item.release_date.substring(0, 4) : "N/A"})`}
-                                                        {item.media_type === "tv" && `TV Show (${item.first_air_date ? item.first_air_date.substring(0, 4) : "N/A"})`}
-                                                        {item.media_type === "person" && `Actor`}
-                                                    </p>
-                                                </div>
-                                                {item.vote_average > 0 && item.media_type !== "person" && (
-                                                    <div className="text-slate-500 font-[650] text-xs flex items-center justify-center gap-2 mt-auto mb-[.25rem]
-                                                    sm:text-sm">
-                                                        <img src={starRating} alt="Star icon"
-                                                        className="w-[1rem] h-[1rem]" draggable="false"/>
-                                                        <span>
-                                                            <span className="font-[650] text-white">
-                                                                {item.vote_average.toFixed(1)}
-                                                            </span> / 10
-                                                    </span>
-                                                    </div>
-                                                )}
-                                            </div>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
                         )}
                     </div>
                 </div>
