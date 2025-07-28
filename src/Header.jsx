@@ -19,16 +19,8 @@ const TMDB_IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w300";
 const TMDB_SMALL_IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w92";
 
 function Header() {
-    const LINE_CLAMP5 = {
-        overflow: "hidden",
-        display: "-webkit-box",
-        WebkitBoxOrient: "vertical",
-        WebkitLineClamp: 5,
-        whiteSpace: "normal",
-    }
-
     const [IS_MENU_OPEN, setIsMenuOpen] = useState(false);
-    const [IS_SEARCH_OPEN, setIsSearchOpen] = useState(false); // This is primarily for mobile search overlay
+    const [IS_SEARCH_OPEN, setIsSearchOpen] = useState(false);
     const [searchTerm, setSearchTerm] = useState("");
     const [suggestions, setSuggestions] = useState([]);
     const [loadingSuggestions, setLoadingSuggestions] = useState(false);
@@ -185,29 +177,24 @@ function Header() {
 
     return (
         <>
-            <header className="p-7 flex items-center justify-between sticky top-0
-            bg-slate-950 w-full z-10 text-white">
+            <header className="p-7 flex items-center justify-between sticky top-0 bg-slate-950 w-full z-10 text-white">
                 <h1 className="text-xl font-[650] text-white">Webflix</h1>
                 {/* Desktop Search Bar */}
                 <div className="relative hidden w-[24rem] h-[2.5rem] lg:block xl:w-[34rem]">
-                    <img src={slateSearch} alt="Search Icon" className="absolute left-3
-                    top-[1.2rem] transform -translate-y-1/2 w-5 h-5 pointer-events-none"
+                    <img src={slateSearch} alt="Search Icon" className="absolute left-3 top-[1.2rem] transform -translate-y-1/2 w-5 h-5 pointer-events-none"
                     draggable="false"/>
                     <input type="text" placeholder="Search!"
-                    className={`w-full h-full pl-10 pr-5 text-sm bg-slate-900 text-white
-                    placeholder:text-slate-500 focus:outline-none font-[550] ${
+                    className={`w-full h-full pl-10 pr-5 text-sm bg-slate-900 text-white placeholder:text-slate-500 focus:outline-none font-[550] ${
                         searchTerm.length > 0 && suggestions.length > 0 && !loadingSuggestions && !showFullSearchResults
                         ? "rounded-t-[1rem] rounded-b-none"
                         : "rounded-[2rem]"
                     }`} value={searchTerm} onChange={handleSearchChange}
                     onKeyDown={handleKeyDown}/>
                     {searchTerm.length > 0 && suggestions.length > 0 && !loadingSuggestions && !showFullSearchResults && (
-                        <ul className="absolute top-[2.2rem] left-0 w-full bg-slate-900
-                        text-white mt-1 shadow-lg z-50 overflow-hidden"
+                        <ul className="absolute top-[2.2rem] left-0 w-full bg-slate-900 text-white mt-1 shadow-lg z-50 overflow-hidden"
                         style={{borderRadius: "0 0 1rem 1rem"}}>
                             {suggestions.map((item) => (
-                                <li key={item.id} className="flex items-center gap-3 px-4
-                                py-3 hover:bg-slate-800 cursor-pointer transition-colors
+                                <li key={item.id} className="flex items-center gap-3 px-4 py-3 hover:bg-slate-800 cursor-pointer transition-colors
                                 duration-200" onClick={() => handleSuggestionClick(item)}>
                                     {item.media_type === "person" ? (
                                         item.profile_path ? (
@@ -240,15 +227,13 @@ function Header() {
                 </div>
 
                 <div className="flex gap-5 items-center">
-                    <button className="bg-slate-800 p-2 rounded-full flex items-center
-                    justify-center hover:bg-slate-900 transition-colors duration-[.25s]
-                    lg:hidden" onClick={() => setIsSearchOpen(true)}>
+                    <button className="bg-slate-800 p-2 rounded-full flex items-center justify-center hover:bg-slate-900 transition-colors 
+                    duration-[.25s] lg:hidden" onClick={() => setIsSearchOpen(true)}>
                         <img className="w-7 h-7" src={search} alt="Search Icon"
                         draggable="false"/>
                     </button>
 
-                    <button className="bg-[#b71234] p-2 rounded-full flex items-center
-                    justify-center hover:bg-[#710033] transition-colors duration-[.25s]"
+                    <button className="bg-[#b71234] p-2 rounded-full flex items-center justify-center hover:bg-[#710033] transition-colors duration-[.25s]"
                     onClick={TOGGLE_MENU}>
                         <img className="w-7 h-7" src={MENU_ICON_SRC} alt={IS_MENU_OPEN ?
                         "Close menu" : "Open menu"} draggable="false"/>
@@ -268,19 +253,19 @@ function Header() {
                                 <img src={slateSearch} alt="Slate Search Icon" className="w-5 h-5"/>
                             </span>
                             <input type="text" placeholder="Search!" 
-                            className="w-full h-[2.7rem] bg-slate-900 text-white pl-12 pr-4 rounded-[7rem] 
-                            focus:outline-none text-sm" autoFocus value={searchTerm} onChange={handleSearchChange} onKeyDown={handleKeyDown}/>
+                            className="w-full h-[2.7rem] bg-slate-900 text-white pl-12 pr-4 rounded-[7rem] focus:outline-none text-sm" 
+                            autoFocus value={searchTerm} onChange={handleSearchChange} onKeyDown={handleKeyDown}/>
                         </div>
                     </div>
-                    <h1 className="text-slate-500 text-sm font-[650] mb-[1rem]">
-                        Results For: 
+                    <h1 className="text-slate-500 text-sm font-[650] mb-[1rem] ml-[2rem]">
+                        Search Results For: 
                         <span className="text-slate-300 ml-[.35rem]">{searchTerm}</span>
                     </h1>
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 mx-[2rem]">
                         {searchResults.map((item) => (
                             <div key={item.id} onClick={() => handleSuggestionClick(item)}
-                            className="p-3 bg-slate-900 rounded-lg flex flex-col items-center
-                            hover:bg-slate-800 transition-colors duration-200 cursor-pointer">
+                            className="p-3 bg-slate-900 rounded-lg flex flex-col items-center hover:bg-slate-800 transition-colors duration-200 
+                            cursor-pointer">
                                 {item.media_type === "person" ? (
                                     item.profile_path ? (
                                         <img src={`${TMDB_IMAGE_BASE_URL}${item.profile_path}`}
@@ -324,9 +309,7 @@ function Header() {
             )}
 
             {/* Navigation */}
-            <div className={`fixed right-0 w-full bg-slate-950 z-90 flex flex-col
-            mt-[-1.25rem] shadow-[0_4px_6px_-1px_rgba(0,0,0,0.5)]
-            lg:w-[20rem] lg:h-full
+            <div className={`fixed right-0 w-full bg-slate-950 z-90 flex flex-col mt-[-1.25rem] shadow-[0_4px_6px_-1px_rgba(0,0,0,0.5)] lg:w-[20rem] lg:h-full
             ${IS_MENU_OPEN ? "visible" : "invisible"}
             ${IS_MENU_OPEN ? "opacity-100" : "opacity-0"}`}>
                 <nav className="w-full">
@@ -342,9 +325,7 @@ function Header() {
                                     <img src={icon} alt={`${label} Icon`} className="w-7 h-7" draggable="false"/>
                                     {path ? (
                                         <Link to={path} onClick={TOGGLE_MENU}
-                                        className="text-slate-300 text-base font-[550]
-                                        py-2 px-4 block hover:text-white transition-colors
-                                        duration-[.25s]">
+                                        className="text-slate-300 text-base font-[550] py-2 px-4 block hover:text-white transition-colors duration-[.25s]">
                                             {label}
                                         </Link>
                                     ) : (
@@ -352,9 +333,7 @@ function Header() {
                                         onClick={label === "Portfolio" ? TOGGLE_MENU : undefined}
                                         target={label === "Portfolio" ? "_blank" : undefined}
                                         rel={label === "Portfolio" ? "noopener noreferrer" : undefined}
-                                        className="text-slate-300 text-base font-[550]
-                                        py-2 px-4 block hover:text-white transition-colors
-                                        duration-[.25s]">
+                                        className="text-slate-300 text-base font-[550] py-2 px-4 block hover:text-white transition-colors duration-[.25s]">
                                             {label}
                                         </a>
                                     )}
@@ -380,8 +359,7 @@ function Header() {
                             pointer-events-none">
                                 <img src={slateSearch} alt="Slate Search Icon" className="w-5 h-5"/>
                             </span>
-                            <input type="text" placeholder="Search!" className="w-full
-                            h-[2.7rem] bg-slate-900 text-white pl-12 pr-4 rounded-[7rem]
+                            <input type="text" placeholder="Search!" className="w-full h-[2.7rem] bg-slate-900 text-white pl-12 pr-4 rounded-[7rem]
                             placeholder:text-slate-500 font-[550] focus:outline-none text-sm" autoFocus value={searchTerm}
                             onChange={handleSearchChange} onKeyDown={handleKeyDown}/>
                         </div>
@@ -390,8 +368,8 @@ function Header() {
                     <div className="p-5 pt-0">
                         {loadingSuggestions && (
                             <div className="flex justify-center items-center mt-[5rem]">
-                                <div className="w-[2.5rem] h-[2.5rem] border-4 border-slate-800
-                                border-t-slate-300 rounded-full animate-spin"></div>
+                                <div className="w-[2.5rem] h-[2.5rem] border-4 border-slate-800 border-t-slate-300 rounded-full 
+                                animate-spin"></div>
                             </div>
                         )}
                         {error && (
@@ -443,15 +421,14 @@ function Header() {
                         {searchResults.length > 0 && (
                             <div className="space-y-3">
                                 <h1 className="text-slate-500 text-sm font-[650] mb-[1rem]">
-                                    Results For: 
+                                    Search Results For: 
                                     <span className="text-slate-300 ml-[.35rem]">{searchTerm}</span>
                                 </h1>
 
                                 <div className="grid grid-cols-2 gap-2">
                                     {searchResults.map((item) => (
                                         <div key={item.id} onClick={() => handleSuggestionClick(item)}
-                                        className="p-2 flex items-center flex-col md:flex-row gap-4
-                                        bg-slate-900 rounded-[1rem] hover:bg-slate-800
+                                        className="p-2 flex items-center flex-col md:flex-row gap-4 bg-slate-900 rounded-[1rem] hover:bg-slate-800 
                                         transition-colors duration-[.25s] cursor-pointer">
                                             {item.media_type === "person" ? (
                                                 item.profile_path ? (
@@ -460,7 +437,8 @@ function Header() {
                                                     className="w-[7rem] h-[10rem] object-cover rounded-[1rem] flex-shrink-0"
                                                     draggable="false"/>
                                                 ) : (
-                                                    <div className="w-[7rem] h-[10rem] bg-slate-700 rounded-full flex items-center justify-center text-sm text-center flex-shrink-0">
+                                                    <div className="w-[7rem] h-[10rem] bg-slate-700 rounded-full flex items-center justify-center text-sm text-center
+                                                    flex-shrink-0">
                                                         <img src={actor} alt="Actor Icon" className="w-12 h-12 p-1"/>
                                                     </div>
                                                 )
@@ -471,15 +449,14 @@ function Header() {
                                                     className="w-[7rem] h-[10rem] object-cover rounded-[1rem] flex-shrink-0"
                                                     draggable="false"/>
                                                 ) : (
-                                                    <div className="w-[7rem] h-[10rem]
-                                                    bg-slate-700 flex items-center
-                                                    justify-center text-sm text-center
+                                                    <div className="w-[7rem] h-[10rem] bg-slate-700 flex items-center justify-center text-sm text-center 
                                                     rounded-[1rem] flex-shrink-0">
                                                         <img src={movie} alt="Movie Icon"
                                                         className="w-12 h-12 p-1"/>
                                                     </div>
                                                 )
                                             )}
+                                            {/* Super Important!!! */}
                                             <div className="text-center flex-grow flex flex-col justify-between">
                                                 <div>
                                                     <h1 className="text-white text-xs font-[650] text-left mb-[.25rem]">
