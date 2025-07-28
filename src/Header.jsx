@@ -242,7 +242,7 @@ function Header() {
             </header>
 
             {showFullSearchResults && searchResults.length > 0 && (
-                <div className="fixed inset-0 bg-slate-950 z-[100] overflow-y-auto hidden lg:block">
+                <div className="fixed inset-0 bg-slate-950 z-[100] overflow-y-auto block">
                     <div className="flex items-start mt-2 p-5 sticky top-0 bg-slate-950">
                         <button onClick={() => { setSearchTerm(""); setSearchResults([]); setShowFullSearchResults(false); }}
                         className="flex items-center">
@@ -261,10 +261,10 @@ function Header() {
                         Search Results For: 
                         <span className="text-slate-300 ml-[.35rem]">{searchTerm}</span>
                     </h1>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 mx-[2rem]">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 mx-[2rem] border">
                         {searchResults.map((item) => (
                             <div key={item.id} onClick={() => handleSuggestionClick(item)}
-                            className="p-3 bg-slate-900 rounded-lg flex flex-col items-center hover:bg-slate-800 transition-colors duration-200 
+                            className="p-3 bg-slate-900 rounded-lg flex flex-col items-center hover:bg-slate-800 transition-colors duration-[.25s]
                             cursor-pointer">
                                 {item.media_type === "person" ? (
                                     item.profile_path ? (
@@ -289,14 +289,15 @@ function Header() {
                                         </div>
                                     )
                                 )}
-                                <h3 className="text-base font-semibold text-center mt-2">{item.title || item.name}</h3>
+                                {/* Desktop? */}
+                                <h3 className="text-base font-[650] text-center mt-2">{item.title || item.name}</h3>
                                 <p className="text-sm text-slate-400 text-center">
                                     {item.media_type === "movie" && `Movie (${item.release_date ? item.release_date.substring(0, 4) : "N/A"})`}
                                     {item.media_type === "tv" && `TV Show (${item.first_air_date ? item.first_air_date.substring(0, 4) : "N/A"})`}
                                     {item.media_type === "person" && `Actor`}
                                 </p>
                                 {item.vote_average > 0 && item.media_type !== "person" && (
-                                    <div className="flex items-center gap-1 mt-1">
+                                    <div className="flex items-center gap-1 mt-1 ">
                                         <img src={starRating} alt="Star icon" className="w-4 h-4" draggable="false"/>
                                         <span className="text-sm text-white font-semibold">{item.vote_average.toFixed(1)}</span>
                                         <span className="text-xs text-slate-400">/ 10</span>
@@ -425,20 +426,22 @@ function Header() {
                                     <span className="text-slate-300 ml-[.35rem]">{searchTerm}</span>
                                 </h1>
 
-                                <div className="grid grid-cols-2 gap-2">
+                                {/* Mobile Results */}
+                                <div className="grid grid-cols-2 gap-2 justify-items-center sm:grid-cols-3">
                                     {searchResults.map((item) => (
+                                        /* Individual Div */
                                         <div key={item.id} onClick={() => handleSuggestionClick(item)}
-                                        className="p-2 flex items-center flex-col md:flex-row gap-4 bg-slate-900 rounded-[1rem] hover:bg-slate-800 
-                                        transition-colors duration-[.25s] cursor-pointer">
+                                        className="p-2 flex items-center flex-col gap-4 bg-slate-900 rounded-[1rem] hover:bg-slate-800 
+                                        transition-colors duration-[.25s] cursor-pointer w-full ">
                                             {item.media_type === "person" ? (
                                                 item.profile_path ? (
                                                     <img src={`${TMDB_IMAGE_BASE_URL}${item.profile_path}`}
                                                     alt={item.name}
-                                                    className="w-[7rem] h-[10rem] object-cover rounded-[1rem] flex-shrink-0"
+                                                    className="w-[7rem] h-[10rem] object-cover rounded-[1rem] flex-shrink-0 "
                                                     draggable="false"/>
                                                 ) : (
                                                     <div className="w-[7rem] h-[10rem] bg-slate-700 rounded-full flex items-center justify-center text-sm text-center
-                                                    flex-shrink-0">
+                                                    flex-shrink-0 ">
                                                         <img src={actor} alt="Actor Icon" className="w-12 h-12 p-1"/>
                                                     </div>
                                                 )
@@ -452,24 +455,25 @@ function Header() {
                                                     <div className="w-[7rem] h-[10rem] bg-slate-700 flex items-center justify-center text-sm text-center 
                                                     rounded-[1rem] flex-shrink-0">
                                                         <img src={movie} alt="Movie Icon"
-                                                        className="w-12 h-12 p-1"/>
+                                                        className="w-12 h-12 p-1 border-rose-600 border"/>
                                                     </div>
                                                 )
                                             )}
                                             {/* Super Important!!! */}
                                             <div className="text-center flex-grow flex flex-col justify-between">
                                                 <div>
-                                                    <h1 className="text-white text-xs font-[650] text-left mb-[.25rem]">
+                                                    <h1 className="text-white text-xs font-[650] text-center w-[7.5rem] mb-[.25rem] sm:text-sm sm:w-[11rem]">
                                                         {item.title || item.name}
                                                     </h1>
-                                                    <p className="text-slate-400 font-[550] text-xs mb-[.35rem] text-left">
+                                                    <p className="text-slate-400 font-[550] text-xs mb-[.35rem] text-center sm:text-sm">
                                                         {item.media_type === "movie" && `Movie (${item.release_date ? item.release_date.substring(0, 4) : "N/A"})`}
                                                         {item.media_type === "tv" && `TV Show (${item.first_air_date ? item.first_air_date.substring(0, 4) : "N/A"})`}
                                                         {item.media_type === "person" && `Actor`}
                                                     </p>
                                                 </div>
                                                 {item.vote_average > 0 && item.media_type !== "person" && (
-                                                    <div className="text-slate-500 font-[650] text-xs flex items-center justify-center gap-2 mt-auto mb-[.25rem]">
+                                                    <div className="text-slate-500 font-[650] text-xs flex items-center justify-center gap-2 mt-auto mb-[.25rem]
+                                                    sm:text-sm">
                                                         <img src={starRating} alt="Star icon"
                                                         className="w-[1rem] h-[1rem]" draggable="false"/>
                                                         <span>
