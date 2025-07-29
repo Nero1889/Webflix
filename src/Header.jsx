@@ -50,10 +50,8 @@ function Header() {
                 `${TMDB_BASE_URL}/search/multi?api_key=${TMDB_API_KEY}&query=${encodeURIComponent(query)}&include_adult=false`
             );
 
-            if (!response.ok) {
-                throw new Error("Failed to fetch data!");
-            }
-
+            if (!response.ok) throw new Error("Failed to fetch data!");
+            
             const data = await response.json();
 
             const combinedResults = data.results.filter(item =>
@@ -172,14 +170,17 @@ function Header() {
 
     return (
         <>
-            <header className="p-7 flex items-center justify-between sticky top-0 bg-slate-950 w-full z-10 text-white">
+            <header className="p-7 flex items-center justify-between sticky top-0 
+            bg-slate-950 w-full z-10 text-white">
                 <h1 className="text-xl font-[650] text-white">Webflix</h1>
                 {/* Desktop Search Bar */}
                 <div className="relative hidden w-[24rem] h-[2.5rem] lg:block xl:w-[34rem]">
-                    <img src={slateSearch} alt="Search Icon" className="absolute left-3 top-[1.2rem] transform -translate-y-1/2 w-5 h-5 pointer-events-none"
+                    <img src={slateSearch} alt="Search Icon" className="absolute left-3
+                    top-[1.2rem] transform -translate-y-1/2 w-5 h-5 pointer-events-none"
                     draggable="false"/>
                     <input type="text" placeholder="Search!"
-                    className={`w-full h-full pl-10 pr-5 text-sm bg-slate-900 text-white placeholder:text-slate-500 focus:outline-none font-[550] ${
+                    className={`w-full h-full pl-10 pr-5 text-sm bg-slate-900 text-white
+                    placeholder:text-slate-500 focus:outline-none font-[550] ${
                         searchTerm.length > 0 && suggestions.length > 0 && !loadingSuggestions && !showFullSearchResults
                         ? "rounded-t-[1rem] rounded-b-none"
                         : "rounded-[2rem]"
@@ -239,10 +240,11 @@ function Header() {
             {showFullSearchResults && searchResults.length > 0 && (
                 <div className="fixed inset-0 bg-slate-950 z-[100] overflow-y-auto block">
                     <div className="flex items-start mt-2 p-5 sticky top-0 bg-slate-950">
-                        <button onClick={() => { setSearchTerm(""); setSearchResults([]); setShowFullSearchResults(false); }}
+                        <button onClick={() => {setSearchTerm(""); setSearchResults([]); setShowFullSearchResults(false);}}
                         className="flex items-center">
                             <img src={back} alt="Back Icon" className="w-10 h-10 mr-5" draggable="false"/>
                         </button>
+                        {/* Search Results Search Bar */}
                         <div className="relative flex-grow flex">
                             <span className="absolute inset-y-0 left-4 flex items-center pointer-events-none">
                                 <img src={slateSearch} alt="Slate Search Icon" className="w-5 h-5"/>
@@ -256,16 +258,17 @@ function Header() {
                         Search Results For: 
                         <span className="text-slate-300 ml-[.35rem]">{searchTerm}</span>
                     </h1>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 mx-[2rem] border">
+                    {/* Parent Div Search Results Container */}
+                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 mx-[2rem] border-rose-600 border">
                         {searchResults.map((item) => (
                             <div key={item.id} onClick={() => handleSuggestionClick(item)}
                             className="p-3 bg-slate-900 rounded-lg flex flex-col items-center hover:bg-slate-800 transition-colors duration-[.25s]
-                            cursor-pointer">
+                            cursor-pointer ">
                                 {item.media_type === "person" ? (
                                     item.profile_path ? (
                                         <img src={`${TMDB_IMAGE_BASE_URL}${item.profile_path}`}
                                         alt={item.name}
-                                        className="w-full h-auto object-cover rounded-md mb-2"
+                                        className="w-full h-auto object-cover rounded-[2rem] mb-2 border"
                                         draggable="false"/>
                                     ) : (
                                         <div className="w-full h-[15rem] bg-slate-700 rounded-md flex items-center justify-center mb-2">
@@ -284,9 +287,8 @@ function Header() {
                                         </div>
                                     )
                                 )}
-                                {/* Desktop? */}
-                                <h3 className="text-base font-[650] text-center mt-2">{item.title || item.name}</h3>
-                                <p className="text-sm text-slate-400 text-center">
+                                <h3 className="text-sm font-[650] text-center mt-2">{item.title || item.name}</h3>
+                                <p className="text-xs text-slate-400 text-center flex-grow">
                                     {item.media_type === "movie" && `Movie (${item.release_date ? item.release_date.substring(0, 4) : "N/A"})`}
                                     {item.media_type === "tv" && `TV Show (${item.first_air_date ? item.first_air_date.substring(0, 4) : "N/A"})`}
                                     {item.media_type === "person" && `Actor`}
@@ -350,6 +352,7 @@ function Header() {
                             <img src={back} alt="Back Icon" className="w-10 h-10 mr-5"
                             draggable="false"/>
                         </button>
+                        {/* Mobile Search Bar */}
                         <div className="relative flex-grow flex">
                             <span className="absolute inset-y-0 left-4 flex items-center
                             pointer-events-none">
@@ -369,7 +372,7 @@ function Header() {
                             </div>
                         )}
                         {error && (
-                            <p className="text-[#b71234] text-center mt-4 border-rose-500 border-[2px]">{error}</p>
+                            <p className="text-[#b71234] text-center mt-4 border-rose-600 border-[2px]">{error}</p>
                         )}
 
                         {searchTerm.length > 0 && !loadingSuggestions && !error &&
