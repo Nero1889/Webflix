@@ -263,8 +263,9 @@ function Header() {
                     xl:mx-[5rem] 2xl:mx-[7rem]">
                         {searchResults.map((item) => (
                             <div key={item.id} onClick={() => handleSuggestionClick(item)}
-                            className="p-3 bg-slate-900 rounded-lg flex flex-col items-center hover:bg-slate-800 transition-colors duration-[.25s]
-                            cursor-pointer">
+                            className="p-3 bg-slate-900 rounded-[1rem] flex flex-col 
+                            items-center hover:bg-slate-800 transition-colors 
+                            duration-[.25s] cursor-pointer">
                                 {item.media_type === "person" ? (
                                     item.profile_path ? (
                                         <img src={`${TMDB_IMAGE_BASE_URL}${item.profile_path}`}
