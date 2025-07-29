@@ -254,21 +254,22 @@ function Header() {
                             autoFocus value={searchTerm} onChange={handleSearchChange} onKeyDown={handleKeyDown}/>
                         </div>
                     </div>
-                    <h1 className="text-slate-500 text-sm font-[650] mb-[1rem] ml-[2rem]">
+                    <h1 className="text-slate-500 text-sm font-[650] mb-[1rem] ml-[2rem] sm:ml-[3rem] xl:ml-[5rem] 2xl:ml-[7rem]">
                         Search Results For: 
                         <span className="text-slate-300 ml-[.35rem]">{searchTerm}</span>
                     </h1>
                     {/* Parent Div Search Results Container */}
-                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 mx-[2rem] border-rose-600 border">
+                    <div className="grid grid-cols-2 mx-[2rem] sm:grid-cols-3 sm:mx-[3rem] md:grid-cols-4 lg:grid-cols-5 2xl:grid-cols-6 gap-4
+                    xl:mx-[5rem] 2xl:mx-[7rem]">
                         {searchResults.map((item) => (
                             <div key={item.id} onClick={() => handleSuggestionClick(item)}
                             className="p-3 bg-slate-900 rounded-lg flex flex-col items-center hover:bg-slate-800 transition-colors duration-[.25s]
-                            cursor-pointer ">
+                            cursor-pointer">
                                 {item.media_type === "person" ? (
                                     item.profile_path ? (
                                         <img src={`${TMDB_IMAGE_BASE_URL}${item.profile_path}`}
                                         alt={item.name}
-                                        className="w-full h-auto object-cover rounded-[2rem] mb-2 border"
+                                        className="w-full h-auto object-cover rounded-[2rem] mb-2 md:rounded-[4rem]"
                                         draggable="false"/>
                                     ) : (
                                         <div className="w-full h-[15rem] bg-slate-700 rounded-md flex items-center justify-center mb-2">
@@ -279,7 +280,7 @@ function Header() {
                                     item.poster_path ? (
                                         <img src={`${TMDB_IMAGE_BASE_URL}${item.poster_path}`}
                                         alt={item.title || item.name}
-                                        className="w-full h-auto object-cover rounded-md mb-2"
+                                        className="w-full h-auto object-cover rounded-[1rem] mb-[.75rem] lg:rounded-[1.25rem]"
                                         draggable="false"/>
                                     ) : (
                                         <div className="w-full h-[15rem] bg-slate-700 rounded-md flex items-center justify-center mb-2">
@@ -287,17 +288,19 @@ function Header() {
                                         </div>
                                     )
                                 )}
-                                <h3 className="text-sm font-[650] text-center mt-2">{item.title || item.name}</h3>
-                                <p className="text-xs text-slate-400 text-center flex-grow">
+                                {/* Movie or Show Title */}
+                                <h3 className="text-sm font-[650] text-center mb-[.25rem] sm:text-base 2xl:text-lg">{item.title || item.name}</h3>
+                                {/* Film Category + Release Year */}
+                                <p className="text-xs text-slate-400 text-center flex-grow sm:text-sm 2xl:text-base">
                                     {item.media_type === "movie" && `Movie (${item.release_date ? item.release_date.substring(0, 4) : "N/A"})`}
                                     {item.media_type === "tv" && `TV Show (${item.first_air_date ? item.first_air_date.substring(0, 4) : "N/A"})`}
                                     {item.media_type === "person" && `Actor`}
                                 </p>
                                 {item.vote_average > 0 && item.media_type !== "person" && (
-                                    <div className="flex items-center gap-1 mt-1 ">
-                                        <img src={starRating} alt="Star icon" className="w-4 h-4" draggable="false"/>
-                                        <span className="text-sm text-white font-semibold">{item.vote_average.toFixed(1)}</span>
-                                        <span className="text-xs text-slate-400">/ 10</span>
+                                    <div className="flex items-center gap-1 mt-[.5rem]">
+                                        <img src={starRating} alt="Star icon" className="w-[1rem] h-[1rem]" draggable="false"/>
+                                        <span className="text-xs text-white font-[550] md:text-sm 2xl:text-base">{item.vote_average.toFixed(1)}</span>
+                                        <span className="text-xs text-slate-400 md:text-sm 2xl:text-base">/ 10</span>
                                     </div>
                                 )}
                             </div>
