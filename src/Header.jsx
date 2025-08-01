@@ -19,6 +19,14 @@ const TMDB_IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w300";
 const TMDB_SMALL_IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w92";
 
 function Header() {
+    const LINE_CLAMP3 = {
+        overflow: "hidden",
+        display: "-webkit-box",
+        WebkitBoxOrient: "vertical",
+        WebkitLineClamp: 3,
+        whiteSpace: "normal",
+    };
+
     const [IS_MENU_OPEN, setIsMenuOpen] = useState(false);
     const [IS_SEARCH_OPEN, setIsSearchOpen] = useState(false);
     const [searchTerm, setSearchTerm] = useState("");
@@ -178,7 +186,7 @@ function Header() {
                     top-[1.2rem] transform -translate-y-1/2 w-5 h-5 pointer-events-none"
                     draggable="false"/>
                     <input type="text" placeholder="Search!"
-                    className={`w-full h-full pl-10 pr-5 text-sm bg-slate-900 text-white
+                    className={`w-full h-full pl-[2.5rem] pr-5 text-sm bg-slate-900 text-white
                     placeholder:text-slate-500 focus:outline-none font-[550] ${
                         searchTerm.length > 0 && suggestions.length > 0 && !loadingSuggestions && !showFullSearchResults
                         ? "rounded-t-[1rem] rounded-b-none"
@@ -186,7 +194,7 @@ function Header() {
                     }`} value={searchTerm} onChange={handleSearchChange}
                     onKeyDown={handleKeyDown}/>
                     {searchTerm.length > 0 && suggestions.length > 0 && !loadingSuggestions && !showFullSearchResults && (
-                        <ul className="absolute top-[2.2rem] left-0 w-full bg-slate-900 
+                        <ul className="absolute top-[2.2rem] left-0 w-full bg-slate-900
                         text-white mt-1 shadow-lg z-50 overflow-hidden"
                         style={{borderRadius: "0 0 1rem 1rem"}}>
                             {suggestions.map((item) => (
@@ -246,9 +254,10 @@ function Header() {
             {showFullSearchResults && searchResults.length > 0 && (
                 <div className="fixed inset-0 bg-slate-950 z-[100] overflow-y-auto 
                 block">
-                    <div className="flex items-start mt-2 p-5 sticky top-0 bg-slate-950">
+                    <div className="flex items-start mt-[.5rem] p-5 sticky top-0 
+                    bg-slate-950 sm:mx-[1.5rem] xl:mx-[3.5rem] 2xl:mx-[5.5rem]">
                         <button onClick={() => {
-                            setSearchTerm(""); 
+                            setSearchTerm("");
                             setSearchResults([]); 
                             setShowFullSearchResults(false);
                         }}
@@ -264,18 +273,17 @@ function Header() {
                                 className="w-5 h-5"/>
                             </span>
                             <input type="text" placeholder="Search!" 
-                            className="w-full h-[2.7rem] bg-slate-900 text-white pl-12
-                            pr-4 rounded-[7rem] focus:outline-none text-sm" 
+                            className="w-full h-[2.7rem] bg-slate-900 text-white pl-[3rem]
+                            rounded-[7rem] focus:outline-none text-sm"
                             autoFocus value={searchTerm} onChange={handleSearchChange} 
                             onKeyDown={handleKeyDown}/>
                         </div>
                     </div>
                     <h1 className="text-slate-500 text-sm font-[650] mb-[1rem] ml-[2rem]
-                    sm:ml-[3rem] xl:ml-[5rem] 2xl:ml-[7rem]">
+                    sm:ml-[3rem] sm:text-base lg:text-lg xl:ml-[5rem] 2xl:ml-[7rem]">
                         Search Results For: 
                         <span className="text-slate-300 ml-[.35rem]">{searchTerm}</span>
                     </h1>
-                    {/* Parent Div Search Results Container */}
                     <div className="grid grid-cols-2 mx-[2rem] sm:grid-cols-3 sm:mx-[3rem] 
                     md:grid-cols-4 lg:grid-cols-5 2xl:grid-cols-6 gap-4 xl:mx-[5rem] 
                     2xl:mx-[7rem]">
@@ -284,7 +292,7 @@ function Header() {
                             className="p-3 bg-slate-900 rounded-[1rem] flex flex-col 
                             items-center hover:bg-slate-800 transition-colors 
                             duration-[.25s] cursor-pointer">
-                                {item.media_type === "person" ? (
+                                {item.media_type === "person" ? (-
                                     item.profile_path ? (
                                         <img src={`${TMDB_IMAGE_BASE_URL}${item.profile_path}`}
                                         alt={item.name}
@@ -306,18 +314,18 @@ function Header() {
                                         rounded-[1rem] mb-[.75rem] lg:rounded-[1.25rem]"
                                         draggable="false"/>
                                     ) : (
-                                        <div className="w-full h-[15rem] bg-slate-700
-                                        rounded-md flex items-center justify-center 
-                                        mb-2">
+                                        <div className="w-full h-[8.5rem] bg-slate-800
+                                        rounded-[1rem] flex items-center justify-center 
+                                        mb-2 flex-grow">
                                             <img src={movie} alt="Movie Icon"
                                             className="w-16 h-16 p-2"/>
                                         </div>
                                     )
                                 )}
-                                {/* Movie or Show Title */}
                                 <h3 className="text-sm font-[650] text-center mb-[.25rem]
-                                sm:text-base 2xl:text-lg">{item.title || item.name}</h3>
-                                {/* Film Category + Release Year */}
+                                sm:text-base 2xl:text-lg" style={LINE_CLAMP3}>
+                                    {item.title || item.name}
+                                </h3>
                                 <p className="text-xs text-slate-400 text-center 
                                 flex-grow sm:text-sm 2xl:text-base">
                                     {item.media_type === "movie" && `Movie (${item.release_date ? item.release_date.substring(0, 4) : "N/A"})`}
