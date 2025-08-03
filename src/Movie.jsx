@@ -32,14 +32,6 @@ function Movie() {
     const GENRES = `bg-slate-800 text-slate-400 text-xs font-[600] inline-block px-3 py-2
     rounded-[3rem] mr-2 mb-2 md:text-sm lg:text-base`;
 
-    const LINE_CLAMP3 = {
-        overflow: "hidden",
-        display: "-webkit-box",
-        WebkitBoxOrient: "vertical",
-        WebkitLineClamp: 3,
-        whiteSpace: "normal",
-    };
-
     useEffect(() => {
         const fetchFullMovieData = async () => {
             if (!id) {
@@ -207,8 +199,8 @@ function Movie() {
 
             <div className="flex justify-center mb-8 px-4 lg:hidden">
                 <button className="bg-slate-800 text-slate-400 text-sm font-[600]
-                inline-flex items-center gap-2 p-3 rounded-[3rem] hover:bg-slate-700
-                 transition-colors">
+                inline-flex items-center gap-2 py-3 px-4 rounded-[3rem] 
+                hover:bg-slate-700 transition-colors">
                     <img className="w-4 h-4" src={playBtn} alt="Play Icon"
                     draggable="false"/>
                     Watch Trailer
@@ -267,11 +259,11 @@ function Movie() {
                                         </div>
                                     )}
                                 </div>
-                                <h3 style={LINE_CLAMP3} className="text-left text-sm
+                                <h3 className="line-clamp-3 text-left text-sm
                                 text-slate-300 font-[550] mb-1 w-[6rem] xl:text-base xl:w-[8rem]">
                                     {actor.name}
                                 </h3>
-                                <p style={LINE_CLAMP3} className="text-left text-xs
+                                <p className="line-clamp-3 text-left text-xs
                                 text-slate-500 font-[550] w-[6rem] xl:text-base xl:w-[8rem]">
                                     {actor.character}
                                 </p>
@@ -311,7 +303,7 @@ function Movie() {
                                             </div>
                                         )}
                                     </div>
-                                    <h3 style={LINE_CLAMP3} className="text-left text-sm
+                                    <h3 className="line-clamp-3 text-left text-sm
                                     text-slate-300 font-[550] mb-1 w-[6rem] xl:text-base
                                     xl:w-[8rem]">
                                         {similarItem.title || similarItem.name}
