@@ -25,14 +25,6 @@ function Actor() {
     const ROLE = `bg-slate-800 text-slate-400 text-xs font-[600] inline-block px-3 py-2
     rounded-[3rem] mr-2 mb-2 md:text-sm lg:text-base`;
 
-    const LINE_CLAMP3 = {
-        overflow: "hidden",
-        display: "-webkit-box",
-        WebkitBoxOrient: "vertical",
-        WebkitLineClamp: 3,
-        whiteSpace: "normal",
-    };
-
     useEffect(() => {
         const fetchActorData = async () => {
             if (!actorId) {
@@ -273,10 +265,9 @@ function Actor() {
                                         </span>
                                     )}
                                 </div>
-                                <h3 style={LINE_CLAMP3} className="text-left text-sm
-                                text-slate-300 font-[550] mb-1 w-[6rem] xl:text-base xl:w-[8rem]">
-                                    {movie.title}
-                                </h3>
+                                <h3 className="line-clamp-3 text-left text-sm 
+                                text-slate-300 font-[550] mb-1 w-[6rem] xl:text-base
+                                xl:w-[8rem]">{movie.title}</h3>
                                 <p className="text-left text-xs text-slate-500 font-[550] w-[6rem] xl:text-base xl:w-[8rem]">
                                     {movie.release_date ? movie.release_date.substring(0, 4) : "N/A"}
                                 </p>
