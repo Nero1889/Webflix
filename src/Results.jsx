@@ -130,7 +130,8 @@ function Results() {
                                 duration-[.25s] cursor-pointer">
                                 {item.media_type === "person" ? (
                                     item.profile_path ? (
-                                        <img src={`${TMDB_IMAGE_BASE_URL}${item.profile_path}`} alt={item.name}
+                                        <img src={`${TMDB_IMAGE_BASE_URL}${item.profile_path}`}
+                                        alt={item.name}
                                         className="w-full h-auto object-cover
                                         rounded-[2rem] mb-2 md:rounded-[4rem]"
                                         draggable="false"/>
