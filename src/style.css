@@ -7,6 +7,14 @@
     --cal-red: #b71234;
 }
 
+.line-clamp-3 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    white-space: normal;
+}
+
 /* Loading Circle */
 @keyframes spin {
     from {
@@ -21,7 +29,7 @@
 
 /* Custom Scroll Bar */
 .custom-scrollbar::-webkit-scrollbar {
-    height: .34rem;
+    height: .5rem;
 }
 .custom-scrollbar::-webkit-scrollbar-track {
     background: var(--slate-900);
