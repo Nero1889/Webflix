@@ -11,6 +11,7 @@ import back from "./assets/back.png";
 import slateSearch from "./assets/searchBarMag.png";
 import movie from "./assets/movie.png";
 import actor from "./assets/actor.png";
+import warning from "./assets/warning.png"
 
 const TMDB_API_KEY = "a185d00309246af13fc09d5674ea20ee";
 const TMDB_BASE_URL = "https://api.themoviedb.org/3";
@@ -263,9 +264,12 @@ function Header() {
                             </div>
                         )}
                         {error && (
-                            <p className="text-[#b71234] text-center mt-4 border-rose-600
-                            border-[2px]">{error}</p>
-                            /* Return to later!!! */
+                            <div className="flex flex-col items-center justify-center mt-[5rem]">
+                                <img src={warning} alt="Warning Icon"
+                                className="w-[5rem] h-[5rem]" draggable="false"/>
+                                <p className="text-[#b71234] text-center font-[550]
+                                mt-[1rem]">{error}</p>
+                            </div>
                         )}
 
                         {searchTerm.length > 0 && !loadingSuggestions && !error &&
