@@ -215,7 +215,8 @@ function Results() {
                                         md:rounded-[4rem]" draggable="false"/>
                                     ) : (
                                         <div className="w-full h-[15rem] bg-slate-700
-                                        rounded-md flex items-center justify-center mb-2">
+                                        rounded-[1rem] flex items-center justify-center
+                                        mb-2">
                                             <img src={actor} alt="Actor Icon" 
                                             className="w-[4rem] h-[4rem] p-2"/>
                                         </div>
