@@ -119,9 +119,9 @@ function Header() {
                 {/* Desktop Search Bar */}
                 <div className="relative hidden w-[24rem] h-[2.5rem] lg:block 
                 xl:w-[34rem]">
-                    <img src={slateSearch} alt="Search Icon" className="absolute left-3
-                    top-1/2 transform -translate-y-1/2 w-5 h-5 pointer-events-none"
-                    draggable="false"/>
+                    <img src={slateSearch} alt="Search Icon" className="w-[1.25rem]
+                    h-[1.25rem] absolute left-3 top-1/2 transform 
+                    -translate-y-1/2 pointer-events-none" draggable="false"/>
                     <input type="text" placeholder="Search!"
                     className={`w-full h-full pl-[2.5rem] pr-5 text-sm bg-slate-900 
                     text-white placeholder:text-slate-500 focus:outline-none font-[550] ${
@@ -244,7 +244,7 @@ function Header() {
                             <span className="absolute inset-y-0 left-4 flex items-center
                             pointer-events-none">
                                 <img src={slateSearch} alt="Slate Search Icon" 
-                                className="w-5 h-5"/>
+                                className="w-[1.25rem] h-[1.25rem]"/>
                             </span>
                             <input type="text" placeholder="Search!" className="w-full 
                             h-[2.7rem] bg-slate-900 text-white pl-12 pr-4 rounded-[7rem]
