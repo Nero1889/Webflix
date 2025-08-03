@@ -11,14 +11,6 @@ const TMDB_BASE_URL = "https://api.themoviedb.org/3";
 const TMDB_IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w300";
 
 function Results() {
-    const LINE_CLAMP3 = {
-        overflow: "hidden",
-        display: "-webkit-box",
-        WebkitBoxOrient: "vertical",
-        WebkitLineClamp: 3,
-        whiteSpace: "normal",
-    };
-
     const [searchResults, setSearchResults] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
@@ -158,8 +150,8 @@ function Results() {
                                         </div>
                                     )
                                 )}
-                                <h3 className="text-sm font-[650] text-center mb-[.25rem]
-                                sm:text-base 2xl:text-lg" style={LINE_CLAMP3}>
+                                <h3 className="line-clamp-3 text-sm font-[650]
+                                text-center mb-[.25rem] sm:text-base 2xl:text-lg">
                                     {item.title || item.name}
                                 </h3>
                                 <p className="text-xs text-slate-400 text-center 
