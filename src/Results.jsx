@@ -211,8 +211,8 @@ function Results() {
                                     item.profile_path ? (
                                         <img src={`${TMDB_IMAGE_BASE_URL}${item.profile_path}`}
                                         alt={item.name} className="w-full h-auto
-                                        object-cover rounded-[2rem] mb-2 
-                                        md:rounded-[4rem]" draggable="false"/>
+                                        object-cover rounded-[1rem] mb-2" 
+                                        draggable="false"/>
                                     ) : (
                                         <div className="w-full h-[15rem] bg-slate-700
                                         rounded-[1rem] flex items-center justify-center
