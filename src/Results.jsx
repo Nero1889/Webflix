@@ -1,8 +1,8 @@
 import {useNavigate, useSearchParams} from "react-router-dom";
 import React, {useState, useEffect} from "react";
-import search from "./assets/search.png";
+import SearchBar from "./SearchBar";
 import back from "./assets/back.png";
-import slateSearch from "./assets/searchBarMag.png";
+import search from "./assets/search.png";
 import movie from "./assets/movie.png";
 import actor from "./assets/actor.png";
 import starRating from "./assets/starRating.png";
@@ -17,17 +17,17 @@ function Results() {
     const [searchResults, setSearchResults] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
-    const [suggestions, setSuggestions] = useState([]);
-    const [searchInput, setSearchInput] = useState("");
-    const [loadingSuggestions, setLoadingSuggestions] = useState(false);
-    const [isInputFocused, setIsInputFocused] = useState(false);
+
+    const [instantSuggestions, setInstantSuggestions] = useState([]);
+    const [loadingInstantSuggestions, setLoadingInstantSuggestions] = useState(false);
+    const [instantSearchError, setInstantSearchError] = useState(null);
+
     const [isSearchOpen, setIsSearchOpen] = useState(false);
     const navigate = useNavigate();
     const [searchParams] = useSearchParams();
     const searchQuery = searchParams.get("query");
 
     useEffect(() => {
-        setSearchInput(searchQuery || "");
         setIsSearchOpen(false);
 
         const fetchFullResults = async () => {
@@ -64,53 +64,21 @@ function Results() {
         fetchFullResults();
     }, [searchQuery]);
 
-    useEffect(() => {
-        if (!searchInput.trim()) {
-            setSuggestions([]);
-            return;
-        }
-
-        setLoadingSuggestions(true);
-
-        const delayDebounce = setTimeout(async () => {
-            try {
-                const response = await fetch(
-                    `${TMDB_BASE_URL}/search/multi?api_key=${TMDB_API_KEY}&query=${encodeURIComponent(searchInput)}`
-                );
-                const data = await response.json();
-                const filtered = data.results
-                    .filter(item => ["movie", "tv", "person"].includes(item.media_type))
-                    .sort((a, b) => (b.popularity || 0) - (a.popularity || 0))
-                    .slice(0, 5);
-                setSuggestions(filtered);
-            } catch (err) {
-                console.error("Error fetching suggestions:", err);
-                setSuggestions([]);
-            } finally {
-                setLoadingSuggestions(false);
-            }
-        }, 300);
-
-        return () => clearTimeout(delayDebounce);
-    }, [searchInput]);
+    const handleInstantSearch = (results, searchError, isLoading) => {
+        setInstantSuggestions(results);
+        setInstantSearchError(searchError);
+        setLoadingInstantSuggestions(isLoading);
+    };
 
     const handleItemClick = (item) => {
         let routePath;
-        let passedState = { data: item };
+        let passedState = {data: item};
 
         item.media_type === "person"
         ? routePath = `/actor/${item.id}`
         : routePath = `/${item.media_type}/${item.id}`;
 
-        navigate(routePath, passedState);
-    };
-
-    const handleNewSearch = (e) => {
-        if (e.key === "Enter" && searchInput.trim()) {
-            setSuggestions([]);
-            setIsSearchOpen(false);
-            navigate(`/results?query=${encodeURIComponent(searchInput)}`);
-        }
+        navigate(routePath, { state: passedState });
     };
 
     const handleSuggestionClick = (item) => {
@@ -121,13 +89,10 @@ function Results() {
         ? routePath = `/actor/${item.id}`
         : routePath = `/${item.media_type}/${item.id}`;
         
-        navigate(routePath, passedState);
-        setSuggestions([]);
+        navigate(routePath, { state: passedState });
+        setInstantSuggestions([]);
         setIsSearchOpen(false);
     };
-
-    const handleInputFocus = () => setIsInputFocused(true);
-    const handleInputBlur = () => setTimeout(() => setIsInputFocused(false), 200);
 
     return (
         <div className="bg-slate-950 min-h-screen">
@@ -138,35 +103,20 @@ function Results() {
                     <img src={back} alt="Back Icon" className="w-[2.5rem] h-[2.5rem]
                     mr-[1rem]" draggable="false"/>
                 </button>
-
-                {/* Desktop Search Bar */}
                 <div className="relative lg:w-[24rem] h-[2.5rem] xl:w-[34rem] hidden lg:flex">
-                    <img src={slateSearch} alt="Search Icon" className="w-[1.25rem]
-                    h-[1.25rem] absolute left-3 top-1/2 transform -translate-y-1/2
-                    pointer-events-none" draggable="false"/>
-                    <input type="text" placeholder="Search!"
-                    className={`w-full h-full pl-[2.5rem] pr-5 text-sm bg-slate-900
-                    text-white placeholder:text-slate-500 focus:outline-none font-[550] ${
-                        searchInput.length > 0 && suggestions.length > 0 && !loadingSuggestions && isInputFocused
-                        ? "rounded-t-[1rem] rounded-b-none"
-                        : "rounded-[2rem]"
-                    }`}
-                    value={searchInput} onChange={(e) => setSearchInput(e.target.value)}
-                    onKeyDown={handleNewSearch} onFocus={handleInputFocus}
-                    onBlur={handleInputBlur}/>
-
-                    {searchInput.length > 0 && suggestions.length > 0 && !loadingSuggestions && isInputFocused && (
+                    <SearchBar onSearch={handleInstantSearch} isMobile={false}/>
+                    {instantSuggestions.length > 0 && !loadingInstantSuggestions && (
                         <ul className="absolute top-[2.2rem] left-0 w-full bg-slate-900
                         text-white mt-1 shadow-lg z-50 overflow-hidden"
                         style={{borderRadius: "0 0 1rem 1rem"}}>
-                            {suggestions.map((item) => (
+                            {instantSuggestions.map((item) => (
                                 <li key={item.id} className="flex items-center gap-3 px-4
                                 py-3 hover:bg-slate-800 cursor-pointer transition-colors
-                                duration-200"
-                                onMouseDown={() => handleSuggestionClick(item)}>
+                                duration-[.25s]"
+                                onClick={() => handleSuggestionClick(item)}>
                                     {item.media_type === "person" ? (
                                         item.profile_path ? (
-                                            <img src={`${TMDB_IMAGE_BASE_URL}${item.profile_path}`}
+                                            <img src={`${TMDB_SMALL_IMAGE_BASE_URL}${item.profile_path}`}
                                             alt={item.name} className="w-[2rem] h-[2rem]
                                             rounded-full object-cover"
                                             draggable="false"/>
@@ -185,10 +135,8 @@ function Results() {
                                             {item.title || item.name}
                                         </p>
                                         <p className="text-slate-400 font-[550] text-xs">
-                                            {item.media_type === "movie" &&
-                                                `Movie (${item.release_date?.slice(0, 4) || "N/A"})`}
-                                            {item.media_type === "tv" &&
-                                                `TV Show (${item.first_air_date?.slice(0, 4) || "N/A"})`}
+                                            {item.media_type === "movie" && `Movie (${item.release_date ? item.release_date.slice(0, 4) : "N/A"})`}
+                                            {item.media_type === "tv" && `TV Show (${item.first_air_date ? item.first_air_date.slice(0, 4) : "N/A"})`}
                                             {item.media_type === "person" && "Actor"}
                                         </p>
                                     </div>
@@ -200,11 +148,10 @@ function Results() {
                 <button className="bg-[#b71234] p-2 rounded-full flex items-center
                 justify-center mr-[.75rem] hover:bg-[#710033] transition-colors
                 duration-[.25s] sm:mr-0 lg:hidden" onClick={() => setIsSearchOpen(true)}>
-                    <img className="w-7 h-7" src={search} alt="Search Icon"
-                    draggable="false"/>
+                    <img className="w-7 h-7" src={search} alt="Search Icon" draggable="false"/>
                 </button>
             </div>
-
+            
             {/* Search Overlay - Mobile */}
             {isSearchOpen && (
                 <div className="fixed inset-0 bg-slate-950 z-[100] overflow-y-auto 
@@ -216,42 +163,27 @@ function Results() {
                             h-[2.5rem] p-1 mr-[1.25rem]"
                             draggable="false"/>
                         </button>
-                        {/* Mobile Search Bar */}
-                        <div className="relative flex-grow flex">
-                            <span className="absolute inset-y-0 left-4 flex items-center
-                            pointer-events-none">
-                                <img src={slateSearch} alt="Slate Search Icon"
-                                className="w-[1.25rem] h-[1.25rem]"/>
-                            </span>
-                            <input type="text" placeholder="Search!" className="w-full
-                            h-[2.7rem] bg-slate-900 text-white pl-12 pr-4 rounded-[7rem]
-                            placeholder:text-slate-500 font-[550] focus:outline-none
-                            text-sm " autoFocus value={searchInput}
-                            onChange={(e) => setSearchInput(e.target.value)} onKeyDown={handleNewSearch}/>
-                        </div>
+                        <SearchBar onSearch={handleInstantSearch} isMobile={true} />
                     </div>
-
                     <div className="p-5 pt-0">
-                        {loadingSuggestions && (
+                        {loadingInstantSuggestions && (
                             <div className="flex justify-center items-center mt-[5rem]">
                                 <div className="w-[2.5rem] h-[2.5rem] border-4
                                 border-slate-800 border-t-slate-300 rounded-full
                                 animate-spin"></div>
                             </div>
                         )}
-                        {error && (
+                        {instantSearchError && (
                             <div className="flex flex-col items-center justify-center mt-[5rem]">
                                 <img src={warning} alt="Warning Icon"
                                 className="w-[5rem] h-[5rem]" draggable="false"/>
                                 <p className="text-[#b71234] text-center font-[550]
-                                mt-[1rem]">{error}</p>
+                                mt-[1rem]">{instantSearchError}</p>
                             </div>
                         )}
-
-                        {searchInput.length > 0 && !loadingSuggestions && !error &&
-                        suggestions.length > 0 && (
+                        {instantSuggestions.length > 0 && !loadingInstantSuggestions && !instantSearchError && (
                             <ul className="text-white mt-4 space-y-3">
-                                {suggestions.map((item) => (
+                                {instantSuggestions.map((item) => (
                                     <li key={item.id} className="bg-slate-900 p-2
                                     rounded-[.5rem] flex items-center gap-5
                                     cursor-pointer hover:bg-slate-800 transition-colors
@@ -291,15 +223,13 @@ function Results() {
                             </ul>
                         )}
 
-                        {searchInput.length > 0 && !loadingSuggestions && !error &&
-                        (suggestions.length === 0) && (
+                        {instantSuggestions.length === 0 && !loadingInstantSuggestions && !instantSearchError && (
                             <p className="text-slate-500 text-center mt-[5rem] text-base
                             font-[550]">No results found!</p>
                         )}
                     </div>
                 </div>
             )}
-
             {loading && (
                 <div className="flex justify-center items-center mt-[5rem]">
                     <div className="w-[2.5rem] h-[2.5rem] border-4 border-slate-800
