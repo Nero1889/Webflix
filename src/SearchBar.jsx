@@ -5,18 +5,22 @@ import slateSearch from "./assets/searchBarMag.png";
 const TMDB_API_KEY = "a185d00309246af13fc09d5674ea20ee";
 const TMDB_BASE_URL = "https://api.themoviedb.org/3";
 
-function SearchBar({ onSearch, isMobile = false }) {
+function SearchBar({onSearch, isMobile = false}) {
     const [searchTerm, setSearchTerm] = useState("");
     const debounceTimeoutRef = useRef(null);
     const navigate = useNavigate();
 
+    const [showSuggestions, setShowSuggestions] = useState(false);
+
     const fetchSuggestions = async (query) => {
         if (!query.trim()) {
             onSearch([], null, false);
+            setShowSuggestions(false);
             return;
         }
 
         onSearch([], null, true);
+        setShowSuggestions(true);
 
         try {
             const response = await fetch(
@@ -37,15 +41,16 @@ function SearchBar({ onSearch, isMobile = false }) {
         } catch (err) {
             console.error(`Error fetching results: ${err}`);
             onSearch([], "Could not load results!", false);
+            setShowSuggestions(false);
         }
     };
 
     const handleSearchChange = (e) => {
         const query = e.target.value;
         setSearchTerm(query);
-
-        if (debounceTimeoutRef.current) clearTimeout(debounceTimeoutRef.current);
+        if (!query.trim()) setShowSuggestions(false);
         
+        if (debounceTimeoutRef.current) clearTimeout(debounceTimeoutRef.current);
         debounceTimeoutRef.current = setTimeout(() => {
             fetchSuggestions(query);
         }, 300);
@@ -57,6 +62,7 @@ function SearchBar({ onSearch, isMobile = false }) {
             navigate(`/results?query=${encodeURIComponent(searchTerm)}`);
             setSearchTerm("");
             onSearch([], null, false);
+            setShowSuggestions(false);
         }
     };
 
@@ -68,17 +74,18 @@ function SearchBar({ onSearch, isMobile = false }) {
  
     return (
         <div className={`${isMobile ? "relative flex-grow flex" : `relative hidden
-        w-[24rem] h-[2.5rem] lg:block xl:w-[34rem] b`}`}>
-
+        w-[24rem] h-[2.5rem] lg:block xl:w-[34rem]`}`}>
             <img src={slateSearch} alt="Search Icon" className="w-[1.25rem] h-[1.25rem]
             absolute left-3 top-1/2 transform -translate-y-1/2 pointer-events-none" 
             draggable="false"/>
 
+            {/* Search Bar! (Mobile and Desktop) */}
             <input type="text" placeholder="Search!" className={`${isMobile ? `w-full
-            h-[2.7rem] bg-slate-900 text-white pl-12 pr-4 rounded-[7rem] 
-            placeholder:text-slate-500 font-[550] focus:outline-none text-sm` : `w-full
-            h-full pl-[2.5rem] pr-5 text-sm bg-slate-900 text-white 
-            placeholder:text-slate-500 focus:outline-none font-[550] rounded-[2rem]`}`}
+            h-[2.7rem] bg-slate-900 text-white pl-12 pr-4 rounded-[7rem]
+            placeholder:text-slate-500 font-[550] focus:outline-none text-sm` :
+            `w-full h-full pl-[2.5rem] pr-5 text-sm bg-slate-900 text-white 
+            placeholder:text-slate-500 focus:outline-none font-[550]
+            ${showSuggestions ? "rounded-t-[1rem] rounded-b-none" : "rounded-[2rem]"}`}`}
             value={searchTerm} onChange={handleSearchChange}
             onKeyDown={handleFullSearch} autoFocus={isMobile}/>
         </div>
