@@ -193,7 +193,7 @@ function Actor() {
                             <img src={actorImages[0]} alt={`${actor.name} - 1`}
                             className="w-full h-full object-cover rounded-l-[1.25rem]"/>
                         ) : (
-                            <div className="w-full h-full bg-slate-700 flex items-center
+                            <div className="w-full h-full bg-slate-800 flex items-center
                             justify-center rounded-l-[1.25rem]">
                                 <img src={slateActor} alt="Actor Icon"
                                 className="w-[4rem] h-[4rem] sm:w-[4.5rem] sm:h-[4.5rem]
@@ -210,7 +210,7 @@ function Actor() {
                                 className="w-full h-full object-cover
                                 rounded-tr-[1.25rem]"/>
                             ) : (
-                                <div className="w-full h-full bg-slate-700 flex
+                                <div className="w-full h-full bg-slate-800 flex
                                 items-center justify-center rounded-tr-[1.25rem]">
                                     <img src={slateActor} alt="Actor Icon"
                                     className="w-[4rem] h-[4rem] sm:w-[4.5rem]
