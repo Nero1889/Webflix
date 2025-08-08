@@ -298,8 +298,11 @@ function Movie() {
                                             alt={similarItem.title || similarItem.name} 
                                             className="w-full h-full object-cover"/>
                                         ) : (
-                                            <div className="flex items-center justify-center h-full">
-                                                <img className="w-[3.4rem] h-[3.4rem]" src={unavailableMovie} alt="Unavailable Movie Icon"/>
+                                            <div className="flex items-center
+                                            justify-center h-full">
+                                                <img className="w-[3.4rem] h-[3.4rem]"
+                                                src={unavailableMovie}
+                                                alt="Unavailable Movie Icon"/>
                                             </div>
                                         )}
                                     </div>
