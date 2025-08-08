@@ -251,45 +251,49 @@ function Results() {
                     </h1>
                     <div className="grid grid-cols-2 mx-[2rem] sm:grid-cols-3
                     sm:mx-[3rem] md:grid-cols-4 lg:grid-cols-5 2xl:grid-cols-6 gap-4
-                    xl:mx-[5rem] 2xl:mx-[7rem] pb-8">
+                    xl:mx-[5rem] 2xl:mx-[7rem] pb-8 ">
                         {searchResults.map((item) => (
                             <div key={item.id} onClick={() => handleItemClick(item)}
                             className="p-3 bg-slate-900 rounded-[1rem] flex flex-col
                             items-center hover:bg-slate-800 transition-colors
                             duration-[.25s] cursor-pointer">
-                                {item.media_type === "person" ? (
-                                    item.profile_path ? (
-                                        <img src={`${TMDB_IMAGE_BASE_URL}${item.profile_path}`}
-                                        alt={item.name} className="w-full h-auto
-                                        object-cover rounded-[1rem] mb-2"
-                                        draggable="false"/>
+
+                                <div className="relative w-full aspect-[2/3]
+                                rounded-[1rem] overflow-hidden mb-[.75rem]">
+                                    {item.media_type === "person" ? (
+                                        item.profile_path ? (
+                                            <img src={`${TMDB_IMAGE_BASE_URL}${item.profile_path}`}
+                                            alt={item.name} className="absolute inset-0
+                                            w-full h-full object-cover"
+                                            draggable="false"/>
+                                        ) : (
+                                            <div className="absolute inset-0 bg-slate-700
+                                            flex items-center justify-center">
+                                                <img src={actor} alt="Actor Icon"
+                                                className="w-[4rem] h-[4rem] p-2
+                                                opacity-50"/>
+                                            </div>
+                                        )
+                                    ) : item.poster_path ? (
+                                        <img src={`${TMDB_IMAGE_BASE_URL}${item.poster_path}`}
+                                        alt={item.title || item.name} className="absolute inset-0 w-full
+                                        h-full object-cover" draggable="false"/>
                                     ) : (
-                                        <div className="w-full h-[15rem] bg-slate-700
-                                        rounded-[1rem] flex items-center justify-center
-                                        mb-2">
-                                            <img src={actor} alt="Actor Icon"
-                                            className="w-[4rem] h-[4rem] p-2"/>
+                                        <div className="absolute inset-0 bg-slate-800
+                                        flex items-center justify-center">
+                                            <img src={movie} alt="Movie Icon"
+                                            className="w-[4rem] h-[4rem] p-2
+                                            opacity-50"/>
                                         </div>
-                                    )
-                                ) : item.poster_path ? (
-                                    <img src={`${TMDB_IMAGE_BASE_URL}${item.poster_path}`}
-                                    alt={item.title || item.name} className="w-full
-                                    h-auto object-cover rounded-[1rem] mb-[.75rem]
-                                    lg:rounded-[1.25rem]" draggable="false"/>
-                                ) : (
-                                    <div className="w-full h-[8.5rem] bg-slate-800
-                                    rounded-[1rem] flex items-center justify-center mb-2
-                                    flex-grow">
-                                        <img src={movie} alt="Movie Icon"
-                                        className="w-[4rem] h-[4rem] p-2"/>
-                                    </div>
-                                )}
+                                    )}
+                                </div>
+            
                                 <h3 className="line-clamp-3 text-sm font-[650]
                                 text-center mb-[.25rem] sm:text-base 2xl:text-lg">
                                     {item.title || item.name}
                                 </h3>
-                                <p className="text-xs text-slate-400 text-center
-                                flex-grow sm:text-sm 2xl:text-base">
+                                <p className="text-xs text-slate-400 font-[550]
+                                text-center flex-grow sm:text-sm 2xl:text-base">
                                     {item.media_type === "movie" &&
                                         `Movie (${item.release_date ? item.release_date.substring(0, 4) : "N/A"})`}
                                     {item.media_type === "tv" &&
