@@ -93,7 +93,7 @@ function Movie() {
                 w-[15ch]">{error}</p>
                 <button onClick={() => navigate(-1)} className="p-2 rounded-full
                 bg-slate-800 hover:bg-slate-900 transition-colors duration-[.25s] flex
-                items-center justify-center">
+                items-center justify-center cursor-pointer">
                     <img className="w-[1.5rem] h-[1.5rem]" src={back} alt="Back Icon"
                     draggable="false"/>
                 </button>
@@ -116,7 +116,7 @@ function Movie() {
                 <button onClick={() => navigate(-1)} className="absolute z-8 ml-[1rem]
                 mt-[1rem] p-2 rounded-full bg-slate-800 hover:bg-slate-900
                 transition-colors duration-[.25s] flex items-center justify-center
-                md:ml-[3.4rem]">
+                md:ml-[3.4rem] cursor-pointer">
                     <img className="w-[1.5rem] h-[1.5rem]" src={back} alt="Back Icon"
                     draggable="false"/>
                 </button>
