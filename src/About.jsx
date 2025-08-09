@@ -15,32 +15,34 @@ function About() {
         <>
             <Header/>
             <div className="flex flex-col items-center">
-                <div className="flex items-center justify-center gap-10 mt-[1rem] md:mt-[2rem] 2xl:mt-[3rem]">
-                    <img className={LANG} src={react} alt="React Logo" draggable="false"/>
-                    <img className={LANG} src={tailwind} alt="Tailwind CSS Logo" draggable="false"/>
+                <div className="flex items-center justify-center gap-10 mt-[1rem]
+                md:mt-[2rem] 2xl:mt-[3rem]">
+                    <img className={LANG} src={react} alt="React Logo"
+                    draggable="false"/>
+                    <img className={LANG} src={tailwind} alt="Tailwind CSS Logo"
+                    draggable="false"/>
                 </div>
-
-                <h1 className={`${TITLE} mt-[1rem] md:mt-[1.5rem] md:mb-[1.5rem]`}>What is Webflix?</h1>
-                <p className={DESC}>Webflix is a modern movie-app project built from the 
+                <h1 className={`${TITLE} mt-[1rem] md:mt-[1.5rem] md:mb-[1.5rem]`}>
+                    What is Webflix?
+                </h1>
+                <p className={DESC}>Webflix is a modern movie-app project built from the
                 ground up. Designed first in Figma then developed using both ReactJS and
                 Tailwind CSS.</p>
+                <p className={DESC}>Webflix is able to fetch data from an API via The
+                Movie Database, including movies, TV shows and even actors!</p>
 
-                <p className={DESC}>Webflix is able to fetch data from an API via The Movie
-                Database, including movies, TV shows and even actors!</p>
-
-
-                <h1 className={`${TITLE} mt-[3rem] sm:mt-[4rem] lg:mt-[5rem] 2xl:mt-[7rem]`}>
-                    About the Creator
-                </h1>
-                <div className="flex items-center justify-center mt-[1rem] md:mb-[1.5rem]">
-                    <img className="mx-[2rem] h-[7rem] rounded-[50%] md:h-[9rem] 2xl:h-[10rem]" src={luna} 
-                    alt="Raul Luna"/>
+                <h1 className={`${TITLE} mt-[3rem] sm:mt-[4rem] lg:mt-[5rem]
+                2xl:mt-[7rem]`}>About the Creator</h1>
+                <div className="flex items-center justify-center mt-[1rem]
+                md:mb-[1.5rem]">
+                    <img className="mx-[2rem] h-[7rem] rounded-[50%] md:h-[9rem]
+                    2xl:h-[10rem]" src={luna} alt="Raul Luna"/>
                 </div>
-                <p className={DESC}>Webflix was designed by Raul Luna, based in Madison, 
+                <p className={DESC}>Webflix was designed by Raul Luna, based in Madison,
                 WI!</p>
-                <p className={DESC}>"Its been an incredible journey so far as a Front-End 
-                Web developer, and I plan on creating and building more projects and websites
-                for the forceable future to continue growing and learning"</p>
+                <p className={DESC}>"Its been an incredible journey so far as a Front-End
+                Web developer, and I plan on creating and building more projects and
+                websites for the forceable future to continue growing and learning"</p>
             </div>
             <Footer/>
         </>
