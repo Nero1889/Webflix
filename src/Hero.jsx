@@ -90,14 +90,12 @@ function Hero() {
 
     const handleMouseUp = () => setIsDragging(false);
     const handleMouseLeave = () => {
-        if (IS_DRAGGING) {
-            setIsDragging(false);
-        }
+        if (IS_DRAGGING) setIsDragging(false);
     };
 
     return (
         <>
-            <div className="mt-[0.5rem] mx-[2rem] flex flex-col">
+            <div className="mt-[0.5rem] mx-[2rem] flex flex-col 2xl:mx-[3.4rem]">
                 <h1 className="text-base font-[650] md:text-lg">Trending Now</h1>
                 <div className="relative mt-5 rounded-[2rem] overflow-hidden bg-black
                 h-[12rem] select-none md:h-[18rem] lg:h-[25rem]">
@@ -116,8 +114,8 @@ function Hero() {
                                 pointer-events-none" src={movie.image} alt={movie.title}
                                 draggable={false}/>
                                 <div className="absolute bottom-4 left-4 text-white">
-                                    <h3 className="text-sm font-[600] md:text-base 
-                                    lg:text-lg 2xl:text-xl">{movie.title}</h3>
+                                    <h1 className="text-sm font-[600] md:text-base 
+                                    lg:text-lg 2xl:text-xl">{movie.title}</h1>
                                     <p className="text-xs text-slate-300 font-[600]
                                     mt-1 md:text-sm lg:text-base 2xl:text-lg">
                                         {movie.studio}
