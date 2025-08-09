@@ -123,22 +123,23 @@ function Header() {
                     <ul className="list-none flex flex-col items-start gap-2 p-4 w-full">
                         {[
                             {icon: home, label: "Home", path: "/"},
-                            {icon: about, label: "About", href: "#about"},
-                            {icon: contact, label: "Contact", href: "#contact"},
+                            {icon: about, label: "About", path: "/about"},
+                            {icon: contact, label: "Contact", path: "/contact"},
                             {icon: portfolio, label: "Portfolio", href: "https://nero1889.github.io/Personal-Portfolio/"}
-                        ].map(({icon, label, href, path}, i) => (
+                        ].map(({ icon, label, href, path }, i) => (
                             <React.Fragment key={label}>
                                 <li className="flex items-center ml-5 w-[calc(100%-3.5rem)]">
                                     <img src={icon} alt={`${label} Icon`}
                                     className="w-7 h-7" draggable="false"/>
                                     {path ? (
-                                        <Link to={path} onClick={toggleMenu} 
+                                        <Link to={path} onClick={toggleMenu}
                                         className="text-slate-300 text-base font-[550]
                                         py-2 px-4 block hover:text-white 
                                         transition-colors duration-[.25s]">{label}</Link>
                                     ) : (
                                         <a href={href} onClick={label === "Portfolio" ? toggleMenu : undefined}
-                                        target={label === "Portfolio" ? "_blank" : undefined} rel={label === "Portfolio" ? "noopener noreferrer" : undefined} 
+                                        target={label === "Portfolio" ? "_blank" : undefined} 
+                                        rel={label === "Portfolio" ? "noopener noreferrer" : undefined} 
                                         className="text-slate-300 text-base font-[550]
                                         py-2 px-4 block hover:text-white
                                         transition-colors duration-[.25s]">{label}</a>
@@ -163,8 +164,6 @@ function Header() {
                         <SearchBar onSearch={handleSearch} isMobile={true} />
                     </div>
                     <div className="p-5 pt-0">
-                        {/* Return to later!!! */}
-                        {/* Suggestions, loading, and error messages */}
                         {loadingSuggestions && (
                             <div className="flex justify-center items-center mt-[5rem]">
                                 <div className="w-[2.5rem] h-[2.5rem] border-4 
