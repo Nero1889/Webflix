@@ -164,7 +164,7 @@ function Results() {
                             h-[2.5rem] p-1 mr-[1.25rem] cursor-pointer"
                             draggable="false"/>
                         </button>
-                        <SearchBar onSearch={handleInstantSearch} isMobile={true} />
+                        <SearchBar onSearch={handleInstantSearch} isMobile={true}/>
                     </div>
                     <div className="p-5 pt-0">
                         {loadingInstantSuggestions && (
