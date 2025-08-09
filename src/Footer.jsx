@@ -4,7 +4,7 @@ import linkedIn from "./assets/slateLinkedIn.png";
 
 function Footer() {
     const ICON = `w-[2rem] h-[2rem] border-[2px] border-slate-800 rounded md:w-[2.5rem] 
-    md:h-[2.5rem] hover:border-slate-600 transition-color duration-[.25s] p-1`;
+    md:h-[2.5rem] hover:border-[#b71234] transition-color duration-[.25s] p-1`;
     const TEXT = "text-xs text-slate-400 font-[600] md:text-sm xl:text-base";
 
     const LINKS = [
