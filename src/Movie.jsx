@@ -61,7 +61,6 @@ function Movie() {
                 if (!similarRes.ok) throw new Error(`Failed to fetch similar titles: ${similarRes.statusText}`);
                 const similarMoviesData = await similarRes.json();
                 setSimilar(similarMoviesData.results.slice(0, 10));
-
             } catch (err) {
                 console.error("Error fetching content data:", err);
                 setError("Could not load details!");
@@ -95,7 +94,8 @@ function Movie() {
                 <button onClick={() => navigate(-1)} className="p-2 rounded-full
                 bg-slate-800 hover:bg-slate-900 transition-colors duration-[.25s] flex
                 items-center justify-center">
-                    <img className="w-[1.5rem] h-[1.5rem]" src={back} alt="Back Icon" draggable="false"/>
+                    <img className="w-[1.5rem] h-[1.5rem]" src={back} alt="Back Icon"
+                    draggable="false"/>
                 </button>
             </div>
         );
@@ -115,7 +115,8 @@ function Movie() {
             <div className="relative bg-black mb-4">
                 <button onClick={() => navigate(-1)} className="absolute z-8 ml-[1rem]
                 mt-[1rem] p-2 rounded-full bg-slate-800 hover:bg-slate-900
-                transition-colors duration-[.25s] flex items-center justify-center md:ml-[3.4rem]">
+                transition-colors duration-[.25s] flex items-center justify-center
+                md:ml-[3.4rem]">
                     <img className="w-[1.5rem] h-[1.5rem]" src={back} alt="Back Icon"
                     draggable="false"/>
                 </button>
@@ -173,7 +174,7 @@ function Movie() {
                         {movie.overview}
                     </p>
 
-                    <div className="flex justify-center gap-5 items-center sm:gap-7 
+                    <div className="flex justify-center gap-5 items-center sm:gap-7
                     sm:mb-[2.5rem] lg:hidden">
                         <div className="flex items-center gap-1">
                             <img className="w-4 h-4" src={star} alt="Rating Icon"/>
@@ -243,7 +244,8 @@ function Movie() {
                     custom-scrollbar lg:gap-10 xl:gap-15 2xl:gap-20 2xl:ml-[3.4rem]">
                         {cast.map(actor => (
                             <div key={actor.id} className="flex-shrink-0 text-center
-                            w-24 cursor-pointer" onClick={() => navigate(`/actor/${actor.id}`)}>
+                            w-24 cursor-pointer" 
+                            onClick={() => navigate(`/actor/${actor.id}`)}>
                                 <div className="mb-2 w-[6rem] h-[8.5rem] bg-slate-800
                                 rounded-[1rem] overflow-hidden border-[#ffffff00]
                                 border-[2.5px] hover:border-[#b71234] transition-colors
@@ -254,19 +256,20 @@ function Movie() {
                                         <img src={`${TMDB_PROFILE_BASE_URL}${actor.profile_path}`} 
                                         alt={actor.name} className="w-full h-full object-cover"/>
                                     ) : (
-                                        <div className="flex items-center justify-center h-full">
-                                            <img className="w-[3.4rem] h-[3.4rem]" src={unavailableActor} alt="Unavailable Movie Icon"/>
+                                        <div className="flex items-center justify-center
+                                        h-full">
+                                            <img className="w-[3.4rem] h-[3.4rem]"
+                                            src={unavailableActor}
+                                            alt="Unavailable Movie Icon"/>
                                         </div>
                                     )}
                                 </div>
                                 <h3 className="line-clamp-3 text-left text-sm
-                                text-slate-300 font-[550] mb-1 w-[6rem] xl:text-base xl:w-[8rem]">
-                                    {actor.name}
-                                </h3>
+                                text-slate-300 font-[550] mb-1 w-[6rem] xl:text-base
+                                xl:w-[8rem]">{actor.name}</h3>
                                 <p className="line-clamp-3 text-left text-xs
-                                text-slate-500 font-[550] w-[6rem] xl:text-base xl:w-[8rem]">
-                                    {actor.character}
-                                </p>
+                                text-slate-500 font-[550] w-[6rem] xl:text-base
+                                xl:w-[8rem]">{actor.character}</p>
                             </div>
                         ))}
                     </div>
@@ -276,9 +279,7 @@ function Movie() {
             {similar.length > 0 && (
                 <div className="ml-[2rem] mt-[2rem] md:ml-[3.4rem] md:mt-[3rem] xl:mt-[4rem]">
                     <h1 className="text-white text-lg font-[650] mb-[1rem] md:text-xl
-                    lg:text-2xl lg:mt-[3rem] lg:mb-[1.5rem]">
-                        More Like This
-                    </h1>
+                    lg:text-2xl lg:mt-[3rem] lg:mb-[1.5rem]">More Like This</h1>
                     <div className="flex gap-5 overflow-x-auto whitespace-nowrap
                     custom-scrollbar lg:gap-10 xl:gap-15 2xl:gap-20">
                         {similar.map(similarItem => {
@@ -289,12 +290,14 @@ function Movie() {
                                 text-center w-24 cursor-pointer"
                                 onClick={() => navigate(`/${type}/${similarItem.id}`)}>
                                     <div className="mb-2 w-[6rem] h-[8.5rem] bg-slate-800
-                                    rounded-[1rem] overflow-hidden border-[#ffffff00] border-[2.5px]
-                                    hover:border-[#b71234] transition-colors duration-[.25s]
-                                    md:w-[6rem] md:h-[8.5rem] lg:w-[7rem] lg:h-[10rem] lg:mb-[.7rem]
-                                    xl:mb-[1rem] xl:w-[8rem] xl:h-[12rem] 2xl:w-[9rem] 2xl:h-[13rem]">
+                                    rounded-[1rem] overflow-hidden border-[#ffffff00]
+                                    border-[2.5px] hover:border-[#b71234]
+                                    transition-colors duration-[.25s] md:w-[6rem]
+                                    md:h-[8.5rem] lg:w-[7rem] lg:h-[10rem] lg:mb-[.7rem]
+                                    xl:mb-[1rem] xl:w-[8rem] xl:h-[12rem] 2xl:w-[9rem]
+                                    2xl:h-[13rem]">
                                         {similarItem.poster_path ? (
-                                            <img src={`${TMDB_POSTER_BASE_URL}${similarItem.poster_path}`} 
+                                            <img src={`${TMDB_POSTER_BASE_URL}${similarItem.poster_path}`}
                                             alt={similarItem.title || similarItem.name} 
                                             className="w-full h-full object-cover"/>
                                         ) : (
