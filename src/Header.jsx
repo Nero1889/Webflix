@@ -5,7 +5,6 @@ import menu from "./assets/menu.png";
 import close from "./assets/close.png";
 import home from "./assets/home.png";
 import about from "./assets/about.png";
-import contact from "./assets/contact.png";
 import portfolio from "./assets/portfolio.png";
 import back from "./assets/back.png";
 import movie from "./assets/movie.png";
@@ -125,7 +124,6 @@ function Header() {
                         {[
                             {icon: home, label: "Home", path: "/"},
                             {icon: about, label: "About", path: "/about"},
-                            {icon: contact, label: "Contact", path: "/contact"},
                             {icon: portfolio, label: "Portfolio", href: "https://nero1889.github.io/Personal-Portfolio/"}
                         ].map(({ icon, label, href, path }, i) => (
                             <React.Fragment key={label}>
