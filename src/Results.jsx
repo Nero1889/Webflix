@@ -238,10 +238,14 @@ function Results() {
                 </div>
             )}
             {error && (
-                <p className="text-[#b71234] text-center mt-[5rem] p-4 mx-5 sm:mx-[3rem]
-                xl:mx-[5rem] 2xl:mx-[7rem]">
-                    {error}
-                </p>
+                <div className="flex flex-col items-center justify-center
+                mt-[5rem] sm:mt-[6.5rem] lg:mt-[7.5rem]">
+                    <img src={warning} alt="Warning Icon" className="w-[5rem]
+                    h-[5rem] sm:w-[6rem] sm:h-[6rem] lg:w-[7rem] lg:h-[7rem]"
+                    draggable="false"/>
+                    <p className="text-[#b71234] text-center font-[550]
+                    mt-[1rem] text-base sm:text-lg lg:text-xl">{error}</p>
+                </div>
             )}
             {searchResults.length > 0 && (
                 <>
