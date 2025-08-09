@@ -106,7 +106,8 @@ function Header() {
                         draggable="false"/>
                     </button>
                     <button className="bg-[#b71234] p-2 rounded-full flex items-center
-                    justify-center hover:bg-[#710033] transition-colors duration-[.25s]"
+                    justify-center hover:bg-[#710033] transition-colors duration-[.25s]
+                    cursor-pointer"
                     onClick={toggleMenu}>
                         <img className="w-7 h-7" src={menuIconSrc}
                         alt={isMenuOpen ? "Close menu" : "Open menu"} draggable="false"/>
