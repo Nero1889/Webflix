@@ -3,6 +3,7 @@ import HomePage from "./HomePage";
 import Results from "./Results.jsx";
 import Movie from "./Movie.jsx";
 import Actor from "./Actor.jsx";
+import About from "./About.jsx";
 
 function App() {
     return (
@@ -12,6 +13,7 @@ function App() {
             <Route path="/movie/:id" element={<Movie/>}/>
             <Route path="/tv/:id" element={<Movie/>}/>
             <Route path="/actor/:actorId" element={<Actor/>}/>
+            <Route path="/about" element={<About/>}/>
         </Routes>
     );
 }
