@@ -4,7 +4,6 @@ import Results from "./Results.jsx";
 import Movie from "./Movie.jsx";
 import Actor from "./Actor.jsx";
 import About from "./About.jsx";
-import Contact from "./Contact.jsx";
 
 function App() {
     return (
@@ -15,7 +14,6 @@ function App() {
             <Route path="/tv/:id" element={<Movie/>}/>
             <Route path="/actor/:actorId" element={<Actor/>}/>
             <Route path="/about" element={<About/>}/>
-            <Route path="/contact" element={<Contact/>}/>
         </Routes>
     );
 }
