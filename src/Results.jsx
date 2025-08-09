@@ -101,7 +101,7 @@ function Results() {
             2xl:mx-[5.5rem]">
                 <button onClick={() => navigate(-1)} className="flex items-center">
                     <img src={back} alt="Back Icon" className="w-[2.5rem] h-[2.5rem]
-                    mr-[1rem]" draggable="false"/>
+                    mr-[1rem] cursor-pointer" draggable="false"/>
                 </button>
                 <div className="relative lg:w-[24rem] h-[2.5rem] xl:w-[34rem] hidden lg:flex">
                     <SearchBar onSearch={handleInstantSearch} isMobile={false}/>
@@ -147,7 +147,8 @@ function Results() {
                 </div>
                 <button className="bg-[#b71234] p-2 rounded-full flex items-center
                 justify-center mr-[.75rem] hover:bg-[#710033] transition-colors
-                duration-[.25s] sm:mr-0 lg:hidden" onClick={() => setIsSearchOpen(true)}>
+                duration-[.25s] sm:mr-0 lg:hidden cursor-pointer"
+                onClick={() => setIsSearchOpen(true)}>
                     <img className="w-7 h-7" src={search} alt="Search Icon" draggable="false"/>
                 </button>
             </div>
@@ -160,7 +161,7 @@ function Results() {
                         <button onClick={() => setIsSearchOpen(false)}
                         className="flex items-center">
                             <img src={back} alt="Back Icon" className="w-[2.5rem]
-                            h-[2.5rem] p-1 mr-[1.25rem]"
+                            h-[2.5rem] p-1 mr-[1.25rem] cursor-pointer"
                             draggable="false"/>
                         </button>
                         <SearchBar onSearch={handleInstantSearch} isMobile={true} />
