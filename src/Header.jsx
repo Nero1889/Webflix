@@ -132,14 +132,14 @@ function Header() {
                                     className="w-7 h-7" draggable="false"/>
                                     {path ? (
                                         <Link to={path} onClick={toggleMenu}
-                                        className="text-slate-300 text-base font-[550]
+                                        className="text-slate-400 text-base font-[550]
                                         py-2 px-4 block hover:text-white 
                                         transition-colors duration-[.25s]">{label}</Link>
                                     ) : (
                                         <a href={href} onClick={label === "Portfolio" ? toggleMenu : undefined}
                                         target={label === "Portfolio" ? "_blank" : undefined} 
                                         rel={label === "Portfolio" ? "noopener noreferrer" : undefined} 
-                                        className="text-slate-300 text-base font-[550]
+                                        className="text-slate-400 text-base font-[550]
                                         py-2 px-4 block hover:text-white
                                         transition-colors duration-[.25s]">{label}</a>
                                     )}
