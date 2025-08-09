@@ -160,7 +160,7 @@ function Header() {
                             <img src={back} alt="Back Icon" className="w-[2.5rem]
                             h-[2.5rem] p-1 mr-[1.25rem]" draggable="false"/>
                         </button>
-                        <SearchBar onSearch={handleSearch} isMobile={true} />
+                        <SearchBar onSearch={handleSearch} isMobile={true}/>
                     </div>
                     <div className="p-5 pt-0">
                         {loadingSuggestions && (
@@ -172,11 +172,11 @@ function Header() {
                         )}
                         {error && (
                             <div className="flex flex-col items-center justify-center
-                            mt-[5rem]">
+                            mt-[5rem] sm:mt-[6.5rem] lg:mt-[7.5rem]">
                                 <img src={warning} alt="Warning Icon" className="w-[5rem]
-                                h-[5rem]" draggable="false"/>
+                                h-[5rem] sm:w-[6rem] sm:h-[6rem] lg:w-[7rem] lg:h-[7rem]" draggable="false"/>
                                 <p className="text-[#b71234] text-center font-[550]
-                                mt-[1rem]">{error}</p>
+                                mt-[1rem] text-base sm:text-lg lg:text-xl">{error}</p>
                             </div>
                         )}
         
