@@ -103,11 +103,24 @@ function Movie() {
 
     if (!movie) {
         return (
-            <p className="text-base text-white text-center p-10 mt-[5rem]">
-                No data found for this ID!
-            </p>
+            <p className="text-base text-white text-center p-10
+            mt-[5rem]">No data found for this ID!</p>
         );
     }
+    
+    const movieInfo = [
+        {icon: star,
+        alt: "Star Icon",
+        value: movie.vote_average?.toFixed(1) || "N/A"},
+
+        {icon: clock,
+        alt: "Clock Icon",
+        value: formatRuntime(movie.runtime || movie.episode_run_time?.[0])},
+
+        {icon: calendar,
+        alt: "Calendar Icon",
+        value: (movie.release_date || movie.first_air_date || "").substring(0, 4) || "N/A"},
+    ];
 
     return (
         <div>
@@ -123,7 +136,8 @@ function Movie() {
 
                 {movie.backdrop_path ? (
                     <img className="opacity-50 w-full h-auto object-cover max-h-[50vh]
-                    xl:max-h-[60vh] 2xl:max-h-[65vh]" src={`${TMDB_BACKDROP_BASE_URL}${movie.backdrop_path}`} 
+                    xl:max-h-[60vh] 2xl:max-h-[65vh]"
+                    src={`${TMDB_BACKDROP_BASE_URL}${movie.backdrop_path}`} 
                     alt={`${movie.title || movie.name} Backdrop`}/>
                 ) : (
                     <div className="w-full h-[50vh] bg-slate-900 opacity-50 flex
@@ -139,71 +153,32 @@ function Movie() {
                     <h1 className="text-xl font-bold text-center mb-2 w-[17ch]
                     sm:text-2xl sm:w-[25ch] sm:mb-[1rem] md:border-[#b71234]
                     lg:mb-[.25rem] lg:w-[auto] lg:ml-[5rem] xl:text-3xl xl:mb-[.5rem]
-                    2xl:text-4xl 2xl:mb-[1rem]">
-                        {movie.title || movie.name}
-                    </h1>
-
-                    <div className="hidden lg:flex justify-center gap-5 items-center
-                    mb-[1rem] sm:gap-7 lg:ml-[5rem]">
-                        <div className="flex items-center gap-1">
-                            <img className="w-4 h-4" src={star} alt="Rating Icon"/>
-                            <h3 className="text-slate-400 text-sm sm:text-base xl:text-lg
-                            2xl:text-xl">
-                                {movie.vote_average?.toFixed(1) || "N/A"}
-                            </h3>
-                        </div>
-                        <div className="flex items-center gap-1">
-                            <img className="w-4 h-4" src={clock} alt="Runtime Icon"/>
-                            <h3 className="text-slate-400 text-sm sm:text-base xl:text-lg
-                            2xl:text-xl">
-                                {formatRuntime(movie.runtime || movie.episode_run_time?.[0])}
-                            </h3>
-                        </div>
-                        <div className="flex items-center gap-1">
-                            <img className="w-4 h-4" src={calendar} alt="Year Icon"/>
-                            <h3 className="text-slate-400 text-sm sm:text-base xl:text-lg
-                            2xl:text-xl">
-                                {(movie.release_date || movie.first_air_date || "").substring(0, 4) || "N/A"}
-                            </h3>
-                        </div>
+                    2xl:text-4xl 2xl:mb-[1rem]">{movie.title || movie.name}</h1>
+                    <div className="flex justify-center gap-5 items-center
+                    mb-[1rem] sm:gap-7 sm:mb-[2.5rem] lg:ml-[5rem] lg:mb-[1rem]">
+                        {movieInfo.map((item, i) => (
+                            <div key={i} className="flex items-center gap-1
+                            xl:gap-2">
+                                <img className="w-4 h-4" src={item.icon} alt={item.alt}/>
+                                <h3 className="text-slate-400 text-sm sm:text-base
+                                xl:text-lg 2xl:text-xl">{item.value}</h3>
+                            </div>
+                        ))}
                     </div>
-
                     <p className="hidden text-slate-400 text-sm leading-relaxed mb-[5rem]
                     lg:block lg:ml-[5rem] w-[70ch] mt-[1rem] xl:text-base xl:w-[80ch]
                     xl:mb-[6.5rem] 2xl:text-lg 2xl:w-[88ch] 2xl:mb-[8.5rem]">
                         {movie.overview}
                     </p>
-
-                    <div className="flex justify-center gap-5 items-center sm:gap-7
-                    sm:mb-[2.5rem] lg:hidden">
-                        <div className="flex items-center gap-1">
-                            <img className="w-4 h-4" src={star} alt="Rating Icon"/>
-                            <h3 className="text-slate-400 text-sm sm:text-base">
-                                {movie.vote_average?.toFixed(1) || "N/A"}
-                            </h3>
-                        </div>
-                        <div className="flex items-center gap-1">
-                            <img className="w-4 h-4" src={clock} alt="Runtime Icon"/>
-                            <h3 className="text-slate-400 text-sm sm:text-base">
-                                {formatRuntime(movie.runtime || movie.episode_run_time?.[0])}
-                            </h3>
-                        </div>
-                        <div className="flex items-center gap-1">
-                            <img className="w-4 h-4" src={calendar} alt="Year Icon"/>
-                            <h3 className="text-slate-400 text-sm sm:text-base">
-                                {(movie.release_date || movie.first_air_date || "").substring(0, 4) || "N/A"}
-                            </h3>
-                        </div>
-                    </div>
                 </div>
             </div>
 
-            <div className="flex justify-center mb-8 px-4 lg:hidden">
+            <div className="flex justify-center mb-8 px-4">
                 <button className="bg-slate-800 text-slate-400 text-sm font-[600]
                 inline-flex items-center gap-2 py-3 px-4 rounded-[3rem] 
-                hover:bg-slate-700 transition-colors">
-                    <img className="w-4 h-4" src={playBtn} alt="Play Icon"
-                    draggable="false"/>
+                hover:bg-slate-700 transition-colors xl:text-base">
+                    <img className="w-[1rem] h-[1rem] xl:w-[1.5rem] xl:h-[1.5rem]"
+                    src={playBtn} alt="Play Icon" draggable="false"/>
                     Watch Trailer
                 </button>
             </div>
@@ -211,9 +186,7 @@ function Movie() {
             {movie.genres?.length > 0 && (
                 <div className="mx-[2rem] mt-4 md:ml-[3.4rem] lg:mt-[3rem]">
                     <h1 className="text-white text-lg font-[650] mb-[1rem] md:text-xl
-                    lg:text-2xl lg:mb-[1.5rem]">
-                        Genres
-                    </h1>
+                    lg:text-2xl lg:mb-[1.5rem]">Genres</h1>
                     <div className="flex flex-wrap gap-1 md:gap-2 lg:gap-3">
                         {movie.genres.map(genre => (
                             <p key={genre.id} className={GENRES}>{genre.name}</p>
@@ -237,9 +210,7 @@ function Movie() {
                 <div className="ml-[2rem] mt-[2rem] 2xl:ml-0 md:ml-[3.4rem] md:mt-[3rem]
                 xl:mt-[4rem]">
                     <h1 className="text-white text-lg font-[650] mb-[1rem] md:text-xl
-                    lg:text-2xl lg:mb-[1.5rem] 2xl:ml-[3.4rem]">
-                        Cast
-                    </h1>
+                    lg:text-2xl lg:mb-[1.5rem] 2xl:ml-[3.4rem]">Cast</h1>
                     <div className="flex gap-5 overflow-x-auto whitespace-nowrap
                     custom-scrollbar lg:gap-10 xl:gap-15 2xl:gap-20 2xl:ml-[3.4rem]">
                         {cast.map(actor => (
