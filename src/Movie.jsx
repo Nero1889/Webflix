@@ -90,7 +90,7 @@ function Movie() {
         return (
             <div className="flex flex-col items-center justify-center h-[100vh]">
                 <p className="text-base text-[#b71234] font-[650] text-center mb-6
-                w-[15ch]">{error}</p>
+                w-[15ch] sm:text-xl md:text-2xl md:w-[20ch] xl:text-3xl">{error}</p>
                 <button onClick={() => navigate(-1)} className="p-2 rounded-full
                 bg-slate-800 hover:bg-slate-900 transition-colors duration-[.25s] flex
                 items-center justify-center cursor-pointer">
@@ -301,3 +301,4 @@ function Movie() {
 }
 
 export default Movie;
+
