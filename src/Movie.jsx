@@ -142,15 +142,15 @@ function Movie() {
                 ) : (
                     <div className="w-full h-[50vh] bg-slate-900 opacity-50 flex
                     items-center justify-center text-slate-500">
-                        No Backdrop Available
+                        No Backdrop Available!
                     </div>
                 )}
 
                 <div className="absolute inset-0 bg-gradient-to-t from-[#010617]
-                via-transparent to-transparent"/>
+                via-transparent to-transparent"></div>
                 <div className="absolute bottom-4 left-0 right-0 px-4 z-5 text-white flex
                 flex-col items-center lg:items-start">
-                    <h1 className="text-xl font-bold text-center mb-2 w-[17ch]
+                    <h1 className="text-xl font-[650] text-center mb-2 w-[17ch]
                     sm:text-2xl sm:w-[25ch] sm:mb-[1rem] md:border-[#b71234]
                     lg:mb-[.25rem] lg:w-[auto] lg:ml-[5rem] xl:text-3xl xl:mb-[.5rem]
                     2xl:text-4xl 2xl:mb-[1rem]">{movie.title || movie.name}</h1>
@@ -176,7 +176,8 @@ function Movie() {
             <div className="flex justify-center mb-8 px-4">
                 <button className="bg-slate-800 text-slate-400 text-sm font-[600]
                 inline-flex items-center gap-2 py-3 px-4 rounded-[3rem] 
-                hover:bg-slate-700 transition-colors xl:text-base">
+                hover:bg-slate-700 transition-colors xl:text-base
+                cursor-pointer">
                     <img className="w-[1rem] h-[1rem] xl:w-[1.5rem] xl:h-[1.5rem]"
                     src={playBtn} alt="Play Icon" draggable="false"/>
                     Watch Trailer
