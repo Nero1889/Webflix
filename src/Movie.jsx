@@ -29,6 +29,12 @@ function Movie() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
+    const [showTrailer, setShowTrailer] = useState(false);
+    const [trailerKey, setTrailerKey] = useState(null);
+
+    const handleOpenTrailer = () => setShowTrailer(true);
+    const handleCloseTrailer = () => setShowTrailer(false);
+
     const GENRES = `bg-slate-800 text-slate-400 text-xs font-[600] inline-block px-3 py-2
     rounded-[3rem] mr-2 mb-2 md:text-sm lg:text-base`;
 
@@ -61,6 +67,14 @@ function Movie() {
                 if (!similarRes.ok) throw new Error(`Failed to fetch similar titles: ${similarRes.statusText}`);
                 const similarMoviesData = await similarRes.json();
                 setSimilar(similarMoviesData.results.slice(0, 10));
+
+                const videosRes = await fetch(`${TMDB_BASE_URL}/${contentType}/${id}/videos?api_key=${TMDB_API_KEY}`);
+                if (!videosRes.ok) throw new Error(`Failed to fetch videos: ${videosRes.statusText}`);
+                const videosData = await videosRes.json();
+
+                const trailer = videosData.results.find(video => video.type === "Trailer" && video.site === "YouTube");
+                trailer ? setTrailerKey(trailer.key) : setTrailerKey(null);
+                
             } catch (err) {
                 console.error("Error fetching content data:", err);
                 setError("Could not load details!");
@@ -124,6 +138,22 @@ function Movie() {
 
     return (
         <div>
+            {showTrailer && trailerKey && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center
+                bg-black bg-opacity-90">
+                    <div className="relative w-full max-w-4xl h-auto">
+                        <button onClick={handleCloseTrailer} className="absolute top-2
+                        right-2 text-white text-3xl z-50 p-2">x</button>
+                        <div className="relative pt-[56.25%]">
+                            <iframe className="absolute top-0 left-0 w-full h-full"
+                            src={`https://www.youtube.com/embed/${trailerKey}?autoplay=1&rel=0`}
+                            title="YouTube video player" allow="accelerometer;
+                            clipboard-write; encrypted-media; gyroscope;
+                            picture-in-picture" allowFullScreen></iframe>
+                        </div>
+                    </div>
+                </div>
+            )}
             <Header/>
             <div className="relative bg-black mb-4">
                 <button onClick={() => navigate(-1)} className="absolute z-8 ml-[1rem]
@@ -141,9 +171,8 @@ function Movie() {
                     alt={`${movie.title || movie.name} Backdrop`}/>
                 ) : (
                     <div className="w-full h-[50vh] bg-slate-900 opacity-50 flex
-                    items-center justify-center text-slate-500">
-                        No Backdrop Available!
-                    </div>
+                    items-center justify-center text-slate-500
+                    font-[550]">No Backdrop Available!</div>
                 )}
 
                 <div className="absolute inset-0 bg-gradient-to-t from-[#010617]
@@ -177,7 +206,7 @@ function Movie() {
                 <button className="bg-slate-800 text-slate-400 text-sm font-[600]
                 inline-flex items-center gap-2 py-3 px-4 rounded-[3rem] 
                 hover:bg-slate-700 transition-colors xl:text-base
-                cursor-pointer">
+                cursor-pointer" onClick={handleOpenTrailer} disabled={!trailerKey}>
                     <img className="w-[1rem] h-[1rem] xl:w-[1.5rem] xl:h-[1.5rem]"
                     src={playBtn} alt="Play Icon" draggable="false"/>
                     Watch Trailer
