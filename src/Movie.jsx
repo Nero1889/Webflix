@@ -7,6 +7,7 @@ import star from "./assets/star.png";
 import clock from "./assets/clock.png";
 import calendar from "./assets/calendar.png";
 import playBtn from "./assets/playButton.png";
+import close from "./assets/close.png";
 import unavailableActor from "./assets/unavailableActor.png";
 import unavailableMovie from "./assets/unavailableMovie.png";
 
@@ -28,8 +29,7 @@ function Movie() {
     const [similar, setSimilar] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-
-    const [showTrailer, setShowTrailer] = useState(false);
+    const [showTrailer, setShowTrailer] = useState(false); 
     const [trailerKey, setTrailerKey] = useState(null);
 
     const handleOpenTrailer = () => setShowTrailer(true);
@@ -140,10 +140,14 @@ function Movie() {
         <div>
             {showTrailer && trailerKey && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center
-                bg-black bg-opacity-90">
+                bg-[#00000095]">
                     <div className="relative w-full max-w-4xl h-auto">
                         <button onClick={handleCloseTrailer} className="absolute top-2
-                        right-2 text-white text-3xl z-50 p-2">x</button>
+                        right-2 text-white text-3xl z-50 p-2 bg-[#b71234] rounded-[2rem]
+                        hover:bg-[#710033] transition-colors duration-[.25s]">
+                            <img src={close} alt="Close Icon" className="w-[1.5rem]
+                            h-[1.5rem]" draggable="false"/>    
+                        </button>
                         <div className="relative pt-[56.25%]">
                             <iframe className="absolute top-0 left-0 w-full h-full"
                             src={`https://www.youtube.com/embed/${trailerKey}?autoplay=1&rel=0`}
