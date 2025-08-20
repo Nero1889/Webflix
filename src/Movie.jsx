@@ -144,7 +144,8 @@ function Movie() {
                     <div className="relative w-full max-w-4xl h-auto">
                         <button onClick={handleCloseTrailer} className="absolute top-2
                         right-2 text-white text-3xl z-50 p-2 bg-[#b71234] rounded-[2rem]
-                        hover:bg-[#710033] transition-colors duration-[.25s]">
+                        hover:bg-[#710033] transition-colors duration-[.25s]
+                        cursor-pointer">
                             <img src={close} alt="Close Icon" className="w-[1.5rem]
                             h-[1.5rem]" draggable="false"/>    
                         </button>
