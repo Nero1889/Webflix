@@ -78,8 +78,6 @@ function SearchBar({onSearch, isMobile = false}) {
             <img src={slateSearch} alt="Search Icon" className="w-[1.25rem] h-[1.25rem]
             absolute left-3 top-1/2 transform -translate-y-1/2 pointer-events-none" 
             draggable="false"/>
-
-            {/* Search Bar! */}
             <input type="text" placeholder="Search!"
             
             /* Mobile Search Bar */
@@ -99,3 +97,4 @@ function SearchBar({onSearch, isMobile = false}) {
 }
 
 export default SearchBar;
+
