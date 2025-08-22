@@ -97,4 +97,3 @@ function SearchBar({onSearch, isMobile = false}) {
 }
 
 export default SearchBar;
-
