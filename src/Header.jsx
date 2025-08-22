@@ -56,6 +56,7 @@ function Header() {
             bg-slate-950 w-full z-10 text-white">
                 <h1 className="text-xl font-[650] text-white">Webflix</h1>
                 <div className="relative hidden w-[24rem] h-[2.5rem] lg:block xl:w-[34rem]">
+                    {/* Desktop Search Bar */}
                     <SearchBar onSearch={handleSearch} isMobile={false}/>
                     {suggestions.length > 0 && !loadingSuggestions && (
                         <ul className="absolute top-[2.2rem] left-0 w-full bg-slate-900
@@ -160,6 +161,7 @@ function Header() {
                             <img src={back} alt="Back Icon" className="w-[2.5rem]
                             h-[2.5rem] p-1 mr-[1.25rem]" draggable="false"/>
                         </button>
+                        {/* Mobile Search Bar */}
                         <SearchBar onSearch={handleSearch} isMobile={true}/>
                     </div>
                     <div className="p-5 pt-0">
