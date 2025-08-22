@@ -22,9 +22,8 @@ function About() {
                     <img className={LANG} src={tailwind} alt="Tailwind CSS Logo"
                     draggable="false"/>
                 </div>
-                <h1 className={`${TITLE} mt-[1rem] md:mt-[1.5rem] md:mb-[1.5rem]`}>
-                    What is Webflix?
-                </h1>
+                <h1 className={`${TITLE} mt-[1rem] md:mt-[1.5rem]
+                md:mb-[1.5rem]`}>What is Webflix?</h1>
                 <p className={DESC}>Webflix is a modern movie-app project built from the
                 ground up. Designed first in Figma then developed using both ReactJS and
                 Tailwind CSS.</p>
@@ -38,8 +37,8 @@ function About() {
                     <img className="mx-[2rem] h-[7rem] rounded-[50%] md:h-[9rem]
                     2xl:h-[10rem]" src={luna} alt="Raul Luna"/>
                 </div>
-                <p className={DESC}>Webflix was designed by Raul Luna, based in Madison,
-                WI!</p>
+                <p className={DESC}>Webflix was designed by Raul Luna, based in
+                Madison, WI!</p>
                 <p className={DESC}>"Its been an incredible journey so far as a Front-End
                 Web developer, and I plan on creating and building more projects and
                 websites for the forceable future to continue growing and learning"</p>
