@@ -51,38 +51,42 @@ function Movie() {
             setMovie(null);
             setCast([]);
             setSimilar([]);
+            setTrailerKey(null);
+
+            const endpoints = {
+                details: `${TMDB_BASE_URL}/${contentType}/${id}`,
+                credits: `${TMDB_BASE_URL}/${contentType}/${id}/credits`,
+                similar: `${TMDB_BASE_URL}/${contentType}/${id}/similar`,
+                videos: `${TMDB_BASE_URL}/${contentType}/${id}/videos`,
+            }
+
+            const fetchEndpoint = async (url, errorMsg) => {
+                const response = await fetch(`${url}?api_key=${TMDB_API_KEY}`);
+                if (!response.ok) throw new Error(errorMsg);
+                return response.json();
+            }
 
             try {
-                const detailsRes = await fetch(`${TMDB_BASE_URL}/${contentType}/${id}?api_key=${TMDB_API_KEY}`);
-                if (!detailsRes.ok) throw new Error(`Failed to fetch details: ${detailsRes.statusText}`);
-                const detailsData = await detailsRes.json();
+                const [detailsData, creditsData, similarMoviesData, videosData] = await Promise.all([
+                    fetchEndpoint(endpoints.details, "Failed to fetch details!"),
+                    fetchEndpoint(endpoints.credits, "Failed to fetch credits!"),
+                    fetchEndpoint(endpoints.similar, "Failed to fetch similar titles!"),
+                    fetchEndpoint(endpoints.videos, "Failed to fetch videos!"),
+                ]);
+
                 setMovie(detailsData);
-
-                const creditsRes = await fetch(`${TMDB_BASE_URL}/${contentType}/${id}/credits?api_key=${TMDB_API_KEY}`);
-                if (!creditsRes.ok) throw new Error(`Failed to fetch credits: ${creditsRes.statusText}`);
-                const creditsData = await creditsRes.json();
                 setCast(creditsData.cast.slice(0, 10));
-
-                const similarRes = await fetch(`${TMDB_BASE_URL}/${contentType}/${id}/similar?api_key=${TMDB_API_KEY}`);
-                if (!similarRes.ok) throw new Error(`Failed to fetch similar titles: ${similarRes.statusText}`);
-                const similarMoviesData = await similarRes.json();
                 setSimilar(similarMoviesData.results.slice(0, 10));
 
-                const videosRes = await fetch(`${TMDB_BASE_URL}/${contentType}/${id}/videos?api_key=${TMDB_API_KEY}`);
-                if (!videosRes.ok) throw new Error(`Failed to fetch videos: ${videosRes.statusText}`);
-                const videosData = await videosRes.json();
-
                 const trailer = videosData.results.find(video => video.type === "Trailer" && video.site === "YouTube");
-                trailer ? setTrailerKey(trailer.key) : setTrailerKey(null);
-                
+                setTrailerKey(trailer ? trailer.key : null);
             } catch (err) {
-                console.error("Error fetching content data:", err);
+                console.error("Error fetching content data: ", err);
                 setError("Could not load details!");
             } finally {
                 setLoading(false);
             }
-        };
-
+        }
         fetchFullMovieData();
     }, [id, contentType]);
 
@@ -193,7 +197,8 @@ function Movie() {
                         {movieInfo.map((item, i) => (
                             <div key={i} className="flex items-center gap-1
                             xl:gap-2">
-                                <img className="w-4 h-4" src={item.icon} alt={item.alt}/>
+                                <img className="w-4 h-4 lg:w-[1.25rem] lg:h-[1.25rem]"
+                                src={item.icon} alt={item.alt}/>
                                 <h3 className="text-slate-400 text-sm sm:text-base
                                 xl:text-lg 2xl:text-xl">{item.value}</h3>
                             </div>
@@ -232,12 +237,10 @@ function Movie() {
 
             {movie.overview && (
                 <div className="mx-[2rem] mt-[2rem] md:ml-[3.4rem] lg:hidden">
-                    <h1 className="text-white text-lg font-[650] mb-[.7rem] md:text-xl">
-                        Summary
-                    </h1>
-                    <p className="text-slate-400 text-sm leading-relaxed md:text-base">
-                        {movie.overview}
-                    </p>
+                    <h1 className="text-white text-lg font-[650] mb-[.7rem]
+                    md:text-xl">Summary</h1>
+                    <p className="text-slate-400 text-sm leading-relaxed
+                    md:text-base">{movie.overview}</p>
                 </div>
             )}
 
