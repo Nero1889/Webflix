@@ -153,9 +153,8 @@ function Actor() {
 
     if (!actor) {
         return (
-            <p className="text-base text-white text-center p-10 mt-[5rem]">
-                No actor data found!
-            </p>
+            <p className="text-base text-white text-center p-10
+            mt-[5rem]">No actor data found!</p>
         )
     }
 
@@ -317,7 +316,8 @@ function Actor() {
                                 xl:w-[8rem]">{item.title || item.name}</h3>
                                 <p className="text-left text-xs text-slate-500 font-[550]
                                 w-[6rem] xl:text-base xl:w-[8rem]">
-                                    {(item.release_date || item.first_air_date) ? (item.release_date || item.first_air_date).substring(0, 4) : "N/A"}
+                                    {(item.release_date || item.first_air_date) ?
+                                    (item.release_date || item.first_air_date).substring(0, 4) : "N/A"}
                                 </p>
                             </div>
                         ))}
