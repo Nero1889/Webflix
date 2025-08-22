@@ -79,13 +79,19 @@ function SearchBar({onSearch, isMobile = false}) {
             absolute left-3 top-1/2 transform -translate-y-1/2 pointer-events-none" 
             draggable="false"/>
 
-            {/* Search Bar! (Mobile and Desktop) */}
-            <input type="text" placeholder="Search!" className={`${isMobile ? `w-full
+            {/* Search Bar! */}
+            <input type="text" placeholder="Search!"
+            
+            /* Mobile Search Bar */
+            className={`${isMobile ? `w-full
             h-[2.7rem] bg-slate-900 text-white pl-12 pr-4 rounded-[7rem]
             placeholder:text-slate-500 font-[550] focus:outline-none text-sm` :
+
+            /* Desktop Search Bar */
             `w-full h-full pl-[2.5rem] pr-5 text-sm bg-slate-900 text-white 
             placeholder:text-slate-500 focus:outline-none font-[550]
             ${showSuggestions ? "rounded-t-[1rem] rounded-b-none" : "rounded-[2rem]"}`}`}
+
             value={searchTerm} onChange={handleSearchChange}
             onKeyDown={handleFullSearch} autoFocus={isMobile}/>
         </div>
