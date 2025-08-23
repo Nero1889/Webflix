@@ -1,5 +1,6 @@
 import {useNavigate, useSearchParams} from "react-router-dom";
 import React, {useState, useEffect} from "react";
+import Footer from "./Footer";
 import SearchBar from "./SearchBar";
 import back from "./assets/back.png";
 import search from "./assets/search.png";
@@ -327,6 +328,7 @@ function Results() {
                     No results found!
                 </p>
             )}
+            <Footer/>
         </div>
     );
 }
