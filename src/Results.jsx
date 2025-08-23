@@ -324,9 +324,8 @@ function Results() {
                 </>
             )}
             {searchResults.length === 0 && !loading && !error && searchQuery && (
-                <p className="text-slate-500 text-center mt-[5rem] text-base font-[550]">
-                    No results found!
-                </p>
+                <p className="text-slate-500 text-center mt-[5rem] text-base
+                font-[550]">No results found!</p>
             )}
             <Footer/>
         </div>
