@@ -126,7 +126,7 @@ function Header() {
                             {icon: home, label: "Home", path: "/"},
                             {icon: about, label: "About", path: "/about"},
                             {icon: portfolio, label: "Portfolio", href: "https://nero1889.github.io/Personal-Portfolio/"}
-                        ].map(({ icon, label, href, path }, i) => (
+                        ].map(({icon, label, href, path}, i) => (
                             <React.Fragment key={label}>
                                 <li className="flex items-center ml-5 w-[calc(100%-3.5rem)]">
                                     <img src={icon} alt={`${label} Icon`}
@@ -232,5 +232,6 @@ function Header() {
         </>
     );
 }
+
 
 export default Header;
