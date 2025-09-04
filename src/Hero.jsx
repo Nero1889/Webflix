@@ -39,9 +39,9 @@ function Hero() {
         type: "movie"},
     ];
 
-    const [CURRENT_IMG_INDEX, setCurrentImageIndex] = useState(0);
-    const [IS_DRAGGING, setIsDragging] = useState(false);
-    const [START_X, setStartX] = useState(0);
+    const [currentImgIndex, setCurrentImageIndex] = useState(0);
+    const [isDragging, setIsDragging] = useState(false);
+    const [startX, setStartX] = useState(0);
 
     const goToSlide = (i) => setCurrentImageIndex(i);
 
@@ -51,15 +51,15 @@ function Hero() {
     };
 
     const handleTouchMove = (e) => {
-        if (!IS_DRAGGING) return;
-        const CURRENT_X = e.touches[0].clientX;
-        const DIFF = START_X - CURRENT_X;
+        if (!isDragging) return;
+        const currentX = e.touches[0].clientX;
+        const diff = startX - currentX;
 
-        if (Math.abs(DIFF) > 50) {
-            if (DIFF > 0 && CURRENT_IMG_INDEX < MOVIES.length - 1) {
-                setCurrentImageIndex(CURRENT_IMG_INDEX + 1);
-            } else if (DIFF < 0 && CURRENT_IMG_INDEX > 0) {
-                setCurrentImageIndex(CURRENT_IMG_INDEX - 1);
+        if (Math.abs(diff) > 50) {
+            if (diff > 0 && currentImgIndex < MOVIES.length - 1) {
+                setCurrentImageIndex(currentImgIndex + 1);
+            } else if (diff < 0 && currentImgIndex > 0) {
+                setCurrentImageIndex(currentImgIndex - 1);
             }
             setIsDragging(false);
         }
@@ -74,15 +74,15 @@ function Hero() {
     };
 
     const handleMouseMove = (e) => {
-        if (!IS_DRAGGING) return;
-        const CURRENT_X = e.clientX;
-        const DIFF = START_X - CURRENT_X;
+        if (!isDragging) return;
+        const currentX = e.clientX;
+        const diff = startX - currentX;
 
-        if (Math.abs(DIFF) > 50) {
-            if (DIFF > 0 && CURRENT_IMG_INDEX < MOVIES.length - 1) {
-                setCurrentImageIndex(CURRENT_IMG_INDEX + 1);
-            } else if (DIFF < 0 && CURRENT_IMG_INDEX > 0) {
-                setCurrentImageIndex(CURRENT_IMG_INDEX - 1);
+        if (Math.abs(diff) > 50) {
+            if (diff > 0 && currentImgIndex < MOVIES.length - 1) {
+                setCurrentImageIndex(currentImgIndex + 1);
+            } else if (diff < 0 && currentImgIndex > 0) {
+                setCurrentImageIndex(currentImgIndex - 1);
             }
             setIsDragging(false);
         }
@@ -90,7 +90,7 @@ function Hero() {
 
     const handleMouseUp = () => setIsDragging(false);
     const handleMouseLeave = () => {
-        if (IS_DRAGGING) setIsDragging(false);
+        if (isDragging) setIsDragging(false);
     };
 
     return (
@@ -101,7 +101,7 @@ function Hero() {
                 h-[12rem] select-none md:h-[18rem] lg:h-[25rem]">
                     <div className="flex transition-transform duration-500 ease-in-out
                     h-full"
-                    style={{transform: `translateX(-${CURRENT_IMG_INDEX * 100}%)`}}
+                    style={{transform: `translateX(-${currentImgIndex * 100}%)`}}
                     onTouchStart={handleTouchStart} onTouchMove={handleTouchMove}
                     onTouchEnd={handleTouchEnd} onMouseDown={handleMouseDown}
                     onMouseMove={handleMouseMove} onMouseUp={handleMouseUp}
@@ -109,7 +109,7 @@ function Hero() {
                         {MOVIES.map((movie, i) => (
                             <Link key={i} to={`/${movie.type}/${movie.id}`}
                             className="w-full flex-shrink-0 relative block"
-                            onClick={(e) => {if (IS_DRAGGING) e.preventDefault()}}>
+                            onClick={(e) => {if (isDragging) e.preventDefault()}}>
                                 <img className="w-full h-full object-cover opacity-50
                                 pointer-events-none" src={movie.image} alt={movie.title}
                                 draggable={false}/>
@@ -129,7 +129,7 @@ function Hero() {
 
             <div className="flex gap-2 mt-5 items-center justify-center">
                 {MOVIES.map((_, i) => {
-                    const isActive = CURRENT_IMG_INDEX === i;
+                    const isActive = currentImgIndex === i;
                     return (
                         <div key={i}
                         className={`w-2.5 h-2.5 rounded-[5rem] cursor-pointer
