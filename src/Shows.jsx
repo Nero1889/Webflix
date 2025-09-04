@@ -37,7 +37,7 @@ function Shows() {
     useEffect(() => {
         const fetchShows = async () => {
             try {
-                const RESULTS = await Promise.all(
+                const results = await Promise.all(
                     SHOWS.map(async ({id, type}) => {
                         const RES = await fetch(
                             `https://api.themoviedb.org/3/${type}/${id}?api_key=${TMDB_API_KEY}`
@@ -46,7 +46,7 @@ function Shows() {
                         return {...DATA, type};
                     })
                 );
-                setShowData(RESULTS);
+                setShowData(results);
             } catch (err) {
                 console.error("Failed to fetch shows:", err);
             }
