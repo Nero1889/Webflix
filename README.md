@@ -34,3 +34,5 @@ And on top of ALL this... Webflix was built mobile first, and all movies, suggue
 - Homepage category sorting for movies and shows shown.
 - Error handling for any senario. And fall-back / placeholder icons for missing elements or data that cannot be fetched.
 - The application is fully responsive and adapts to different screen sizes!
+
+## Responsiveness: 
