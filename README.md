@@ -24,3 +24,13 @@ And on top of ALL this... Webflix was built mobile first, and all movies, suggue
 - `Results.jsx`: Contains relevant search result data from `SearchBar.jsx`.
 - `Movie.jsx`: Formats and styles a movie / show with the respective name, background, release date, runtime, reviews, watch trailer button, genres, `Actor.jsx` for cast members, and "More Like This" section.
 - `Actor.jsx`: Going further deeper into `Movie.jsx`, here you can view data for an actor including name, age, date and place of birth, biography and filmography ranked by popularity!
+
+## Functionality
+
+- Dynamically search for movies, actors and shows.
+- Search suggestions for your query, as well as a page for your search results.
+- Fetch relevant data via the API provided by The Movie Database for erverything that makes up the project.
+- Watch trailer button, let's you get even further immersed and provides additional attention to detail!
+- Homepage category sorting for movies and shows shown.
+- Error handling for any senario. And fall-back / placeholder icons for missing elements or data that cannot be fetched.
+- The application is fully responsive and adapts to different screen sizes!
