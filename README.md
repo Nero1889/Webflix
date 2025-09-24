@@ -36,3 +36,9 @@ And on top of ALL this... Webflix was built mobile first, and all movies, suggue
 - The application is fully responsive and adapts to different screen sizes!
 
 ## Responsiveness: 
+
+### iPad:
+![915x946](src/assets/webflixTablet.png)
+
+### iPhone / Mobile Devices:
+![349x942](src/assets/webflixMobile.png)
