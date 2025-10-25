@@ -18,7 +18,7 @@ function Footer() {
         alt: "Slate Gmail Icon",
         title: "Gmail"},
 
-        {href: "https://www.linkedin.com/in/raul-luna-249325329/",
+        {href: "https://www.linkedin.com/in/alexis-luna-249325329/",
         src: linkedIn,
         alt: "Slate LinkedIn Icon",
         title: "LinkedIn"}
@@ -28,7 +28,7 @@ function Footer() {
         <footer className="my-[2.5rem] mx-[2rem] 2xl:mx-[3.4rem]">
             <div className="flex justify-between items-center w-full">
                 <div>
-                    <p className={TEXT}>Raul Luna - 2025</p>
+                    <p className={TEXT}>Alexis Luna - 2025</p>
                     <p className={TEXT}>© Webflix</p>
                 </div>
                 <div className="flex gap-2 md:gap-5">
